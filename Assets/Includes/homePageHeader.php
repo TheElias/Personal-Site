@@ -1,3 +1,0 @@
-<header id="homePageHeader">
-
-</header>

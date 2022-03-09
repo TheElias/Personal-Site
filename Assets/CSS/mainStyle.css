@@ -1,6 +1,6 @@
 /*
 ===============================================
-Global Tidying and Styles
+Global Variables, Tidying, and Base Styles
 ===============================================
 */
 
@@ -8,8 +8,8 @@ Global Tidying and Styles
 :root {
     --main-white: #f0f0f0;
     --main-red: #be3144;
-    --main-blue: #45567d;
-    --main-gray: #303841;
+    --main-blue: #94C9CE;
+    --main-gray: #303841; 
     --main-black: #000000;
   }
 
@@ -19,8 +19,7 @@ Global Tidying and Styles
   padding: 0;
 }
 
-
-/* The calculation is the following
+/* The calculation is the following 
  * screen size divided by browser base font size
  * As an example: a breakpoint at 980px
  * 980px / 16px = 61.25em
@@ -36,13 +35,13 @@ Global Tidying and Styles
   /* 980px / 16px = 61.25em */
   @media (max-width: 61.25em) {
     html {
-      font-size: 58%;
+      font-size: 58%; 
     }
   }
   
   /* 460px / 16px = 28.75em */
   @media (max-width: 28.75em) {
-    html {
+    html {  
       font-size: 55%;
     }
   }
@@ -101,8 +100,6 @@ Classes  .
   justify-content: flex-start;
   margin-left:5vw;
   width: 60vw;
- 
-  
 }
 
 .mainLogoText > a {
@@ -128,7 +125,31 @@ Classes  .
 .welcome-section p {
     font-size: 2rem;
 }
+
+.about-me-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40vh;
+  background-color: rgb(190, 44, 44);
+  color: var(--main-white);
+}
+
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40vh;
+  background-color: rgb(190, 44, 44);
+  color: var(--main-white);
+}
+
 /*
+===============================================
 ID's  #
 ===============================================
 */

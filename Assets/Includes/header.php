@@ -1,7 +1,7 @@
 <header id="header">    
     <!--Top Thingy-->
     <div class="mainLogoText">
-        <a href="../">EB</a>
+        <a href="../">Elias Broniecki</a>
     </div>
     <!--Navigation-->
     <?php 

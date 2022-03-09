@@ -1,5 +1,15 @@
 /*
 ===============================================
+EZ Copy Grouping
+===============================================
+*/
+
+/*----------------------------------------
+EZ Copy Sub Grouping
+----------------------------------------*/
+
+/*
+===============================================
 Global Variables, Tidying, and Base Styles
 ===============================================
 */
@@ -7,10 +17,19 @@ Global Variables, Tidying, and Base Styles
 /* Custom properties/variables  */
 :root {
     --main-white: #f0f0f0;
-    --main-red: #be3144;
-    --main-blue: #94C9CE;
-    --main-gray: #303841; 
+    --main-gray: #596770; 
+    --main-blue: #84C0C6;
+    --main-red: #49111C;
+    --main-orange: #EB5E28;
+    --main-yellow: #FAF2A1;
     --main-black: #000000;
+
+    /* -50% colors */ 
+    --main-gray-dark: #2C3337; 
+    --main-blue-dark: #346C72;
+    --main-red-dark: #25090E;
+    --main-orange-dark: #7E2C0C;
+    --main-yellow-dark: #C4B50A;
   }
 
 /* Reset all padding */
@@ -25,21 +44,28 @@ Global Variables, Tidying, and Base Styles
  * 980px / 16px = 61.25em
 */
 
-/* 1200px / 16px = 75em */
+/*----------------------------------------
+1200px / 16px = 75em 
+----------------------------------------*/
+
 @media (max-width: 75em) {
     html {
       font-size: 64%;
     }
   }
  
-  /* 980px / 16px = 61.25em */
+/*----------------------------------------
+980px / 16px = 61.25em 
+----------------------------------------*/
   @media (max-width: 61.25em) {
     html {
       font-size: 58%; 
     }
   }
-  
-  /* 460px / 16px = 28.75em */
+
+/*----------------------------------------
+460px / 16px = 28.75em 
+----------------------------------------*/
   @media (max-width: 28.75em) {
     html {  
       font-size: 55%;
@@ -47,7 +73,6 @@ Global Variables, Tidying, and Base Styles
   }
 
 /* Base styles */
-
 body {
     display: block;
     font-family: sans-serif;
@@ -94,6 +119,10 @@ body {
 Classes  .
 ===============================================
 */
+
+/*----------------------------------------
+General Classes
+----------------------------------------*/
 .mainLogoText {
   max-height:100%;
   display: flex;
@@ -107,8 +136,12 @@ Classes  .
   font-size: 3.2rem;
   align-items: center;
   text-align: center;
+  color: var(--main-white);
 }
 
+/*----------------------------------------
+Home Page Classes
+----------------------------------------*/
 
 .welcome-section {
   display: flex;
@@ -117,9 +150,8 @@ Classes  .
   align-items: center;
   width: 100%;
   height: 40vh;
-  background-color: #000;
-  background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%);
-  color: var(--main-white);
+  background-color: var(--main-blue);
+  /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%);*/
 }
 
 .welcome-section p {
@@ -133,8 +165,8 @@ Classes  .
   align-items: center;
   width: 100%;
   height: 40vh;
-  background-color: rgb(190, 44, 44);
-  color: var(--main-white);
+  background-color: var(--main-blue);
+
 }
 
 .projects-section {
@@ -144,9 +176,25 @@ Classes  .
   align-items: center;
   width: 100%;
   height: 40vh;
-  background-color: rgb(190, 44, 44);
-  color: var(--main-white);
+  background-color: var(--main-blue);
 }
+
+
+/*----------------------------------------
+Blog Post Classes
+----------------------------------------*/
+.blog-post-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40vh;
+  background-color: var(--main-blue);
+  /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%);*/
+}
+
+
 
 /*
 ===============================================
@@ -169,8 +217,8 @@ header {
   position: fixed;
   width: 100%;
   height: 10vh;
-  background: var(--main-blue);
-  box-shadow: 0 .25vh 0 rgba(0, 0, 0, 0.4);
+  background: var(--main-gray-dark);
+  box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
 }
 
 nav {
@@ -180,17 +228,19 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
+
 }
 
 nav ul{
   display: flex;
-  margin-right: 2rem;
+  margin-right: 2rem;  
 }
 nav ul a {
   display: block;
   font-size: 2rem;
   padding: 2rem;
   text-align: center;
+  color: var(--main-white);
 }
 
 footer {
@@ -199,7 +249,21 @@ footer {
   height: 10vh;
   justify-content: center;
   align-items: center;
-  background: var(--main-blue);
-  box-shadow: 0 -.25vh 0 rgba(0, 0, 0, 0.4);
+  background: var(--main-gray-dark);
+  box-shadow: 0 -1vh 0 rgba(89, 103, 112, 0.4);
   box-shadow: 0;
+  color: var(--main-white);
+}
+
+footer ul{
+  display: flex;
+  margin-right: 2rem;  
+}
+
+footer ul a {
+  display: block;
+  font-size: 2rem;
+  padding: 2rem;
+  text-align: center;
+  color: var(--main-white);
 }

@@ -30,9 +30,6 @@
     $result = $conn->prepare($sql);
     $result->execute([$_GET['id']]);
     $blogPost = $result -> fetch();
-    /* foreach ($result as $row) {
-        print_r($row);
-    }*/
 
     ?>
         <h1><?php echo $blogPost["blogPostName"]; ?></h1>
@@ -42,11 +39,9 @@
 
         <!--Footer-->
         <?php 
-            include("Assets/Includes/footer.php");
-            /*            
+            include("Assets/Includes/footer.php");            
             $conn = null;
             mysqli_close($conn);
-            */
         ?>
     </body>
 </html>

@@ -14,7 +14,7 @@
     ?>
     <head>
         <meta charset="UTF-8">
-        <title><?php echo $blogPost["blogPostText"] . " - " . $blogPost["authorUsername"];?></title>
+        <title><?php echo $blogPost["blogPostName"] . " - " . $blogPost["authorUsername"];?></title>
         <link rel="stylesheet" type="text/css" href="Assets/CSS/mainStyle.css">
     </head>
     
@@ -24,20 +24,17 @@
             include("Assets/Includes/header.php");
         ?>
         
-        <section class="blog-post-section">
+        <section class="container blog-post-section">
             
-            
-
-                <h1><?php echo $blogPost["blogPostName"]; ?></h1>
-                <h3><?php echo $blogPost["authorUsername"]; ?></h3>
-                <p><?php echo $blogPost["blogPostText"]; ?></p>
+                <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
+                <h3 class="blog-post-author">By: <?php echo $blogPost["authorUsername"]; ?></h3>
+                <hr size ="1" width="100%">
+                <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
         </section>
 
         <!--Footer-->
         <?php 
             include("Assets/Includes/footer.php");            
-            $conn = null;
-            mysqli_close($conn);
         ?>
     </body>
 </html>

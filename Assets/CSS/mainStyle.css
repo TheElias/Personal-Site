@@ -38,6 +38,10 @@ Global Variables, Tidying, and Base Styles
   padding: 0;
 }
 
+html {
+  height:100%;
+}
+
 /* The calculation is the following 
  * screen size divided by browser base font size
  * As an example: a breakpoint at 980px
@@ -79,7 +83,8 @@ body {
     font-size: .75rem; /* 12px */
     font-weight: 400;
     line-height: 1;
-    color: var(--main-black);
+    color: var(--main-blue-dark);
+    height: 100vh;
   }
   
   h1,
@@ -122,6 +127,14 @@ Classes  .
 
 /*----------------------------------------
 General Classes
+----------------------------------------*/
+.container {
+  width: 80vw;
+}
+
+
+/*----------------------------------------
+Header Classes
 ----------------------------------------*/
 .mainLogoText {
   max-height:100%;
@@ -189,12 +202,35 @@ Blog Post Classes
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40vh;
+  padding: 1vh 0 1vh 0;
   background-color: var(--main-blue);
-  /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%);*/
+  padding-top: 10vh;
+  /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%); */
 }
 
+.blog-post-title{
+  max-height:100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2vh;
+  color:var(--main-black);
+  font-size: 6rem;
+}
 
+.blog-post-author {
+  max-height:100%;
+  display: flex;
+  text-align: right;
+  color:var(--main-black);
+  font-size: 1rem;
+}
+
+.blog-post-text p{
+  max-height:100%;
+  justify-content:flex-start;
+  color:var(--main-black);
+  font-size: 2rem;
+}
 
 /*
 ===============================================
@@ -213,12 +249,12 @@ Element
 
 header {
   display: flex;
-  justify-content: flex-end;
   position: fixed;
-  width: 100%;
+  width: 100% !important;
   height: 10vh;
   background: var(--main-gray-dark);
   box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
+
 }
 
 nav {
@@ -245,7 +281,7 @@ nav ul a {
 
 footer {
   display: flex;
-  width: 100%;
+  width: 100% !important;
   height: 10vh;
   justify-content: center;
   align-items: center;

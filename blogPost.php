@@ -11,7 +11,7 @@
         $result = $conn->prepare($sql);
         $result->execute([$_GET['id']]);
         $blogPost = $result -> fetch();
-    ?>
+    ?> 
     <head>
         <meta charset="UTF-8">
         <title><?php echo $blogPost["blogPostName"] . " - " . $blogPost["authorUsername"];?></title>

@@ -26,11 +26,16 @@
         
         <section class="blog-post-section">
             <div class="container">
-                <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
-                <h3 class="blog-post-author">By: <?php echo $blogPost["authorUsername"]; ?></h3>
-                <hr size ="1" width="100%">
+                <div class="blog-post-title-section">
+                    <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
+                    <!--<h3 class="blog-post-author">By: <?php  /*echo $blogPost["authorUsername"];*/ ?></h3>-->
+                    <hr size ="1" width="100%">
+                </div>
                 <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
+                <hr size ="1" width="50%">
+                <h3 class="blog-post-author">By: <?php  echo $blogPost["authorUsername"]; ?></h3>>
             </div>
+
         </section>
 
         <!--Footer-->

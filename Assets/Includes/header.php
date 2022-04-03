@@ -1,4 +1,4 @@
-<header id="header" class="container">    
+<header id="header">    
     <!--Top Thingy-->
     <div class="mainLogoText">
         <a href="../">Elias Broniecki</a>

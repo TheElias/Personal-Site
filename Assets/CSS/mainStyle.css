@@ -30,6 +30,13 @@ Global Variables, Tidying, and Base Styles
     --main-red-dark: #25090E;
     --main-orange-dark: #7E2C0C;
     --main-yellow-dark: #C4B50A;
+
+    /* -50% colors */ 
+    --main-gray-light: #A9B3BA; 
+    --main-blue-light: #C2E0E3;
+    --main-red-light: #D75670;
+    --main-orange-light: #F5AF94;
+    --main-yellow-light: #FDF9D1;
   }
 
 /* Reset all padding */
@@ -198,18 +205,29 @@ Blog Post Classes
 ----------------------------------------*/
 .blog-post-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
   padding: 1vh 0 1vh 0;
-  background-color: var(--main-blue);
+  background-color: var(--main-blue-light);
   padding-top: 10vh;
   /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%); */
 }
 
+.blog-post-section hr {
+  text-align: center;
+  margin: auto;
+}
+
+.blog-post-title-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color:var(--main-black);
+  width:100%;
+}
+
 .blog-post-title{
-  max-height:100%;
   display: flex;
   justify-content: center;
   padding: 5vh ;
@@ -218,18 +236,18 @@ Blog Post Classes
 }
 
 .blog-post-author {
-  max-height:100%;
-  display: flex;
-  text-align: right;
+  text-align: center;
   color:var(--main-black);
   font-size: 1rem;
+  margin: auto;
+  padding-bottom: 1rem;
 }
 
 .blog-post-text p{
   max-height:100%;
   justify-content:flex-start;
   color:var(--main-black);
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 
@@ -256,23 +274,24 @@ hr {
   padding-bottom: 1rem;
 }
 
-a:link {
-  color: red;
+
+.container a:link {
+  color: blue;
 }
 
 /* visited link */
-a:visited {
-  color: green;
+.container a:visited {
+  color: var(--main-orange-dark);
 }
 
 /* mouse over link */
-a:hover {
-  color: rgb(139, 20, 80);
+.container a:hover {
+  color: var(--main-blue);
 }
 
 /* selected link */
-a:active {
-  color: blue;
+.container a:active {
+  color: var(--main-orange-light);
 }
 
 
@@ -326,7 +345,7 @@ footer {
   justify-content: center;
   align-items: center;
   background: var(--main-gray-dark);
-  box-shadow: 0 -1vh 0 rgba(89, 103, 112, 0.4);
+  box-shadow: 0 -1vh 0 rgba(169, 179, 186, 0.4);
   box-shadow: 0;
   color: var(--main-white);
 }

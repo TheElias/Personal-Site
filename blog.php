@@ -21,11 +21,11 @@
 
     //$_GET['id'];
 
-    $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername FROM personal_website.blog_post AS BP
+    $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername 
+            FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
             WHERE BP.id =  ?";
-
 
     $result = $conn->prepare($sql);
     $result->execute([$_GET['id']]);

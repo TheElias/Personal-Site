@@ -24,12 +24,13 @@
             include("Assets/Includes/header.php");
         ?>
         
-        <section class="container blog-post-section">
-            
+        <section class="blog-post-section">
+            <div class="container">
                 <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
                 <h3 class="blog-post-author">By: <?php echo $blogPost["authorUsername"]; ?></h3>
                 <hr size ="1" width="100%">
                 <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
+            </div>
         </section>
 
         <!--Footer-->

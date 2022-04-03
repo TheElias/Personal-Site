@@ -50,7 +50,7 @@ html {
 
 /*----------------------------------------
 1200px / 16px = 75em 
-----------------------------------------*/
+----------------------------------------
 
 @media (max-width: 75em) {
     html {
@@ -60,7 +60,7 @@ html {
  
 /*----------------------------------------
 980px / 16px = 61.25em 
-----------------------------------------*/
+----------------------------------------
   @media (max-width: 61.25em) {
     html {
       font-size: 58%; 
@@ -69,12 +69,13 @@ html {
 
 /*----------------------------------------
 460px / 16px = 28.75em 
-----------------------------------------*/
+----------------------------------------
   @media (max-width: 28.75em) {
     html {  
       font-size: 55%;
     }
   }
+*/
 
 /* Base styles */
 body {
@@ -129,9 +130,8 @@ Classes  .
 General Classes
 ----------------------------------------*/
 .container {
-  width: 80vw;
+  width: 60vw;
 }
-
 
 /*----------------------------------------
 Header Classes
@@ -212,9 +212,9 @@ Blog Post Classes
   max-height:100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 2vh;
+  padding: 5vh ;
   color:var(--main-black);
-  font-size: 6rem;
+  font-size: 6rem; 
 }
 
 .blog-post-author {
@@ -229,7 +229,8 @@ Blog Post Classes
   max-height:100%;
   justify-content:flex-start;
   color:var(--main-black);
-  font-size: 2rem;
+  font-size: 1.5rem; 
+  margin-bottom: 2rem;
 }
 
 /*
@@ -247,6 +248,39 @@ Element
 ===============================================
 */
 
+/*----------------------------------------
+General HTML Elements
+----------------------------------------*/
+
+hr {
+  padding-bottom: 1rem;
+}
+
+a:link {
+  color: red;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(139, 20, 80);
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+
+
+
+/*----------------------------------------
+Header 
+----------------------------------------*/
+
 header {
   display: flex;
   position: fixed;
@@ -254,8 +288,11 @@ header {
   height: 10vh;
   background: var(--main-gray-dark);
   box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
-
 }
+
+/*----------------------------------------
+Nav 
+----------------------------------------*/
 
 nav {
   display: flex;
@@ -264,7 +301,6 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
-
 }
 
 nav ul{
@@ -278,6 +314,10 @@ nav ul a {
   text-align: center;
   color: var(--main-white);
 }
+
+/*----------------------------------------
+Footer
+----------------------------------------*/
 
 footer {
   display: flex;

@@ -93,6 +93,7 @@ body {
     line-height: 1;
     color: var(--main-blue-dark);
     height: 100vh;
+    min-height: 100vh;
   }
   
   h1,
@@ -138,6 +139,11 @@ General Classes
 ----------------------------------------*/
 .container {
   width: 60vw;
+}
+
+.page-body {
+  min-height: 90vh;
+  background-color: var(--main-blue-light);
 }
 
 /*----------------------------------------
@@ -199,6 +205,55 @@ Home Page Classes
   background-color: var(--main-blue);
 }
 
+/*---------------------------------------
+Blog Classes
+---------------------------------------*/
+.blog-post-list-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh 0 1vh 0;
+  background-color: var(--main-blue-light);
+  padding-top: 10vh;
+}
+
+.blog-post-list-grid-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 4rem;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  margin-bottom: 6rem;
+}
+
+.blog-post-list-grid-section-title {
+  display: flex;
+  justify-content: center;
+  padding: 5vh ;
+  color:var(--main-black);
+  font-size: 6rem; 
+}
+
+.blog-post-highlight {
+  background: var(--gray);
+  box-shadow: 10px 0px 15px 10px;
+  border-radius: 20px;
+}
+
+.blog-post-grid-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(0,0,0);
+  font-size: 1.8rem; 
+  font-weight: 400;
+  line-height: 1.4;
+  color: white;
+  border-radius: 10px;
+  border: 0.2rem solid #FFF;
+}
 
 /*----------------------------------------
 Blog Post Classes

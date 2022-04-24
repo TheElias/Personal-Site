@@ -269,25 +269,44 @@ Blog Post Classes
   /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%); */
 }
 
+.blog-post-title-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color:var(--main-black);
+  width:100%; 
+  padding-top: 5vh;
+}
+
 .blog-post-section hr {
   text-align: center;
   margin: auto;
 }
 
-.blog-post-title-section{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color:var(--main-black);
-  width:100%;
+.blog-post-title-section hr {
+  text-align: center;
+  margin: auto;
+  margin: 2vh 0vh 2vh 0vh;
 }
 
+
 .blog-post-title{
-  display: flex;
+  /*display: flex;
   justify-content: center;
-  padding: 5vh ;
+  padding: 5vh ;*/
   color:var(--main-black);
   font-size: 6rem; 
+  position:absolute; 
+  left:0;
+  right:0;
+  -webkit-text-stroke: 2px black;
+  -webkit-text-fill-color: white;
+  min-height: 11vh;
+}
+.blog-post-title:hover  {
+  opacity: 5;
 }
 
 .blog-post-author {
@@ -362,6 +381,7 @@ header {
   height: 10vh;
   background: var(--main-gray-dark);
   box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
+  z-index: 10;
 }
 
 /*----------------------------------------
@@ -374,7 +394,7 @@ nav {
   width: 40vw;
   top: 0;
   left: 0;
-  z-index: 10;
+
 }
 
 nav ul{

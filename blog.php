@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <?php
+<?php
         include('Assets/Includes/db_connection.php');
 
         $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, A.username as authorUsername FROM personal_website.blog_post AS BP
@@ -13,8 +11,14 @@
             $result->execute();
             $blogPost = $result->fetchAll(PDO::FETCH_ASSOC); 
     ?> 
+
+<!DOCTYPE html>
+<html  lang="en">
+    
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Elias' Blog with thoughts and projects!</title>
         <link rel="stylesheet" type="text/css" href="Assets/CSS/mainStyle.css">
     </head>
@@ -33,7 +37,7 @@
                 <div class="blog-post-list-grid-section">
                     <?php foreach ($blogPost as $row) 
                     {
-                        echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  target=\"_blank\" class=\"blog-post-grid-title\"> 
+                        echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
                             <p>" .
                                 $row["blogPostName"] . 
                             "</p>

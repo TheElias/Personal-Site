@@ -139,6 +139,7 @@ General Classes
 ----------------------------------------*/
 .container {
   width: 60vw;
+  max-width: 1080px;
 }
 
 .page-body {
@@ -287,10 +288,32 @@ Blog Post Classes
 
 .blog-post-title-section hr {
   text-align: center;
+  margin-top: 2vh;
+  width: 40vw;
+  max-width: 1080px;
+  height: 30px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 2px 0 0 0; 
+  border-radius: 20px; 
+}
+
+.blog-post-title-section hr:before { 
+  display: block; 
+  content: ""; 
+  height: 30px; 
+  margin-top: -31px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 0 0 2px 0; 
+  border-radius: 20px; 
+}
+
+.blog-post-header-image {
+  text-align: center;
   margin: auto;
   margin: 2vh 0vh 2vh 0vh;
 }
-
 
 .blog-post-title{
   /*display: flex;

@@ -1,7 +1,11 @@
 <?php
         include('Assets/Includes/db_connection.php');
+        include('Assets/Includes/blogPostFunctions.php');
+        
+
+        
         //General Blog Post Data
-        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername FROM personal_website.blog_post AS BP
+        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
                 WHERE BP.id =  ?";
@@ -21,6 +25,8 @@
         $result = $conn->prepare($sql);
         $result->execute([$_GET['id']]);
         $blogTag =  $result -> fetchAll(PDO::FETCH_ASSOC); 
+
+        $blogTag = getBlogTags([$_GET['id']]);
         */
     ?> 
 
@@ -44,8 +50,8 @@
             <section class="blog-post-section">
                 <div class="container">
                     <div class="blog-post-title-section">
-                        
-                        <img src="images/test.png"/>
+                    
+                        <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
                         <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
                         <!--<h3 class="blog-post-author">By: <?php  /*echo $blogPost["authorUsername"];*/ ?></h3>-->
 

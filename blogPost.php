@@ -5,7 +5,7 @@
 
         
         //General Blog Post Data
-        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID FROM personal_website.blog_post AS BP
+        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
                 WHERE BP.id =  ?";
@@ -52,20 +52,21 @@
                     <div class="blog-post-title-section">
                     
                         <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
-                        <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
-                        <!--<h3 class="blog-post-author">By: <?php  /*echo $blogPost["authorUsername"];*/ ?></h3>-->
+                        <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>z
+                        <h3 class="blog-post-date_created">Posted: <?php  echo date('m/d/y g:i A', strtotime($blogPost["date_created"]) ); ?></h3>
 
                         <?php
-                            //To list all tags. Uncomment this and SQL above
+                            //To list all tags. Uncomment this and SQL above format('l jS \o\f F Y')
                             //foreach($blogTag as $tag) {
                             //    echo "<p>" . $ho["tagName"] . "</p>";
                             //}
                         ?>    
-                        <hr size ="1" width="100%">
+                        <!--<hr size ="1" width="100%"> -->
                     </div>
                     <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
                     <hr size ="1" width="50%">
                     <h3 class="blog-post-author">By: <?php  echo $blogPost["authorUsername"]; ?></h3>
+                    
                 </div>
                                     
             </section>

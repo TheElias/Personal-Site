@@ -333,6 +333,14 @@ Blog Post Classes
 }
 
 .blog-post-author {
+  text-align: right;
+  color:var(--main-black);
+  font-size: 1rem;
+  margin: auto;
+  padding-bottom: 1rem;
+}
+
+.blog-post-date_created {
   text-align: center;
   color:var(--main-black);
   font-size: 1rem;

@@ -1,17 +1,24 @@
 <?php
         include('Assets/Includes/db_connection.php');
         include('Assets/Includes/blogPostFunctions.php');
-        
 
+        echo "<br>";
+        echo $params['urlName'];
+        
+        //if (isset($params['urlName']))
+        //{
+        //    header('Location: blogPost.php?postName=' . getBlogPostIDURL($conn,$params['id']));
+        //}
+        
         
         //General Blog Post Data
         $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
-                WHERE BP.id =  ?";
+                WHERE BP.urlName =  ?";
 
         $result = $conn->prepare($sql);
-        $result->execute([$_GET['id']]);
+        $result->execute([$params['urlName']]);//);
         $blogPost = $result -> fetch();
 
         /*
@@ -28,17 +35,18 @@
 
         $blogTag = getBlogTags([$_GET['id']]);
         */
+
     ?> 
 
 <!DOCTYPE html>
-<html lang="en">
+    
     
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo $blogPost["blogPostName"] . " - " . $blogPost["authorUsername"];?></title>
-        <link rel="stylesheet" type="text/css" href="Assets/CSS/mainStyle.css">
+        <link rel="stylesheet" type="text/css" href="../Assets/CSS/mainStyle.css">
     </head>
     
     <body>
@@ -50,12 +58,16 @@
             <section class="blog-post-section">
                 <div class="container">
                     <div class="blog-post-title-section">
+                    <?php echo $blogPost["blogPostName"]; ?>
                     
                         <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
-                        <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>z
-                        <h3 class="blog-post-date_created">Posted: <?php  echo date('m/d/y g:i A', strtotime($blogPost["date_created"]) ); ?></h3>
+                        <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
+
+                        
+                        <h3 class="blog-post-date_created"><?php  echo date('l, jS \o\f F Y', strtotime($blogPost["date_created"]) ); ?></h3>
 
                         <?php
+
                             //To list all tags. Uncomment this and SQL above format('l jS \o\f F Y')
                             //foreach($blogTag as $tag) {
                             //    echo "<p>" . $ho["tagName"] . "</p>";

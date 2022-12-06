@@ -13,7 +13,29 @@ function getBlogPostHeaderImage($conn, $image_id)
     $result->execute([$image_id]);
     $imageResult = $result -> fetch();
 
-    return $imageResult['URL'] . $imageResult['file_name'];
+    return "../" . $imageResult['URL'] . $imageResult['file_name'];
+}
+
+function getBlogPostIDURL($conn, $blogPostID)
+{
+    $blogPostID = empty($blogPostID) ? 1 : $blogPostID;
+
+    $sql = "SELECT * FROM personal_website.image 
+    WHERE id =  ?";
+    
+    $result = $conn->prepare($sql);
+    $result->execute([$blogPostID]);
+    $postResult = $result -> fetch();
+    
+    if (mysqli_num_rows($postResult)==0)
+    {
+        return getBlogPostIDURL($conn, 1);
+    }
+    else
+    {
+        return $postResult['urlName'];
+    }
+
 }
 
 ?>

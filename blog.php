@@ -1,7 +1,8 @@
 <?php
+
         include('Assets/Includes/db_connection.php');
 
-        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, A.username as authorUsername FROM personal_website.blog_post AS BP
+        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
                 ORDER BY BP.id DESC
@@ -10,6 +11,7 @@
             $result = $conn->prepare($sql);
             $result->execute();
             $blogPost = $result->fetchAll(PDO::FETCH_ASSOC); 
+            
     ?> 
 
 <!DOCTYPE html>
@@ -37,11 +39,17 @@
                 <div class="blog-post-list-grid-section">
                     <?php foreach ($blogPost as $row) 
                     {
-                        echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
+                        echo "<a href=\"/blog/" . $row["urlName"] . "\"  class=\"blog-post-grid-title\"> 
                             <p>" .
                                 $row["blogPostName"] . 
                             "</p>
                         </a>";
+
+                        /*echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
+                            <p>" .
+                                $row["blogPostName"] . 
+                            "</p>
+                        </a>";*/
                     }?>
                 </div>
             </section>
@@ -50,8 +58,10 @@
 
         <!--Footer-->
         <?php 
-            include("Assets/Includes/footer.php");            
+            include("Assets/Includes/footer.php");    
         ?>
+
+        
     </body>
 </html>
  

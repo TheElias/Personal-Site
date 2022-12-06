@@ -328,6 +328,9 @@ Blog Post Classes
   -webkit-text-fill-color: white;
   min-height: 11vh;
 }
+
+
+
 .blog-post-title:hover  {
   opacity: 5;
 }
@@ -345,6 +348,12 @@ Blog Post Classes
   color:var(--main-black);
   font-size: 1rem;
   padding-bottom: 1rem;
+}
+
+.blog-post-text {
+  display: flex;
+  max-width: 800px;
+  margin: auto;
 }
 
 .blog-post-text p{

@@ -209,6 +209,13 @@ Home Page Classes
 /*---------------------------------------
 Blog Classes
 ---------------------------------------*/
+.blog-grid-item {
+  border-width: 1px;
+  border-radius: .5rem;
+  border: 0.2rem solid #FFF;
+  background-color: var(#FFF);
+}
+
 .blog-post-list-section {
   display: flex;
   flex-direction: row;
@@ -219,10 +226,15 @@ Blog Classes
   padding-top: 10vh;
 }
 
+.blog-post-small-header-image {
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+
 .blog-post-list-grid-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 4rem;
+  grid-gap: 3rem;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -232,7 +244,7 @@ Blog Classes
 .blog-post-list-grid-section-title {
   display: flex;
   justify-content: center;
-  padding: 5vh ;
+  padding: 4vh ;
   color:var(--main-black);
   font-size: 6rem; 
 }
@@ -243,17 +255,42 @@ Blog Classes
   border-radius: 20px;
 }
 
-.blog-post-grid-title {
-  display: flex;
+.blog-post-grid-item-title {
+ 
+  font-size: 1.8rem; 
+  font-weight: 600;
   justify-content: center;
+  display: flex;
+  color: var(--main-black);
+  padding: 1rem 0rem 1rem 1rem;
+
+  /*line-height: 1.4;
+  color: white;
+   
+  
   align-items: center;
   background: rgb(0,0,0);
+  /*border-radius: 10px;
+  border: 0.2rem solid #FFF;*/
+}
+
+.blog-post-grid-item-date {
+ 
   font-size: 1.8rem; 
-  font-weight: 400;
-  line-height: 1.4;
+  font-weight: 600;
+  justify-content: center;
+  display: flex;
+  color: var(--main-black);
+  padding: 1rem 0rem 1rem 1rem;
+
+  /*line-height: 1.4;
   color: white;
-  border-radius: 10px;
-  border: 0.2rem solid #FFF;
+   
+  
+  align-items: center;
+  background: rgb(0,0,0);
+  /*border-radius: 10px;
+  border: 0.2rem solid #FFF;*/
 }
 
 /*----------------------------------------

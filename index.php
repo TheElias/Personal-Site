@@ -1,6 +1,6 @@
 <?php
 
-echo $_SERVER["REQUEST_URI"];
+//echo $_SERVER["REQUEST_URI"];
 
 class Route {
 
@@ -50,7 +50,6 @@ class Route {
             $paramKey[] = $key;
         }
 
-       
         //replacing first and last forward slashes
         //$_SERVER["REQUEST_URI"] will be empty if req uri is /
 
@@ -106,8 +105,9 @@ class Route {
         //now matching route with regex
         if(preg_match("/$reqUri/", $route))
         {
-            echo '<br>';
-            echo "File: " . $file . "      Chosen Page: /" . $reqUri . "/     Route Selected: " . $route;
+            //Just some quick echo code
+            //echo '<br>';
+            //echo "File: " . $file . "      Chosen Page: /" . $reqUri . "/     Route Selected: " . $route;
 
             include($file);
             exit();

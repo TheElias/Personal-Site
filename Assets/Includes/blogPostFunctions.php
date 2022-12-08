@@ -13,7 +13,7 @@ function getBlogPostHeaderImage($conn, $image_id)
     $result->execute([$image_id]);
     $imageResult = $result -> fetch();
 
-    return "../" . $imageResult['URL'] . $imageResult['file_name'];
+    return "..\\" . $imageResult['URL'] . $imageResult['file_name'];
 }
 
 function getBlogPostIDURL($conn, $blogPostID)

@@ -1,6 +1,7 @@
 <?php
 
         include('Assets/Includes/db_connection.php');
+        include('Assets/Includes/blogPostFunctions.php');
 
         $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
@@ -33,24 +34,31 @@
         
         <section class="page-body">
             <section class="blog-post-list-section">
-                <div class="blog-post-list-grid-section-title">
-                    <h1>My Blog!</h1>
-                </div>
-                <div class="blog-post-list-grid-section">
-                    <?php foreach ($blogPost as $row) 
-                    {
-                        echo "<a href=\"/blog/" . $row["urlName"] . "\"  class=\"blog-post-grid-title\"> 
-                            <p>" .
-                                $row["blogPostName"] . 
-                            "</p>
-                        </a>";
+                <div class="container">
+                    <div class="blog-post-list-grid-section-title">
+                        <h1 class="blog-home-page-title">Blog!</h1>
+                    </div>
+                    <div class="blog-post-list-grid-section">
+                        <?php foreach ($blogPost as $row) 
+                        {
+                            
+                            echo "<div class=\"blog-grid-item\">";
+                            echo "<a href=\"blog/" . $row["urlName"] . "\">";
+                            echo "<img href=\"blog/" . $row["urlName"] . "\" class=\"blog-post-small-header-image\" src=\"" . getBlogPostHeaderImage($conn, $blogPost["blogPostID"]) . "\" />";
+                            echo "<p class=\"blog-post-grid-item-title\">" .
+                                    $row["blogPostName"] . 
+                                "</p>
+                                
+                                </a>
+                                </div>";
 
-                        /*echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
-                            <p>" .
-                                $row["blogPostName"] . 
-                            "</p>
-                        </a>";*/
-                    }?>
+                            /*echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
+                                <p>" .
+                                    $row["blogPostName"] . 
+                                "</p>
+                            </a>";*/
+                        }?>
+                    </div>
                 </div>
             </section>
         </section>

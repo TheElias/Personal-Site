@@ -2,12 +2,14 @@
 
         include('Assets/Includes/db_connection.php');
         include('Assets/Includes/blogPostFunctions.php');
+       // include('Assets/Includes/MarkdownExtra.php');
 
-        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername FROM personal_website.blog_post AS BP
+        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+                CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created 
+                FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
-                ORDER BY BP.id DESC
-                LIMIT 3";
+                ORDER BY BP.id DESC";
 
             $result = $conn->prepare($sql);
             $result->execute();
@@ -32,9 +34,10 @@
             include("Assets/Includes/header.php");
         ?>
         
-        <section class="page-body">
+        <section id="page-body">
             <section class="blog-post-list-section">
                 <div class="container">
+                
                     <div class="blog-post-list-grid-section-title">
                         <h1 class="blog-home-page-title">Blog!</h1>
                     </div>
@@ -42,25 +45,40 @@
                         <?php foreach ($blogPost as $row) 
                         {
                             
-                            echo "<div class=\"blog-grid-item\">";
-                            echo "<a href=\"blog/" . $row["urlName"] . "\">";
-                            echo "<img href=\"blog/" . $row["urlName"] . "\" class=\"blog-post-small-header-image\" src=\"" . getBlogPostHeaderImage($conn, $blogPost["blogPostID"]) . "\" />";
-                            echo "<p class=\"blog-post-grid-item-title\">" .
-                                    $row["blogPostName"] . 
-                                "</p>
-                                
-                                </a>
+                            echo "<div class=\"blog-grid-item\">
+                                    <a  href=\"blog/" . $row["urlName"] . "\">
+                                            <img class=\"blog-post-grid-header-image\" src=\"" . getBlogPostHeaderImage($conn, $blogPost["blogPostID"]) . "\" />
+                                    </a>
+                                    
+                                    <div class=\"blog-post-grid-item-details\">
+                                        <div class=\"blog-post-grid-item-title-section\">
+
+                                            <p href=\"blog/" . $row["urlName"] . "\" class=\"blog-post-grid-item-title\">" .
+                                                $row["blogPostName"] . 
+                                            "</p>
+                                    
+                                            <div class=\"blog-post-grid-time-to-read-section\">
+                                                <img src=\"../images/Clock.png\" class=\"blog-grid-estimated-time-clock\") />
+                                                <p class=\"blog-post-grid-time-to-read\">   " . $row["estimatedReadTime"] . " minute read" . 
+                                                "</p>
+                                            </div>
+                                        </div>
+                                           
+                                        <div class=\"blog-post-grid-blog-text\">" . 
+                                            (strlen($row["myBlogText"])>250 ? substr($row["myBlogText"],0,200) . "..." : $row["myBlogText"]) . "
+                                            </p>
+                                        </div>
+                                     
+                                    </div>
                                 </div>";
 
-                            /*echo "<a href=\"/blogPost.php?id=" . $row["blogPostID"] . "\"  class=\"blog-post-grid-title\"> 
-                                <p>" .
-                                    $row["blogPostName"] . 
-                                "</p>
-                            </a>";*/
+                            
                         }?>
                     </div>
                 </div>
             </section>
+            
+            
         </section>
         
 

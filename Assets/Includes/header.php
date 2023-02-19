@@ -1,7 +1,8 @@
 <header id="header">    
     <!--Top Thingy-->
-    <div class="mainLogoText">
-        <a href="../">Elias Broniecki</a>
+    <img id="headerLogo" src="..\\images\logo.png"/>
+    <div class="headerLogoText">
+        <a href="../">Elias</a>
     </div>
     <!--Navigation-->
     <?php   

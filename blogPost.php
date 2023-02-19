@@ -1,9 +1,6 @@
 <?php
         include('Assets/Includes/db_connection.php');
         include('Assets/Includes/blogPostFunctions.php');
-
-        echo "<br>";
-        echo $params['urlName'];
         
         //if (isset($params['urlName']))
         //{
@@ -54,11 +51,11 @@
         <?php 
             include("Assets/Includes/header.php");
         ?>
-        <section class="page-body">
+        <section id="page-body">
             <section class="blog-post-section">
                 <div class="container">
+                
                     <div class="blog-post-title-section">
-                    <?php echo $blogPost["blogPostName"]; ?>
                     
                         <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
                         <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
@@ -78,9 +75,62 @@
                     <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
                     <hr size ="1" width="50%">
                     <h3 class="blog-post-author">By: <?php  echo $blogPost["authorUsername"]; ?></h3>
+                
                     
-                </div>
-                                    
+                    <section id="recommended-blog-post-list-section">                
+                        <div id="blog-post-recommended-grid-title">
+                            <p id="recommended-title">You may also like:</p>
+                        </div>
+                        <div id="blog-post-recommended-grid">
+                            <?php 
+                            
+                            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+                            CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created 
+                            FROM personal_website.blog_post AS BP
+                            INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+                            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                            WHERE BP.id <> ?
+                            ORDER BY BP.id DESC
+                            LIMIT 3";
+            
+                        
+                            $result = $conn->prepare($sql);
+                            $result->execute([$blogPost['blogPostID']]);
+                            $recommendedPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
+                             
+                            foreach ($recommendedPosts as $row) 
+                            {
+
+                                echo "<div class=\"recommended-blog-post-grid-item\">
+                                        <a  href=\"../blog/" . $row["urlName"] . "\">
+                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . getBlogPostHeaderImage($conn, $recommendedPosts["blogPostID"]) . "\" />
+                                        </a>
+                                        
+                                        <div class=\"recommended-blog-post-grid-item-details\">
+                                            <div class=\"recommended-blog-post-grid-item-title-section\">
+
+                                                <p href=\"blog/" . $row["urlName"] . "\" class=\"recommended-blog-post-grid-item-title\">" .
+                                                    $row["blogPostName"] . 
+                                                "</p>
+                                        
+                                                <div class=\"recommended-blog-post-grid-time-to-read-section\">
+                                                    <img src=\"../images/Clock.png\" class=\"blog-grid-estimated-time-clock\") />
+                                                    <p class=\"recommended-blog-post-grid-time-to-read\">   " . $row["estimatedReadTime"] . " minute read" . 
+                                                    "</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class=\"recommended-blog-post-grid-blog-text\">" . 
+                                                (strlen($row["myBlogText"])>250 ? substr($row["myBlogText"],0,200) . "..." : $row["myBlogText"]) . "
+                                                </p>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>";
+                            }?>
+                        </div>    
+                    </section>  
+                </div>         
             </section>
         </section>
         <!--Footer-->

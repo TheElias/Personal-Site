@@ -9,15 +9,16 @@
         
         
         //General Blog Post Data
-        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created FROM personal_website.blog_post AS BP
+        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+                BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created 
+                FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
                 WHERE BP.urlName =  ?";
 
         $result = $conn->prepare($sql);
         $result->execute([$params['urlName']]);//);
-        $blogPost = $result -> fetch();
-
+        $blogPost = $result -> fetch();  
         /*
         //Blog Post Tags
         $sql = "SELECT T.name as tagName FROM personal_website.blog_post AS BP
@@ -55,14 +56,16 @@
             <section class="blog-post-section">
                 <div class="container">
                 
-                    <div class="blog-post-title-section">
-                    
+                    <div class="blog-post-header">
+
                         <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
-                        <h1 class="blog-post-title"><?php echo $blogPost["blogPostName"]; ?></h1>
-
-                        
-                        <h3 class="blog-post-date_created"><?php  echo date('l, jS \o\f F Y', strtotime($blogPost["date_created"]) ); ?></h3>
-
+                        <div class="blog-post-title-section font-lightweight">
+                            <p id="blog-post-title" class="font-extrabold"><?php echo $blogPost["blogPostName"]; ?></h1>
+                            <div id="blog-post-metadata">
+                                <p id="blog-post-time-to-read"><?php print $blogPost["estimatedReadTime"]; ?> minute read</p>
+                                <p id="blog-post-date-created">Updated: <?php  echo date('F j, o', strtotime($blogPost["date_created"]) ); //l, jS \o\f F Y ?></p>
+                            </div>                    
+                        </div>
                         <?php
 
                             //To list all tags. Uncomment this and SQL above format('l jS \o\f F Y')
@@ -80,7 +83,7 @@
                     <section id="recommended-blog-post-list-section">                
                         <div id="blog-post-recommended-grid-title">
                             <p id="recommended-title">You may also like:</p>
-                        </div>
+                        </div>  
                         <div id="blog-post-recommended-grid">
                             <?php 
                             
@@ -113,9 +116,9 @@
                                                     $row["blogPostName"] . 
                                                 "</p>
                                         
-                                                <div class=\"recommended-blog-post-grid-time-to-read-section\">
-                                                    <img src=\"../images/Clock.png\" class=\"blog-grid-estimated-time-clock\") />
-                                                    <p class=\"recommended-blog-post-grid-time-to-read\">   " . $row["estimatedReadTime"] . " minute read" . 
+                                                <div class=\"recommended-blog-post-time-to-read-section\">
+                                                    <img src=\"../images/Clock.png\" class=\"recommended-blog-post-estimated-time-clock\") />
+                                                    <p class=\"recommended-blog-post-time-to-read\">   " . $row["estimatedReadTime"] . " minute read" . 
                                                     "</p>
                                                 </div>
                                             </div>

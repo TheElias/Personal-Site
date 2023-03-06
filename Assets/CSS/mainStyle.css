@@ -346,7 +346,6 @@ Blog Post Classes
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
   position: relative;
   color:var(--main-black);
   width:100%; 
@@ -370,8 +369,10 @@ Blog Post Classes
 }
 
 .blog-post-title-section {
-  text-align: center;
+  width: 75ch;
   margin: auto;
+  display:flex;
+  flex-direction: column;
 }
 
 
@@ -610,16 +611,15 @@ Blog Post ID's
 #blog-post-time-to-read {
   text-align: left;
   color:var(--main-gray-light);
-  font-size: .5rem;
+  font-size: .875rem;
   display: flex;
   justify-content: flex-start;
-  padding-left:1ch;
 }
 
 #blog-post-date-created {
   text-align: right;
   color:var(--main-gray-light);
-  font-size: .5rem;
+  font-size: .875rem;
   display: flex;
   justify-content: flex-end;
   padding-left:2ch;
@@ -637,7 +637,7 @@ General HTML Elements
 ----------------------------------------*/
 
 hr {
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 

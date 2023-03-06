@@ -10,7 +10,7 @@
         
         //General Blog Post Data
         $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
-                BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created 
+                BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id 
                 FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -58,7 +58,7 @@
                 
                     <div class="blog-post-header">
 
-                        <img class="blog-post-header-image" src="<?php echo getBlogPostHeaderImage($conn, $blogPost["headerID"]); ?>">
+                        <img class="blog-post-header-image" src="<?php echo getImageURL($conn, $blogPost["headerID"]); ?>">
                         <div class="blog-post-title-section font-lightweight">
                             <p id="blog-post-title" class="font-extrabold"><?php echo $blogPost["blogPostName"]; ?></h1>
                             <div id="blog-post-metadata">
@@ -88,7 +88,7 @@
                             <?php 
                             
                             $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
-                            CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created 
+                            CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id
                             FROM personal_website.blog_post AS BP
                             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -106,7 +106,7 @@
 
                                 echo "<div class=\"recommended-blog-post-grid-item\">
                                         <a  href=\"../blog/" . $row["urlName"] . "\">
-                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . getBlogPostHeaderImage($conn, $recommendedPosts["blogPostID"]) . "\" />
+                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . getImageURL($conn, $row["header_image_id"]) . "\" />
                                         </a>
                                         
                                         <div class=\"recommended-blog-post-grid-item-details\">
@@ -123,7 +123,7 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class=\"recommended-blog-post-grid-blog-text\">" . 
+                                            <div class=\"recommended-blog-post-grid-blog-text\"><p>" . 
                                                 (strlen($row["myBlogText"])>250 ? substr($row["myBlogText"],0,200) . "..." : $row["myBlogText"]) . "
                                                 </p>
                                             </div>

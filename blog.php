@@ -4,8 +4,8 @@
         include('Assets/Includes/blogPostFunctions.php');
        // include('Assets/Includes/MarkdownExtra.php');
 
-        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
-                CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created 
+        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText, 
+                CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created,header_image_id
                 FROM personal_website.blog_post AS BP
                 INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                 INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -44,10 +44,9 @@
                     <div class="blog-post-list-grid-section">
                         <?php foreach ($blogPost as $row) 
                         {
-                            
                             echo "<div class=\"blog-grid-item\">
                                     <a  href=\"blog/" . $row["urlName"] . "\">
-                                            <img class=\"blog-post-grid-header-image\" src=\"" . getBlogPostHeaderImage($conn, $blogPost["blogPostID"]) . "\" />
+                                            <img class=\"blog-post-grid-header-image\" src=\"" . getImageURL($conn, $row["header_image_id"]) . "\" />
                                     </a>
                                     
                                     <div class=\"blog-post-grid-item-details\">
@@ -64,7 +63,7 @@
                                             </div>
                                         </div>
                                            
-                                        <div class=\"blog-post-grid-blog-text\">" . 
+                                        <div class=\"blog-post-grid-blog-text\"><p>" . 
                                             (strlen($row["myBlogText"])>250 ? substr($row["myBlogText"],0,200) . "..." : $row["myBlogText"]) . "
                                             </p>
                                         </div>

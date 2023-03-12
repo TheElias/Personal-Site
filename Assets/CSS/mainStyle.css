@@ -46,6 +46,7 @@ Global Variables, Tidying, and Base Styles
   margin: 0;
   padding: 0;
   font-family:Arial, Helvetica, sans-serif;
+  
 }
 
 html {
@@ -96,6 +97,7 @@ body {
     line-height: 1;
     height: 100vh;
     min-height: 100vh;
+    overflow: scroll;
   }
   
   h1,
@@ -499,6 +501,21 @@ Blog Post Classes
   font-size: 1rem;
 }
 
+/*----------------------------------------
+Footer Classes
+----------------------------------------*/
+.contact-icons {
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+}
+
+.social-media-links {
+  margin-right: 2vw;
+}
+
+
+
 
 /*----------------------------------------
 General Font Classes
@@ -704,6 +721,8 @@ nav ul a {
 Footer
 ----------------------------------------*/
 
+
+
 footer {
   display: flex;
   width: 100% !important;
@@ -717,13 +736,16 @@ footer {
 
 footer ul{
   display: flex;
-  margin-right: 2rem;  
+}
+
+footer li{
+  display: flex;
+  align-items: center;
 }
 
 footer ul a {
   display: block;
   font-size: 2rem;
-  padding: 2rem;
   text-align: center;
   color: var(--main-white);
 }

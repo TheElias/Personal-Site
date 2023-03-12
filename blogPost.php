@@ -62,7 +62,7 @@
                         <div class="blog-post-title-section font-lightweight">
                             <p id="blog-post-title" class="font-extrabold"><?php echo $blogPost["blogPostName"]; ?></h1>
                             <div id="blog-post-metadata">
-                                <p id="blog-post-time-to-read"><?php print $blogPost["estimatedReadTime"]; ?> minute read</p>
+                                <p id="blog-post-time-to-read"><?php print $blogPost["estimatedReadTime"]; ?> Minute Read</p>
                                 <p id="blog-post-date-created">Updated: <?php  echo date('F j, o', strtotime($blogPost["date_created"]) ); //l, jS \o\f F Y ?></p>
                             </div>                    
                         </div>

@@ -152,6 +152,71 @@ General Classes
 }
 
 
+.container a:link {
+  color: blue;
+}
+
+/* visited link */
+.container a:visited {
+  color: var(--main-orange-dark);
+}
+
+/* mouse over link */
+.container a:hover {
+  color: var(--main-blue);
+}
+
+/* selected link */
+.container a:active {
+  color: var(--main-orange-light);
+}
+
+.square-image-container {
+  position: relative;
+  width: 37%; /* The size you want */
+}
+
+.square-image-container:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
+}
+
+.square-image-container img {
+  position: absolute; /* Take your picture out of the flow */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; /* Make the picture taking the size of it's parent */
+  width: 75%; /* This if for the object-fit */
+  height: 75%; /* This if for the object-fit */
+  object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
+  object-position: center;
+}
+
+.noHover{
+  pointer-events: none;
+  -webkit-filter:none;
+  -webkit-transform: none;
+}
+
+.center {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hightlightedBox {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+  align-items: center;
+  display:flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 /*----------------------------------------
 Header Classes
 ----------------------------------------*/
@@ -510,11 +575,15 @@ Footer Classes
   width: 2rem;
 }
 
+.contact-icons:hover {
+  filter: none;
+  -webkit-filter:brightness(0) invert(1);
+  -webkit-transform: scale(1.2);
+  }
+
 .social-media-links {
   margin-right: 2vw;
 }
-
-
 
 
 /*----------------------------------------
@@ -570,6 +639,7 @@ Header ID's
 #headerLogo {
   height: 10vh;
   width: 10vh;
+  margin-left: 5vw;
 }
 
 /*----------------------------------------
@@ -655,25 +725,13 @@ General HTML Elements
 hr {
   margin-bottom: 1rem;
 }
+/*
 
-
-.container a:link {
-  color: blue;
-}
-
-/* visited link */
-.container a:visited {
-  color: var(--main-orange-dark);
-}
-
-/* mouse over link */
-.container a:hover {
-  color: var(--main-blue);
-}
-
-/* selected link */
-.container a:active {
-  color: var(--main-orange-light);
+*/
+inlineCode
+{
+  background-color: #eee;
+  border: 1px solid #999;
 }
 
 
@@ -688,7 +746,7 @@ header {
   width: 100% !important;
   height: 10vh;
   background: var(--main-gray-dark);
-  box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
+  /*box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);*/
   z-index: 10;
 }
 
@@ -707,12 +765,12 @@ nav {
 
 nav ul{
   display: flex;
-  margin-right: 2rem;  
+  align-items: center;
+  margin-right: 4rem;  
 }
 nav ul a {
   display: block;
   font-size: 2rem;
-  padding: 2rem;
   text-align: center;
   color: var(--main-white);
 }
@@ -720,9 +778,6 @@ nav ul a {
 /*----------------------------------------
 Footer
 ----------------------------------------*/
-
-
-
 footer {
   display: flex;
   width: 100% !important;
@@ -748,4 +803,6 @@ footer ul a {
   font-size: 2rem;
   text-align: center;
   color: var(--main-white);
+
 }
+

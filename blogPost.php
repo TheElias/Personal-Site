@@ -45,6 +45,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo $blogPost["blogPostName"] . " - " . $blogPost["authorUsername"];?></title>
         <link rel="stylesheet" type="text/css" href="../Assets/CSS/mainStyle.css">
+        <link rel="stylesheet" href="../Assets/CSS/styles/default.min.css">
+        <script src="../Assets/CSS/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
     </head>
     
     <body>

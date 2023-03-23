@@ -98,7 +98,6 @@
                             WHERE BP.id <> ?
                             ORDER BY BP.id DESC
                             LIMIT 3";
-            
                         
                             $result = $conn->prepare($sql);
                             $result->execute([$blogPost['blogPostID']]);

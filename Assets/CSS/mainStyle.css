@@ -148,7 +148,7 @@ General Classes
 ----------------------------------------*/
 .container {
   width: 60vw;
-  max-width: 1080px;
+  max-width: 80vw;
 }
 
 
@@ -313,6 +313,8 @@ Blog Classes
   max-width: 1280px;
   margin: 0 auto;
   margin-bottom: 6rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .blog-post-list-grid-section-title {
@@ -471,6 +473,10 @@ Blog Post Classes
   margin-bottom: 1rem;
 }
 
+.blog-post-text img {
+  margin-bottom: 1rem;
+}
+
 .recommended-blog-post-grid-item {
   border-width: 1px;
   border-radius: .5rem;
@@ -504,6 +510,8 @@ Blog Post Classes
   max-width: 1280px;
   margin: 0 auto;
   margin-bottom: 6rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .recommended-blog-post-list-grid-section-title {

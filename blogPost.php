@@ -1,7 +1,8 @@
 <?php
         include('Assets/Includes/db_connection.php');
         include('Assets/Includes/blogPostFunctions.php');
-        
+        include('Assets/Includes/generalFunctions.php');
+
         //if (isset($params['urlName']))
         //{
         //    header('Location: blogPost.php?postName=' . getBlogPostIDURL($conn,$params['id']));
@@ -19,6 +20,11 @@
         $result = $conn->prepare($sql);
         $result->execute([$params['urlName']]);//);
         $blogPost = $result -> fetch();  
+        
+        if (is_null($blogPost["blogPostName"]) )
+        {
+            Redirect("http://www.eliasbroniecki.com/404.php");
+        }    
         /*
         //Blog Post Tags
         $sql = "SELECT T.name as tagName FROM personal_website.blog_post AS BP
@@ -82,7 +88,6 @@
                     <hr size ="1" width="50%">
                     <h3 class="blog-post-author">By: <?php  echo $blogPost["authorUsername"]; ?></h3>
                 
-                    
                     <section id="recommended-blog-post-list-section">                
                         <div id="blog-post-recommended-grid-title">
                             <p id="recommended-title">You may also like:</p>

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Elias Broniecki's Personal Site</title>
+        <title>404 - YOU LOST HOMIE</title>
         <link rel="stylesheet" type="text/css" href="Assets/CSS/mainStyle.css">
     </head>
     
@@ -12,11 +12,14 @@
         <?php 
             include("Assets/Includes/header.php");
         ?>
-
-        <section class="welcome-section">
-            <h1>Homie, you lost...</h1>
+        <section id="page-body">
+            <section class="page-not-found-section">
+                <section class="container">
+                    
+                    <h2>You Are Lost...</h2>
+                </section>
+            </section>
         </section>
-
         <!--Footer-->
         <?php 
             include("Assets/Includes/footer.php");
@@ -24,5 +27,3 @@
     </body>
 </html>
  
-
-

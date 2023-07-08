@@ -32,7 +32,6 @@ function getBlogPostIDURL($conn, $blogPostID)
     {
         return $postResult['urlName'];
     }
-
 }
 
 ?>

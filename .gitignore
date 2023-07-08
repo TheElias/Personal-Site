@@ -1,3 +1,7 @@
 .vscode/sftp.json
 .viscode/launch.json
 /images/
+vendor
+composer
+composer.lock
+phpunit.phar

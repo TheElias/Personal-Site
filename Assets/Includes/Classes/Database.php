@@ -25,6 +25,13 @@
             $this -> password = $databaseParameters ->password;
         }
 
+        function setCredentials($myDatabaseName,$myServerName, $myUsername, $myPassword) {
+            $this -> databaseName = $myDatabaseName;
+            $this -> serverName = $myServerName;
+            $this -> userName = $myUsername;
+            $this -> password = $myPassword;
+        }
+
         public function connect()
         {
             try 

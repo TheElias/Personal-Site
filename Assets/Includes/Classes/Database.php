@@ -1,5 +1,5 @@
 <?php 
-    include('./Assets/Includes/Classes/DatabaseConfiguration.php');
+    require_once './Assets/Includes/Classes/DatabaseConfiguration.php';
 
     class Database extends DatabaseConfiguration
     {
@@ -12,24 +12,21 @@
         protected $password;
         protected $databaseName;
 
-        function Database () {
-            $this -> connection = NULL;
-            $this -> sqlQuery = NULL;
-            $this -> recordset = NULL;
-
+        function __construct()
+        {
             $databaseParameters = new DatabaseConfiguration();
-            $databaseParameters->DatabaseConfiguration();
-            $this -> databaseName = $databaseParameters -> databaseName;
-            $this -> serverName = $databaseParameters -> serverName;
-            $this -> userName = $databaseParameters -> userName;
-            $this -> password = $databaseParameters ->password;
+            $this->databaseName = $databaseParameters->databaseName;
+            $this->serverName = $databaseParameters->serverName;
+            $this->userName = $databaseParameters->userName;
+            $this->password = $databaseParameters->password;
         }
 
-        function setCredentials($myDatabaseName,$myServerName, $myUsername, $myPassword) {
-            $this -> databaseName = $myDatabaseName;
-            $this -> serverName = $myServerName;
-            $this -> userName = $myUsername;
-            $this -> password = $myPassword;
+        function setCredentials($myDatabaseName,$myServerName, $myUsername, $myPassword) 
+        {
+            $this->databaseName = $myDatabaseName;
+            $this->serverName = $myServerName;
+            $this->userName = $myUsername;
+            $this->password = $myPassword;
         }
 
         public function connect()
@@ -38,33 +35,41 @@
             {    
                 $this->connection = new PDO('mysql:host='  . $this->serverName . ';dbname='.$this->databaseName, $this->userName, $this->password);
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo 'Hi: mysql:host='  . $this -> serverName . ';dbname='. $this -> databaseName . " " . $this -> userName . " " .  $this -> password;
+                //echo 'Database->Connect: mysql:host='  . $this -> serverName . ';dbname='. $this -> databaseName . " " . $this -> userName . " " .  $this -> password;
             }
             catch(PDOException $e)
             {
                 throw new Exception("Database Connection Failed. " . $e->getMessage() . ". " . ' mysql:host='  . 
                         $this -> serverName . ';dbname='. $this -> databaseName . " " . $this -> userName . " " .  $this -> password);
+                return false; 
             }
 
-            return $this;
+            return true;
         }
 
         public function getConnection(): PDO
         {
            return $this->connection;
         }
-
         
-        function selectAll($tableName)  
+        public function selectAll($tableName)  
         {
-            $sql = 'SELECT * FROM '.$this -> databaseName.'.'.$tableName;
-
+            $sql = 'SELECT * FROM '. $this->databaseName.'.'.$tableName;
             $result = $this->connection->prepare($sql);
             $result->execute();
             return $result -> fetchAll(PDO::FETCH_ASSOC);
-            // $blogPost = $result -> fetch();  
         }
 
+        function fetch($query)
+        {
+            
+            $result = $this->connection->prepare($query);
+            $result->execute();
+           
+             $result -> fetchAll(PDO::FETCH_ASSOC);
+             
+             return $result;
+        }
     
         public function disconnect() {
             $this -> connection = NULL;

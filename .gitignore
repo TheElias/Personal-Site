@@ -5,3 +5,4 @@ vendor
 composer
 composer.lock
 phpunit.phar
+/ignoredFiles/

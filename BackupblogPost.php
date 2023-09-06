@@ -3,27 +3,42 @@
         include('Assets/Includes/blogPostFunctions.php');
         include('Assets/Includes/generalFunctions.php');
         require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/BlogPost.php';
-        require_once './Assets/Includes/Classes/Image.php';
         //if (isset($params['urlName']))
         //{
         //    header('Location: blogPost.php?postName=' . getBlogPostIDURL($conn,$params['id']));
         //}
         
-        $myBlogPost = New BlogPost();
         
+        //General Blog Post Data
+        $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+                BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id 
+                FROM personal_website.blog_post AS BP
+                INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+                INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                WHERE BP.urlName =  ?";
 
-        if (!$myBlogPost->loadBlogByURLName($params['urlName']))
+        $result = $conn->prepare($sql);
+        $result->execute([$params['urlName']]);//);
+        $blogPost = $result -> fetch();  
+        
+        if (is_null($blogPost["blogPostName"]) )
         {
             Redirect("http://www.eliasbroniecki.com/404.php");
         }    
+        /*
+        //Blog Post Tags
+        $sql = "SELECT T.name as tagName FROM personal_website.blog_post AS BP
+                INNER JOIN personal_website.blog_post_tag AS BPT ON BP.id = BPT.blog_post_id
+                INNER JOIN personal_website.tag AS T ON BPT.tag_id = T.id
+                WHERE BP.id =  ?
+                ORDER BY tagName";
 
-        $headerImage = $myBlogPost->getHeaderImage();
-        if ($headerImage == false)
-        {
-            $headerImage = new Image;
-            $headerImage->loadImageByID(1);
-        }
+        $result = $conn->prepare($sql);
+        $result->execute([$_GET['id']]);
+        $blogTag =  $result -> fetchAll(PDO::FETCH_ASSOC); 
+
+        $blogTag = getBlogTags([$_GET['id']]);
+        */
 
     ?> 
 
@@ -34,7 +49,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $myBlogPost->getTitle() . " - " . $myBlogPost->getAuthorUsername() ;?></title>
+        <title><?php echo $blogPost["blogPostName"] . " - " . $blogPost["authorUsername"];?></title>
         <link rel="stylesheet" type="text/css" href="../Assets/CSS/mainStyle.css">
         <link rel="stylesheet" href="../Assets/CSS/styles/default.min.css">
         <script src="../Assets/CSS/highlight.min.js"></script>
@@ -52,12 +67,12 @@
                 
                     <div class="blog-post-header">
 
-                        <img class="blog-post-header-image" src="<?php echo $headerImage->getFullFileLocation(); ?>">
+                        <img class="blog-post-header-image" src="<?php echo getImageURL($conn, $blogPost["headerID"]); ?>">
                         <div class="blog-post-title-section font-lightweight">
-                            <p id="blog-post-title" class="font-extrabold"><?php $myBlogPost->getTitle(); ?></h1>
+                            <p id="blog-post-title" class="font-extrabold"><?php echo $blogPost["blogPostName"]; ?></h1>
                             <div id="blog-post-metadata">
-                                <p id="blog-post-time-to-read"><?php print $myBlogPost->getEstimatedReadTime(); ?> Minute Read</p>
-                                <p id="blog-post-date-created">Updated: <?php  echo date('F j, o', strtotime($myBlogPost->getDateCreated()) ); //l, jS \o\f F Y ?></p>
+                                <p id="blog-post-time-to-read"><?php print $blogPost["estimatedReadTime"]; ?> Minute Read</p>
+                                <p id="blog-post-date-created">Updated: <?php  echo date('F j, o', strtotime($blogPost["date_created"]) ); //l, jS \o\f F Y ?></p>
                             </div>                    
                         </div>
                         <?php
@@ -69,7 +84,7 @@
                         ?>    
                         <!--<hr size ="1" width="100%"> -->
                     </div>
-                    <div class="blog-post-text"><?php echo $myBlogPost->getText(); ?></div>
+                    <div class="blog-post-text"><?php echo $blogPost["blogPostText"]; ?></div>
                     <hr size ="1" width="50%">
                     <h3 class="blog-post-author">By: <?php  echo $blogPost["authorUsername"]; ?></h3>
                 

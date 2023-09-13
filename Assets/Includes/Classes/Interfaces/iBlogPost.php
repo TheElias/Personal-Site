@@ -6,7 +6,7 @@ interface iBlogPost {
     public function loadBlogByURLName($urlName);
     public function loadBlogByTitle($blogPostTitle);
 
-    public function fetchTags($blogID);
+   
     
     public function getID();
     public function getText();
@@ -25,6 +25,8 @@ interface iBlogPost {
     public static function doesBlogPostExistByURLName($urlName);
     public static function addTagToBlogPost($blogID, $tagName);
 
+    public static function fetchTags($blogID);
+    public static function fetchRecommendedPosts($blogID, $count);
 
     public static function insertNewBlogPost($name, $text, $urlName, $header_Image_ID=1);
     public static function updateBlogPost($id, $text, $header_Image_ID=1);

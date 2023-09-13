@@ -52,6 +52,7 @@
             $this->dateCreated = $blogPostInfo['estimatedReadTime'];
             $this->title = $blogPostInfo['blogPostName'];
             $this->headerImageID = $blogPostInfo['headerID'];
+            $this->tags = BlogPost::fetchTags($id);
 
             return true;
         }
@@ -78,9 +79,11 @@
             $this->authorUsername = $blogPostInfo['authorUsername'];
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
+            $this->urlName = $blogPostInfo['urlName'];
             $this->dateCreated = $blogPostInfo['estimatedReadTime'];
             $this->title = $blogPostInfo['blogPostName'];
             $this->headerImageID = $blogPostInfo['headerID'];
+            $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
         }
@@ -105,35 +108,16 @@
             $this->urlname = $blogPostInfo['blogPostID'];
             $this->authorUsername = $blogPostInfo['authorUsername'];
             $this->blogText = $blogPostInfo['blogPostText'];
+            $this->urlName = $blogPostInfo['urlName'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->dateCreated = $blogPostInfo['estimatedReadTime'];
             $this->title = $blogPostTitle;
             $this->headerImageID = $blogPostInfo['headerID'];
+            $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
         }
-    
-        public function fetchTags($blogID)
-        {
-            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id, urlName
-            FROM personal_website.blog_post AS BP
-            INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
-            WHERE BP.ID =  ?";
-
-            $result = $this->conn->prepare($sql);
-            $result->execute($blogID);
-            $tags = $result->fetchAll(PDO::FETCH_ASSOC); 
-
-            if (!$tags) {
-                return false;
-            }
-
-            $this->tags = $tags;
-
-            return true;
-        }
+ 
         
         public function getID()
         {
@@ -330,7 +314,83 @@
             $result->execute($blogID,[$myTag->getID()]);
             $tagInfo = $result -> fetch();  
 
-            return true;
+            if (!$tagInfo)
+            {
+                return false;
+            }
+            
+            return $tagInfo;
+        }
+
+           
+        public static function fetchTags($blogID)
+        {
+            if (BlogPost::doesBlogPostExistByID($blogID))
+            {
+                return false;
+            }
+
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id, urlName
+            FROM personal_website.blog_post AS BP
+            INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+            WHERE BP.ID =  ?";
+
+            $result = $conn->prepare($sql);
+            $result->execute($blogID);
+            $tags = $result->fetchAll(PDO::FETCH_ASSOC); 
+
+            if (!$tags) {
+                return false;
+            }
+
+            return $tags;
+        }
+
+        public static function fetchRecommendedPosts($blogID, $count)
+        {
+            if (BlogPost::doesBlogPostExistByName($blogID))
+            {
+                return false;
+            }
+
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id
+                    FROM personal_website.blog_post AS BP
+                    INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+                    INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                    WHERE BP.id <> ?
+                    ORDER BY BP.id DESC
+                    LIMIT ?";
+
+            $result = $conn->prepare($sql);
+            $result->execute($blogID, $count);
+            $recommendedPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
+
+            if (!$recommendedPosts) {
+                return false;
+            }
+
+            $myPosts = array();
+
+            foreach ($recommendedPosts as $row) 
+            {
+                $testBlogPost = new BlogPost();
+                $testBlogPost->loadBlogByID($row["blogPostID"]);
+
+                array_push($myPosts, $testBlogPost);
+            }
+
+            return $myPosts;
         }
     
         public static function insertNewBlogPost($name, $text, $urlName, $header_Image_ID=1)

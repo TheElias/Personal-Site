@@ -40,7 +40,7 @@ class BackendTest extends TestCase
 
     public function testDoesTagExist()
     {
-        $this->assertTrue(BlogPostTag::doesTagExist("Introduction"));
+        $this->assertTrue(BlogPostTag::doesTagExistByName("Introduction"));
     }
 
     public function testGettingAllBlogPostsRelatedToTagByID()

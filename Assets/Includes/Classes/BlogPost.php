@@ -1,8 +1,8 @@
 <?php
-        include('../Assets/Includes/Classes/Database.php');
-        include('../Assets/Includes/Classes/Interfaces/iBlogPost.php');
-        include('../Assets/Includes/Classes/BlogPostTag.php');
-        include('../Assets/Includes/Classes/Image.php');
+        require_once './Assets/Includes/Classes/Database.php';
+        require_once './Assets/Includes/Classes/Interfaces/iBlogPost.php';
+        require_once './Assets/Includes/Classes/BlogPostTag.php';
+        require_once './Assets/Includes/Classes/Image.php';
 
     class BlogPost implements iBlogPost
     {
@@ -23,7 +23,7 @@
             $this->database = new Database();
             $this->database->connect();
 
-            $this->conn->getConnection();
+            $this->conn = $this->database->getConnection();
         }
 
         public function loadBlogByID($id=1)
@@ -36,7 +36,7 @@
             WHERE BP.id =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($id);
+            $result->execute([$id]);
             $blogPostInfo = $result -> fetch();  
             
             if (!$blogPostInfo) {
@@ -67,7 +67,7 @@
             WHERE BP.urlName =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($urlName);
+            $result->execute([$urlName]);
             $blogPostInfo = $result -> fetch();  
             
             if (!$blogPostInfo) {
@@ -97,7 +97,7 @@
             WHERE BP.name =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($blogPostTitle);
+            $result->execute([$blogPostTitle]);
             $blogPostInfo = $result -> fetch();  
             
             if (!$blogPostInfo) {
@@ -311,7 +311,7 @@
             $sql = "INSERT INTO blog_post_tag (blogID, tagID) VALUES (?,?)";
 
             $result = $conn->prepare($sql);
-            $result->execute($blogID,[$myTag->getID()]);
+            $result->execute([$blogID,$myTag->getID()]);
             $tagInfo = $result -> fetch();  
 
             if (!$tagInfo)
@@ -342,7 +342,7 @@
             WHERE BP.ID =  ?";
 
             $result = $conn->prepare($sql);
-            $result->execute($blogID);
+            $result->execute([$blogID]);
             $tags = $result->fetchAll(PDO::FETCH_ASSOC); 
 
             if (!$tags) {
@@ -373,7 +373,7 @@
                     LIMIT ?";
 
             $result = $conn->prepare($sql);
-            $result->execute($blogID, $count);
+            $result->execute([$blogID, $count]);
             $recommendedPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
 
             if (!$recommendedPosts) {
@@ -435,7 +435,7 @@
             $sql = "UPDATE blog_post_tag (text, header_image_ID) WHERE  id = ?";
 
             $result = $conn->prepare($sql);
-            $result->execute($text, $header_Image_ID, $id);
+            $result->execute([$text, $header_Image_ID, $id]);
 
             return true;
         }

@@ -1,6 +1,6 @@
 <?php
 
-include_once("./Assets/Includes/generalFunctions.php");
+require_once("./Assets/Includes/generalFunctions.php");
 
 
 
@@ -20,7 +20,9 @@ class DatabaseConfiguration {
         }
         else
         {
-            require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+            $myFile = file_get_contents('/var/www/config/config.env');
+
+            $myArray = parse_env_file_contents_to_array($myFile);
         }
 
             $this -> databaseName = $myArray["dbname"];

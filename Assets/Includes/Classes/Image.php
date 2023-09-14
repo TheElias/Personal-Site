@@ -16,17 +16,17 @@
             $this->database = new Database();
             $this->database->connect();
 
-            $this->conn->getConnection();
+            $this->conn = $this->database->getConnection();
         }
 
         public function loadImageByID($id)
         {
             $sql = "SELECT *
-            FROM personal_website 
+            FROM personal_website.image
             WHERE id =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($id);
+            $result->execute([$id]);
             $imageInfo = $result -> fetch();  
             
             if (!$imageInfo) {
@@ -44,11 +44,11 @@
         public function loadImageByName($name)
         {
             $sql = "SELECT *
-            FROM personal_website 
+            FROM personal_website.image
             WHERE name =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($name);
+            $result->execute([$name]);
             $imageInfo = $result -> fetch();  
             
             if (!$imageInfo) {
@@ -65,11 +65,11 @@
         public function loadImageByFileName($fileName)
         {
             $sql = "SELECT *
-            FROM personal_website 
+            FROM personal_website.image
             WHERE file_name =  ?";
 
             $result = $this->conn->prepare($sql);
-            $result->execute($fileName);
+            $result->execute([$fileName]);
             $imageInfo = $result -> fetch();  
             
             if (!$imageInfo) {

@@ -28,7 +28,7 @@
 
         public function loadBlogByID($id=1)
         {
-            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
             BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id , urlName 
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
@@ -49,7 +49,7 @@
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
-            $this->dateCreated = $blogPostInfo['estimatedReadTime'];
+            $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
             $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($id);
@@ -59,7 +59,7 @@
 
         public function loadBlogByURLName($urlName)
         {
-            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,date_created,
             BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id 
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
@@ -80,7 +80,7 @@
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->urlName = $blogPostInfo['urlName'];
-            $this->dateCreated = $blogPostInfo['estimatedReadTime'];
+            $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
             $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
@@ -89,7 +89,7 @@
         }
         public function loadBlogByTitle($blogPostTitle)
         {
-            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
+            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
             BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id, urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
@@ -110,14 +110,13 @@
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
-            $this->dateCreated = $blogPostInfo['estimatedReadTime'];
+            $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostTitle;
             $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
         }
- 
         
         public function getID()
         {
@@ -368,12 +367,13 @@
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                     INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
-                    WHERE BP.id <> ?
+                    WHERE BP.id <> :myID
                     ORDER BY BP.id DESC
-                    LIMIT ?";
+                    LIMIT :myLimit";
 
             $result = $conn->prepare($sql);
-            $result->execute([$blogID, $count]);
+            $result->bindParam(":myID", $blogID, PDO::PARAM_INT);
+            $result->bindParam(":myLimit", $count, PDO::PARAM_INT);
             $recommendedPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
 
             if (!$recommendedPosts) {

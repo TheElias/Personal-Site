@@ -12,7 +12,7 @@
         {
             Redirect("http://www.eliasbroniecki.com/404.php");
         }    
-        /*
+        
         $headerImage = $myBlogPost->getHeaderImage();
         if ($headerImage == false)
         {
@@ -22,7 +22,7 @@
         /*
         if (isset($params['urlName']))
         {
-            header('Location: blogPost.php?postName=' . $myBlogPost->  getBlogPostIDURL($conn,$params['id']));
+            header('Location: blogPost.php?postName=' . $myBlogPost->getURLName());//getBlogPostIDURL($conn,$params['id'])
         }*/
     ?> 
 
@@ -33,7 +33,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php /* echo $myBlogPost->getTitle() . " - " . $myBlogPost->getAuthorUsername() */ ;?></title>
+        <title><?php  echo $myBlogPost->getTitle() . " - " . $myBlogPost->getAuthorUsername()  ;?></title>
         <link rel="stylesheet" type="text/css" href="../Assets/CSS/mainStyle.css">
         <link rel="stylesheet" href="../Assets/CSS/styles/default.min.css">
         <script src="../Assets/CSS/highlight.min.js"></script>
@@ -51,18 +51,18 @@
                 
                     <div class="blog-post-header">
 
-                        <img class="blog-post-header-image" src="<?php /* echo $headerImage->getFullFileLocation();  */?>">
+                        <img class="blog-post-header-image" src="<?php  echo '/' . $headerImage->getFullFileLocation();  ?>">
                         <div class="blog-post-title-section font-lightweight">
-                            <p id="blog-post-title" class="font-extrabold"><?php /* echo $myBlogPost->getTitle(); */ ?></h1>
+                            <p id="blog-post-title" class="font-extrabold"><?php  echo $myBlogPost->getTitle();  ?></h1>
                             <div id="blog-post-metadata">
-                                <p id="blog-post-time-to-read"><?php /* echo $myBlogPost->getEstimatedReadTime(); */ ?> Minute Read</p>
-                                <p id="blog-post-date-created">Updated: <?php /* echo date('F j, o', strtotime($myBlogPost->getDateCreated()) ); */ ?></p>
+                                <p id="blog-post-time-to-read"><?php  echo $myBlogPost->getEstimatedReadTime();  ?> Minute Read</p>
+                                <p id="blog-post-date-created">Updated: <?php  echo date('F j, o', strtotime($myBlogPost->getDateCreated()) );  ?></p>
                             </div>                    
                         </div>
                     </div>
-                    <div class="blog-post-text"><?php /* echo $myBlogPost->getText(); */ ?></div>
+                    <div class="blog-post-text"><?php  echo $myBlogPost->getText();  ?></div>
                     <hr size ="1" width="50%">
-                    <h3 class="blog-post-author">By: <?php /* echo $myBlogPost->getAuthorFullName() */ ?></h3>
+                    <h3 class="blog-post-author">By: <?php  echo $myBlogPost->getAuthorFullName()  ?></h3>
                 
                     <section id="recommended-blog-post-list-section">                
                         <div id="blog-post-recommended-grid-title">
@@ -70,17 +70,16 @@
                         </div>  
                         <div id="blog-post-recommended-grid">
                             <?php 
-                             /*
-                            $recommendedPsts = BlogPost::fetchRecommendedPosts($myBlogPost->getID(),3);
+                             
+                            $recommendedPosts = BlogPost::fetchRecommendedPosts($myBlogPost->getID(),'3');
                              
                             foreach ($recommendedPosts as $row) 
                             {
-                               
                                 echo "<div class=\"recommended-blog-post-grid-item\">
                                         <a  href=\"../blog/" . $row->getURLName() . "\">
-                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . $row->getHeaderImage()->getFullFileLocation() . "\" />
+                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . '/' . $row->getHeaderImage()->getFullFileLocation() . "\" />
                                         </a>
-                                        
+                                        <p>test</p>
                                         <div class=\"recommended-blog-post-grid-item-details\">
                                             <div class=\"recommended-blog-post-grid-item-title-section\">
 
@@ -103,7 +102,7 @@
                                         </div>
                                     </div>";
                                     
-                            }*/?>
+                            }?>
                         </div>    
                     </section>  
                 </div>         

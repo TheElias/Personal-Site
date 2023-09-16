@@ -125,7 +125,7 @@
             {
                 return false;
             }
-            return $this->url . $this->fileName; 
+            return '../' . $this->url . $this->fileName; 
         }
     
         public static function doesImageExist($id)

@@ -12,14 +12,14 @@
         {
             Redirect("http://www.eliasbroniecki.com/404.php");
         }    
-        
+        /*
         $headerImage = $myBlogPost->getHeaderImage();
         if ($headerImage == false)
         {
             $headerImage = new Image;
             $headerImage->loadImageByID(1);
         }
-        /*
+        
         if (isset($params['urlName']))
         {
             header('Location: blogPost.php?postName=' . $myBlogPost->getURLName());//getBlogPostIDURL($conn,$params['id'])
@@ -51,7 +51,7 @@
                 
                     <div class="blog-post-header">
 
-                        <img class="blog-post-header-image" src="<?php  echo '/' . $headerImage->getFullFileLocation();  ?>">
+                        <img class="blog-post-header-image" src="<?php  echo $myBlogPost->getHeaderImageFullPath();  ?>">
                         <div class="blog-post-title-section font-lightweight">
                             <p id="blog-post-title" class="font-extrabold"><?php  echo $myBlogPost->getTitle();  ?></h1>
                             <div id="blog-post-metadata">
@@ -70,16 +70,15 @@
                         </div>  
                         <div id="blog-post-recommended-grid">
                             <?php 
-                             
+
                             $recommendedPosts = BlogPost::fetchRecommendedPosts($myBlogPost->getID(),'3');
-                             
+
                             foreach ($recommendedPosts as $row) 
                             {
                                 echo "<div class=\"recommended-blog-post-grid-item\">
                                         <a  href=\"../blog/" . $row->getURLName() . "\">
                                                 <img class=\"recommended-blog-post-grid-header-image\" src=\"" . '/' . $row->getHeaderImage()->getFullFileLocation() . "\" />
                                         </a>
-                                        <p>test</p>
                                         <div class=\"recommended-blog-post-grid-item-details\">
                                             <div class=\"recommended-blog-post-grid-item-title-section\">
 

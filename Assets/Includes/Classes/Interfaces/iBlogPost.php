@@ -19,11 +19,13 @@ interface iBlogPost {
     public function getDateCreated();
     public function getBlogTextSnippet($length = 250);
     public function getHeaderImage();   
+    public function getHeaderImageFullPath();
     
     public static function doesBlogPostExistByID($id);
     public static function doesBlogPostExistByName($name);
     public static function doesBlogPostExistByURLName($urlName);
     public static function addTagToBlogPost($blogID, $tagName);
+    public static function fetchAllPosts();
 
     public static function fetchTags($blogID);
     public static function fetchRecommendedPosts($blogID, $count);

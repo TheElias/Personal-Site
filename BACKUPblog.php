@@ -1,10 +1,9 @@
 <?php
 
-    require_once './Assets/Includes/Classes/BlogPost.php';
-        
-
+        include('Assets/Includes/db_connection.php');
+        include('Assets/Includes/blogPostFunctions.php');
        // include('Assets/Includes/MarkdownExtra.php');
-        /*
+
         $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText, 
                 CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created,header_image_id
                 FROM personal_website.blog_post AS BP
@@ -15,7 +14,7 @@
             $result = $conn->prepare($sql);
             $result->execute();
             $blogPost = $result->fetchAll(PDO::FETCH_ASSOC); 
-        */    
+            
     ?> 
 
 <!DOCTYPE html>
@@ -43,33 +42,29 @@
                         <h1 class="blog-home-page-title">Blog!</h1>
                     </div>
                     <div class="blog-post-list-grid-section">
-                        <?php 
-                        
-                        $allPosts = BlogPost::fetchAllPosts();
-
-                        foreach ($allPosts as $blogPost) 
+                        <?php foreach ($blogPost as $row) 
                         {
                             echo "<div class=\"blog-grid-item\">
-                                    <a  href=\"blog/" . $blogPost->getURLname() . "\">
-                                            <img class=\"blog-post-grid-header-image\" src=\"" . $blogPost->getHeaderImageFullPath() . "\" />
+                                    <a  href=\"blog/" . $row["urlName"] . "\">
+                                            <img class=\"blog-post-grid-header-image\" src=\"" . getImageURL($conn, $row["header_image_id"]) . "\" />
                                     </a>
                                     
                                     <div class=\"blog-post-grid-item-details\">
                                         <div class=\"blog-post-grid-item-title-section\">
 
-                                            <p href=\"blog/" . $blogPost->getURLname() . "\" class=\"blog-post-grid-item-title\">" .
-                                            $blogPost->getTitle() . 
+                                            <p href=\"blog/" . $row["urlName"] . "\" class=\"blog-post-grid-item-title\">" .
+                                                $row["blogPostName"] . 
                                             "</p>
                                     
                                             <div class=\"blog-post-grid-time-to-read-section\">
                                                 <img src=\"../images/Clock.png\" class=\"blog-grid-estimated-time-clock\") />
-                                                <p class=\"blog-post-grid-time-to-read\">   " . $blogPost->getEstimatedReadTime() . " minute read" . 
+                                                <p class=\"blog-post-grid-time-to-read\">   " . $row["estimatedReadTime"] . " minute read" . 
                                                 "</p>
                                             </div>
                                         </div>
                                            
                                         <div class=\"blog-post-grid-blog-text\"><p>" . 
-                                            date('F j, o', strtotime($blogPost->getDateCreated()) ) . "
+                                            (strlen($row["myBlogText"])>250 ? substr($row["myBlogText"],0,200) . "..." : $row["myBlogText"]) . "
                                             </p>
                                         </div>
                                      

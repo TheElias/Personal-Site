@@ -60,7 +60,7 @@
         public function loadBlogByURLName($urlName)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,date_created,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id 
+            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id , urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -217,10 +217,23 @@
 
             if (!$myImage) 
             {
+                echo 'fail';
                 return false;
             }
 
             return $myImage;
+        }
+
+        public function getHeaderImageFullPath()
+        {
+            $myImage = $this->getHeaderImage();
+
+            if (!$myImage) 
+            {
+                return false;
+            }
+
+            return $myImage->getFullFileLocation();
         }
     
         public static function doesBlogPostExistByID($blogID)
@@ -353,7 +366,7 @@
 
         public static function fetchRecommendedPosts($blogID, $count)
         {
-            if (BlogPost::doesBlogPostExistByName($blogID))
+            if (!BlogPost::doesBlogPostExistByID($blogID))
             {
                 return false;
             }
@@ -363,7 +376,7 @@
             $conn = $myDB->getConnection();
             
             $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
-                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id
+                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id, urlName
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                     INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -374,6 +387,7 @@
             $result = $conn->prepare($sql);
             $result->bindParam(":myID", $blogID, PDO::PARAM_INT);
             $result->bindParam(":myLimit", $count, PDO::PARAM_INT);
+            $result->execute();
             $recommendedPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
 
             if (!$recommendedPosts) {
@@ -383,6 +397,40 @@
             $myPosts = array();
 
             foreach ($recommendedPosts as $row) 
+            {
+                $testBlogPost = new BlogPost();
+                $testBlogPost->loadBlogByID($row["blogPostID"]);
+
+                array_push($myPosts, $testBlogPost);
+            }
+
+            return $myPosts;
+        }
+
+        public static function fetchAllPosts()
+        {
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id
+                    FROM personal_website.blog_post AS BP
+                    INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+                    INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                    ORDER BY BP.id DESC";
+
+            $result = $conn->prepare($sql);
+            $result->execute();
+            $allPosts = $result->fetchAll(PDO::FETCH_ASSOC); 
+
+            if (!$allPosts) {
+                return false;
+            }
+
+            $myPosts = array();
+
+            foreach ($allPosts as $row) 
             {
                 $testBlogPost = new BlogPost();
                 $testBlogPost->loadBlogByID($row["blogPostID"]);

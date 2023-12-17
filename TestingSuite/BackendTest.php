@@ -97,6 +97,48 @@ class BackendTest extends TestCase
     }
 
 
+     /*===========================
+    IMAGE TESTING
+    ===========================*/    
+    public function testImageIDLoad()
+    {
+        $myImage = new Image;
+        $myImage->loadImageByID(1);
+        $this->assertTrue($myImage->getName() == "Maeby Picture");
+    }
+
+    public function testImageNameLoad()
+    {
+        $myImage = new Image;
+        $myImage->loadImageByName("Maeby Picture");
+        $this->assertTrue($myImage->getName() == "Maeby Picture");
+    }
+
+    public function testImageFileNameLoad()
+    {
+        $myImage = new Image;
+        $myImage->loadImageByFileName("TopOfStepsMaeby.png");
+        $this->assertTrue($myImage->getName() == "Maeby Picture");
+    }
+
+    public function testloadImageByBlogPostIDAndImageType()
+    {
+        $myImage = new Image;
+        $myImage->loadImageByBlogPostIDAndImageType(1,"Header");
+        $this->assertTrue($myImage->getName() == "Maeby Picture");
+    }
+
+    public function testGetImageTypeIDByName()
+    {
+        $this->assertTrue(Image::getImageTypeIDByName('Header') == 1);
+    }
+
+    public function testGetImageTypeNameByID()
+    {
+        $this->assertTrue(Image::getImageTypeNameByID(1) == 'Header');
+    }
+
+
     /*===========================
     BLOG POST TESTING
     ===========================*/
@@ -121,8 +163,7 @@ class BackendTest extends TestCase
     public function testDelete()
     {
         $this->markTestIncomplete( 'Not written yet.' );
-    }
-
+    }| mvdcsaZ+
         public function testDatabaseConnectOnUninitializedDatabaseClass()    
     {
         $testDatabase = new Database();

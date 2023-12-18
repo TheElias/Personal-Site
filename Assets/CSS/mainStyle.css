@@ -438,9 +438,10 @@ Blog Post Classes
 }
 
 .blog-post-title-section {
-  width: 75ch;
+
   margin: auto;
   display:flex;
+  text-align: center;
   flex-direction: column;
 }
 
@@ -457,11 +458,9 @@ Blog Post Classes
   padding-bottom: 1rem;
 }
 
-
-
 .blog-post-text {
   /*display: flex;*/
-  max-width: 75ch;
+  max-width: 100ch;
   margin: auto;
   padding-bottom: 2vh;
 }
@@ -707,7 +706,8 @@ Blog Post ID's
 
 #blog-post-title {
   color:var(--main-black);
-  font-size: 1.75rem;
+  font-size: 5em;
+  padding-bottom: 1rem;
 }
 
 #blog-post-metadata {
@@ -715,7 +715,7 @@ Blog Post ID's
   padding-bottom: 1rem;
   display: flex;
   min-width: 100%;
-  flex: space-between;
+  justify-content: space-between;
 }
 
 #blog-post-time-to-read {

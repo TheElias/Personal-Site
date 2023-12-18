@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 require_once './Assets/Includes/Classes/Database.php';
 require_once './Assets/Includes/Classes/DatabaseConfiguration.php';
 require_once './Assets/Includes/Classes/BlogPostTag.php';
+require_once './Assets/Includes/Classes/Image.php';
 
 class BackendTest extends TestCase 
 {

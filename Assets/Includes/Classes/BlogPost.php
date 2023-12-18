@@ -14,7 +14,6 @@
         protected $blogText;
         protected $title;
         protected $estimatedReadTime;
-        protected $headerImageID;
         protected $dateCreated;
         protected $tags = array();
 
@@ -29,7 +28,7 @@
         public function loadBlogByID($id=1)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id , urlName 
+            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id , urlName 
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -51,7 +50,6 @@
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
-            $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($id);
 
             return true;
@@ -60,7 +58,7 @@
         public function loadBlogByURLName($urlName)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,date_created,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id , urlName
+            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id , urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -82,7 +80,6 @@
             $this->urlName = $blogPostInfo['urlName'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
-            $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
@@ -90,7 +87,7 @@
         public function loadBlogByTitle($blogPostTitle)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id, urlName
+            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id, urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -112,7 +109,6 @@
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostTitle;
-            $this->headerImageID = $blogPostInfo['headerID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
@@ -213,7 +209,7 @@
         {
             $myImage = new Image;
 
-            $myImage->loadImageByID($this->headerImageID);
+            $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Header');
 
             if (!$myImage) 
             {
@@ -414,7 +410,7 @@
             $conn = $myDB->getConnection();
             
             $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
-                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id
+                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                     INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
@@ -441,7 +437,7 @@
             return $myPosts;
         }
     
-        public static function insertNewBlogPost($name, $text, $urlName, $header_Image_ID=1)
+        public static function insertNewBlogPost($name, $text, $urlName)
         {
 
             $myDB = new Database();
@@ -458,10 +454,10 @@
                 return false;
             }
 
-            $sql = "INSERT INTO blog_post_tag (name, text, urlName, header_image_ID) VALUES (?,?,?,?)";
+            $sql = "INSERT INTO blog_post_tag (name, text, urlName) VALUES (?,?,?)";
 
             $result = $conn->prepare($sql);
-            $result->execute($name, $text, $urlName, $header_Image_ID);
+            $result->execute($name, $text, $urlName);
 
             if (!BlogPost::doesBlogPostExistByName($name))
             {
@@ -469,7 +465,7 @@
             }
             return true;
         }
-        public static function updateBlogPost($id, $text, $header_Image_ID=1)
+        public static function updateBlogPost($id, $text)
         {   
             $myDB = new Database();
             $myDB->connect();
@@ -480,12 +476,12 @@
                 return false;
             }
 
-            $sql = "UPDATE blog_post_tag (text, header_image_ID) WHERE  id = ?";
+            $sql = "UPDATE blog_post_tag (text) WHERE  id = ?";
 
             $result = $conn->prepare($sql);
-            $result->execute([$text, $header_Image_ID, $id]);
+            $result->execute([$text, $id]);
 
             return true;
         }
     }
-?>475G6
+?>

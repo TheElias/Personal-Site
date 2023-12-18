@@ -1,6 +1,6 @@
 <?php
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/Interfaces/iImage.php';
+    require_once './Assets/Includes/Classes/Database.php';
+    require_once './Assets/Includes/Classes/Interfaces/iImage.php';
 
     class Image implements iImage 
     {
@@ -87,12 +87,12 @@
 
         public function loadImageByBlogPostIDAndImageType($blogPostID,$typeName)
         {
-            $sql = "SELECT * 
+            $sql = "SELECT I.id, I.name, I.URL, I.file_name
                     FROM blog_post AS BP
                     INNER JOIN blog_post_image AS BPI ON BP.id = BPI.blog_post_id 
                     INNER JOIN image AS I ON BPI.image_id = I.id
                     INNER JOIN image_type as IT ON IT.id = I.image_type_id
-                    WHERE BP.id = ? AND image_type_id = ?";
+                    WHERE BP.id = ? AND IT.name = ?";
 
             $result = $this->conn->prepare($sql);
             $result->execute([$blogPostID,$typeName]);
@@ -105,7 +105,7 @@
             $this->id = $imageInfo['id'];
             $this->name = $imageInfo['name'];
             $this->url = $imageInfo['URL'];
-            $this->fileName = $imageInfo['fileName'];
+            $this->fileName = $imageInfo['file_name'];
             return true;
         }
     
@@ -208,7 +208,7 @@
             $conn = $myDB->getConnection();
             
             $sql = "SELECT id
-                    FROM personal_website.imageType AS IT
+                    FROM personal_website.image_type AS IT
                     WHERE IT.name =  ?";
 
             $result = $conn->prepare($sql);
@@ -227,7 +227,6 @@
             $myImage = New Image;
             return( $myImage->loadImageByID($id));
         }
-   
 
         //check if file exists in the location and then save the database object
         public static function saveNewImage($name, $url, $fileName)

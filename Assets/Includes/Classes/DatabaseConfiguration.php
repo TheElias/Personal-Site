@@ -12,9 +12,9 @@ class DatabaseConfiguration {
 
     function __construct()
     {
-        if(file_exists("X:\Projects\Personal Site\EliasBroniecki.com\Code\ignoredFiles\config.env"))
+        if(file_exists("X:\Projects\PersonalSite\EliasBroniecki.com\Code\ignoredFiles\config.env"))
         {
-            $myFile = file_get_contents("X:\Projects\Personal Site\EliasBroniecki.com\Code\ignoredFiles\config.env");
+            $myFile = file_get_contents("X:\Projects\PersonalSite\EliasBroniecki.com\Code\ignoredFiles\config.env");
             $myArray = parse_env_file_contents_to_array($myFile);
             //echo  "TEST dbname: " . $myArray["dbname"] . "  Server Name: " . $myArray["servername"] . " Username: " . $myArray["username"] . " password" . $myArray["dbpassword"];
         }

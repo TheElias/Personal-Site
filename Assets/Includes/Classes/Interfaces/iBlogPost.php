@@ -30,8 +30,8 @@ interface iBlogPost {
     public static function fetchTags($blogID);
     public static function fetchRecommendedPosts($blogID, $count);
 
-    public static function insertNewBlogPost($name, $text, $urlName, $header_Image_ID=1);
-    public static function updateBlogPost($id, $text, $header_Image_ID=1);
+    public static function insertNewBlogPost($name, $text, $urlName);
+    public static function updateBlogPost($id, $text);
 
 }
 

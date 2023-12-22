@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 require_once './Assets/Includes/Classes/Database.php';
 require_once './Assets/Includes/Classes/DatabaseConfiguration.php';
 require_once './Assets/Includes/Classes/BlogPostTag.php';
+require_once './Assets/Includes/Classes/BlogPost.php';
 require_once './Assets/Includes/Classes/Image.php';
 
 class BackendTest extends TestCase 
@@ -139,10 +140,29 @@ class BackendTest extends TestCase
         $this->assertTrue(Image::getImageTypeNameByID(1) == 'Header');
     }
 
-
     /*===========================
     BLOG POST TESTING
     ===========================*/
+
+    public function testBlogPost()
+    {
+        $myblogPost = new BlogPost;
+        $myblogPost->loadBlogByID(1);
+        $this->assertInstanceOf(\BlogPost::class, $myblogPost);
+    }
+
+    public function testFetchAllBlogPosts()
+    {
+        $myPosts = BlogPost::fetchAllPosts();
+        $this->assertIsArray($myPosts);
+    }
+
+    public function testGetBlogPostAuthors()
+    {
+        $myblogPost = new BlogPost;
+        $myblogPost->loadBlogByID(1);
+        $this->assertIsArray($myblogPost->getAuthors());
+    }
 }
 
 

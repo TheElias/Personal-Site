@@ -6,13 +6,10 @@ interface iBlogPost {
     public function loadBlogByURLName($urlName);
     public function loadBlogByTitle($blogPostTitle);
 
-   
-    
     public function getID();
     public function getText();
     public function getURLName();
-    public function getAuthorUsername();
-    public function getAuthorFullName();
+    public function getAuthors();
     public function getTitle();
     public function getTags();
     public function getEstimatedReadTime();
@@ -20,6 +17,7 @@ interface iBlogPost {
     public function getBlogTextSnippet($length = 250);
     public function getHeaderImage();   
     public function getHeaderImageFullPath();
+
     
     public static function doesBlogPostExistByID($id);
     public static function doesBlogPostExistByName($name);
@@ -28,11 +26,12 @@ interface iBlogPost {
     public static function fetchAllPosts();
 
     public static function fetchTags($blogID);
+    public static function fetchAuthors($blogID);
     public static function fetchRecommendedPosts($blogID, $count);
 
     public static function insertNewBlogPost($name, $text, $urlName);
     public static function updateBlogPost($id, $text);
-
+    
 }
 
 ?>

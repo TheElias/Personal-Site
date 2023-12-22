@@ -3,6 +3,7 @@
         require_once './Assets/Includes/Classes/Interfaces/iBlogPost.php';
         require_once './Assets/Includes/Classes/BlogPostTag.php';
         require_once './Assets/Includes/Classes/Image.php';
+        require_once './Assets/Includes/Classes/User.php';
 
     class BlogPost implements iBlogPost
     {
@@ -10,7 +11,7 @@
         protected $conn;
         protected $blogID;
         protected $urlName;
-        protected $authorUsername;
+        protected $authors = array();
         protected $blogText;
         protected $title;
         protected $estimatedReadTime;
@@ -28,10 +29,10 @@
         public function loadBlogByID($id=1)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id , urlName 
+            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id , urlName 
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+            INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
             WHERE BP.id =  ?";
 
             $result = $this->conn->prepare($sql);
@@ -44,7 +45,7 @@
             
             $this->blogID = $id;
             $this->urlname =$blogPostInfo['urlName'];
-            $this->authorUsername = $blogPostInfo['authorUsername'];
+            $this->authors = BlogPost::fetchAuthors($id);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
@@ -58,10 +59,10 @@
         public function loadBlogByURLName($urlName)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,date_created,
-            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id , urlName
+            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id , urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+            INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
             WHERE BP.urlName =  ?";
 
             $result = $this->conn->prepare($sql);
@@ -74,7 +75,7 @@
             
             $this->blogID = $blogPostInfo['blogPostID'];
             $this->urlname = $urlName;
-            $this->authorUsername = $blogPostInfo['authorUsername'];
+            $this->authors = BlogPost::fetchAuthors($blogPostInfo['blogPostID']);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->urlName = $blogPostInfo['urlName'];
@@ -87,10 +88,10 @@
         public function loadBlogByTitle($blogPostTitle)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, A.username as authorUsername, BP.date_created,header_image_id, urlName
+            BP.text AS blogPostText, U.username as authorUsername, BP.date_created,header_image_id, urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+            INNER JOIN personal_website.author AS U ON BPA.user_id = U.id
             WHERE BP.name =  ?";
 
             $result = $this->conn->prepare($sql);
@@ -103,7 +104,7 @@
             
             $this->blogID = $blogPostInfo['blogPostID'];
             $this->urlname = $blogPostInfo['blogPostID'];
-            $this->authorUsername = $blogPostInfo['authorUsername'];
+            $this->authors = BlogPost::fetchAuthors($blogPostInfo['blogPostID']);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
@@ -139,22 +140,23 @@
             }
             return $this->urlName; 
         }
-        public function getAuthorUsername()
+        
+        public function getAuthors()
         {
-            if (empty($this->authorUsername))
+            if (empty($this->authors))
             {
                 return false;
             }
-            return $this->authorUsername; 
+            return $this->authors; 
         }
 
-        public function getAuthorFullName()
+        public function formatAuthors()
         {
-            if (empty($this->authorUsername))
+            if (empty($this->authors))
             {
                 return false;
             }
-            return $this->authorUsername; 
+            return $this->authors; 
         }
 
 
@@ -305,7 +307,6 @@
             if (!BlogPostTag::doesTagExistByName($tagName)) 
             {
                 return false;
-                //BlogPostTag::saveNewTag($tagName);
             }
 
             $myTag = new BlogPostTag;
@@ -313,8 +314,7 @@
 
             $myDB = new Database();
             $myDB->connect();
-            $conn = $myDB->getConnection();
-            
+            $conn = $myDB->getConnection();            
 
             $sql = "INSERT INTO blog_post_tag (blogID, tagID) VALUES (?,?)";
 
@@ -342,11 +342,10 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
             
-            $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,
-            BP.text AS blogPostText, A.username as authorUsername, header_image_id AS headerID, BP.date_created,header_image_id, urlName
+            $sql = "SELECT T.id as 'TagID'
             FROM personal_website.blog_post AS BP
-            INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-            INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+            INNER JOIN personal_website.blog_post_tag AS BPT ON BPT.blog_post_id = BP.id
+            INNER JOIN personal_website.tag AS T ON T.it = BPT.tag_id
             WHERE BP.ID =  ?";
 
             $result = $conn->prepare($sql);
@@ -357,8 +356,57 @@
                 return false;
             }
 
-            return $tags;
+            $myTagsObjects = array();
+
+            foreach ($tags as $row) 
+            {
+                $tags = new BlogPostTag();
+                $tags->loadTagByID($row["TagID"]);
+
+                array_push($myTagsObjects, $tags);
+            }
+
+            return $myTagsObjects;
         }
+
+        public static function fetchAuthors($blogID)
+        {
+            if (!BlogPost::doesBlogPostExistByID($blogID))
+            {
+                return false;
+            }
+
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT U.id as 'User ID'
+            FROM personal_website.blog_post AS BP
+            INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
+            INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
+            WHERE BP.ID =  ?";
+
+            $result = $conn->prepare($sql);
+            $result->execute([$blogID]);
+            $authors = $result->fetchAll(PDO::FETCH_ASSOC); 
+            
+            if (!$authors) {
+                return false;
+            }
+
+            $extracedAuthors = array();
+
+            foreach ($authors as $row) 
+            {
+                $fecthedAuthor = new User();
+                $fecthedAuthor->loadUserByID($row["User ID"]);
+
+                array_push($extracedAuthors, $fecthedAuthor);
+            }
+
+            return $extracedAuthors;
+        }
+
 
         public static function fetchRecommendedPosts($blogID, $count)
         {
@@ -371,11 +419,11 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
             
-            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, U.username as authorUsername, fnStripTags(BP.text) as myBlogText,
                     CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created ,header_image_id, urlName
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-                    INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                    INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
                     WHERE BP.id <> :myID
                     ORDER BY BP.id DESC
                     LIMIT :myLimit";
@@ -409,11 +457,11 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
             
-            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText,
+            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, U.username as authorUsername, fnStripTags(BP.text) as myBlogText,
                     CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-                    INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
+                    INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
                     ORDER BY BP.id DESC";
 
             $result = $conn->prepare($sql);

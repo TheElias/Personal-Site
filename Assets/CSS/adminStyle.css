@@ -1,0 +1,332 @@
+/*
+===============================================
+EZ Copy Grouping
+===============================================
+*/
+
+/*----------------------------------------
+EZ Copy Sub Grouping
+----------------------------------------*/
+
+/*
+===============================================
+Global Variables, Tidying, and Base Styles
+===============================================
+*/
+
+/* Custom properties/variables  */
+:root {
+    --main-white: #ffffff;
+    --main-gray: #596770; 
+    --main-blue: #84C0C6;
+    --main-red: #49111C;
+    --main-orange: #EB5E28;
+    --main-yellow: #FAF2A1;
+    --main-black: #000000;
+    --test-grey: #343A3A;
+
+
+    /* -50% colors */ 
+    --main-gray-dark: #2C3337; 
+    --main-blue-dark: #346C72;
+    --main-red-dark: #25090E;
+    --main-orange-dark: #7E2C0C;
+    --main-yellow-dark: #C4B50A;
+
+    /* -50% colors */ 
+    --main-gray-light: #A9B3BA; 
+    --main-blue-light: #C2E0E3;
+    --main-red-light: #D75670;
+    --main-orange-light: #F5AF94;
+    --main-yellow-light: #FDF9D1;
+  }
+
+/* Reset all padding */
+* {
+  margin: 0;
+  padding: 0;
+  font-family:Arial, Helvetica, sans-serif;
+  
+}
+
+html {
+  height:100%;
+}
+
+/* The calculation is the following 
+ * screen size divided by browser base font size
+ * As an example: a breakpoint at 980px
+ * 980px / 16px = 61.25em
+*/
+
+/*----------------------------------------
+1200px / 16px = 75em 
+----------------------------------------
+
+@media (max-width: 75em) {
+    html {
+      font-size: 64%;
+    }
+  }
+ 
+/*----------------------------------------
+980px / 16px = 61.25em 
+----------------------------------------
+  @media (max-width: 61.25em) {
+    html {
+      font-size: 58%; 
+    }
+  }
+
+/*----------------------------------------
+460px / 16px = 28.75em 
+----------------------------------------
+  @media (max-width: 28.75em) {
+    html {  
+      font-size: 55%;
+    }
+  }
+*/
+
+/* Base styles */
+body {
+    display: block;
+    font-family: sans-serif;
+    font-size: .75rem; /* 12px */
+    font-weight: 400;
+    line-height: 1;
+    height: 100%;
+    overflow: scroll;
+  }
+  
+  h1,
+  h2 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 6rem;
+  }
+  
+  h2 {
+    font-size: 4.2rem;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--main-black);
+  }
+  
+  img {
+    display: block;
+    width: 100%;
+  }
+
+  hr {
+    text-align: center;
+    margin: auto;
+  }
+
+
+
+
+/*
+===============================================
+Classes  .
+===============================================
+*/
+
+/*----------------------------------------
+General Classes
+----------------------------------------*/
+.centerItems {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 60vw;
+    max-width: 80vw;
+  }
+  
+  .container a:link {
+    color: blue;
+  }
+  
+  /* visited link */
+  .container a:visited {
+    color: var(--main-orange-dark);
+  }
+  
+  /* mouse over link */
+  .container a:hover {
+    color: var(--main-blue);
+  }
+  
+  /* selected link */
+  .container a:active {
+    color: var(--main-orange-light);
+  }
+  
+  .square-image-container {
+    position: relative;
+    width: 37%; /* The size you want */
+  }
+  
+  .square-image-container:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
+  }
+  
+  .square-image-container img {
+    position: absolute; /* Take your picture out of the flow */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; /* Make the picture taking the size of it's parent */
+    width: 75%; /* This if for the object-fit */
+    height: 75%; /* This if for the object-fit */
+    object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
+    object-position: center;
+  }
+  
+  .noHover{
+    pointer-events: none;
+    -webkit-filter:none;
+    filter: none;
+    -webkit-transform: none;
+    transform: none;
+  }
+  
+  .center {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hightlightedBox {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 20px;
+    align-items: center;
+    display:flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+/*---------------------------------------
+Login Page Classes
+---------------------------------------*/
+.message {
+	color: #FF0000;
+	width: 100%;
+}
+
+.row {
+	padding: 6px 0 6px 0;
+}
+
+
+/*
+===============================================
+ID's  .
+===============================================
+*/
+
+/*----------------------------------------
+Login ID's
+----------------------------------------*/
+#login-form-title {
+    margin-bottom: 1.5rem;
+}
+
+
+
+/*
+===============================================
+Element 
+===============================================
+*/
+
+/*----------------------------------------
+General HTML Elements
+----------------------------------------*/
+
+/*---------------------------------------
+Login Page Elements
+---------------------------------------*/
+input, textarea, select {
+	box-sizing: border-box;
+	width: 200px;
+	height: initial;
+	padding: 8px 5px;
+	border: 1px solid #9a9a9a;
+	border-radius: 4px;
+    margin-left: 1rem;
+
+}
+
+input[type="text"],input[type="password"] {
+    box-shadow: 5px 2px 2px gray;
+}
+
+input[type="checkbox"] {
+	width: auto;
+	vertical-align: text-bottom; 
+}
+
+form {
+    border:#000000;
+    border-width: .25rem;
+    border-style:solid;
+    box-shadow: 10px 5px 5px gray;
+    border-radius: 5%;
+    width: 25%;
+    padding: 1rem;
+}
+
+textarea {
+	width: 300px;
+}
+
+select {
+	display: initial;
+	height: 30px;
+	padding: 2px 5px;
+}
+
+
+
+button, input[type=submit] {
+	padding: 8px 0px;
+	font-size: 1em;
+	cursor: pointer;
+	border-radius: 25px;
+	color: #000000;
+	background-color: #ffc72c;
+	border-color: #ffd98e #ffbe3d #de9300;
+    
+}
+
+input[type=submit]:hover {
+	background-color: #f7c027;
+}
+
+
+label {
+	display: block;
+	color: #565656;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+

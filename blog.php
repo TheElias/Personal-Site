@@ -1,21 +1,6 @@
 <?php
 
     require_once './Assets/Includes/Classes/BlogPost.php';
-        
-
-       // include('Assets/Includes/MarkdownExtra.php');
-        /*
-        $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, A.username as authorUsername, fnStripTags(BP.text) as myBlogText, 
-                CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created,header_image_id
-                FROM personal_website.blog_post AS BP
-                INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
-                INNER JOIN personal_website.author AS A ON BPA.blog_post_author_id = A.id
-                ORDER BY BP.id DESC";
-
-            $result = $conn->prepare($sql);
-            $result->execute();
-            $blogPost = $result->fetchAll(PDO::FETCH_ASSOC); 
-        */    
     ?> 
 
 <!DOCTYPE html>

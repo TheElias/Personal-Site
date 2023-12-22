@@ -12,6 +12,18 @@
         {
             Redirect("http://www.eliasbroniecki.com/404.php");
         }    
+
+        $allAuthors = $myBlogPost->getAuthors();
+        $formattedAuthorsArray = array();
+        $postAuthorsFormatted;
+
+        foreach ($allAuthors as $author) 
+        {
+            array_push($formattedAuthorsArray, $author->getFullName());
+        }
+
+        $postAuthorsFormatted = implode(", ", $formattedAuthorsArray);
+        
         /*
         $headerImage = $myBlogPost->getHeaderImage();
         if ($headerImage == false)
@@ -33,7 +45,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php  echo $myBlogPost->getTitle() . " - " . $myBlogPost->getAuthorUsername()  ;?></title>
+        <title><?php  echo $myBlogPost->getTitle() . " - " . $postAuthorsFormatted; ?></title>
         <link rel="stylesheet" type="text/css" href="../Assets/CSS/mainStyle.css">
         <link rel="stylesheet" href="../Assets/CSS/styles/default.min.css">
         <script src="../Assets/CSS/highlight.min.js"></script>
@@ -44,6 +56,8 @@
         <!--Header-->
         <?php 
             include("Assets/Includes/header.php");
+
+
         ?>
         <section id="page-body">
             <section class="blog-post-section">
@@ -62,7 +76,11 @@
                     </div>
                     <div class="blog-post-text"><?php  echo $myBlogPost->getText();  ?></div>
                     <hr size ="1" width="50%">
-                    <h3 class="blog-post-author">By: <?php  echo $myBlogPost->getAuthorFullName()  ?></h3>
+
+                    
+                    <h3 class="blog-post-author">
+                        By: <?php  echo $postAuthorsFormatted;  ?>
+                    </h3>
                 
                     <section id="recommended-blog-post-list-section">                
                         <div id="blog-post-recommended-grid-title">

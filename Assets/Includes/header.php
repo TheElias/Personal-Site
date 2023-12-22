@@ -8,6 +8,7 @@
     </div>
     <!--Navigation-->
     <?php   
+
         include("Assets/Includes/navigation.php");
     ?>
 </header>       

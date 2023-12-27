@@ -23,19 +23,7 @@
         }
 
         $postAuthorsFormatted = implode(", ", $formattedAuthorsArray);
-        
-        /*
-        $headerImage = $myBlogPost->getHeaderImage();
-        if ($headerImage == false)
-        {
-            $headerImage = new Image;
-            $headerImage->loadImageByID(1);
-        }
-        
-        if (isset($params['urlName']))
-        {
-            header('Location: blogPost.php?postName=' . $myBlogPost->getURLName());//getBlogPostIDURL($conn,$params['id'])
-        }*/
+
     ?> 
 
 <!DOCTYPE html>

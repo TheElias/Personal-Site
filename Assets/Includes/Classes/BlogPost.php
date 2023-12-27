@@ -44,7 +44,7 @@
             }
             
             $this->blogID = $id;
-            $this->urlname =$blogPostInfo['urlName'];
+            $this->urlName =$blogPostInfo['urlName'];
             $this->authors = BlogPost::fetchAuthors($id);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
@@ -74,7 +74,7 @@
             }
             
             $this->blogID = $blogPostInfo['blogPostID'];
-            $this->urlname = $urlName;
+            $this->urlName = $urlName;
             $this->authors = BlogPost::fetchAuthors($blogPostInfo['blogPostID']);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
@@ -103,7 +103,7 @@
             }
             
             $this->blogID = $blogPostInfo['blogPostID'];
-            $this->urlname = $blogPostInfo['blogPostID'];
+            $this->urlName = $blogPostInfo['blogPostID'];
             $this->authors = BlogPost::fetchAuthors($blogPostInfo['blogPostID']);
             $this->blogText = $blogPostInfo['blogPostText'];
             $this->urlName = $blogPostInfo['urlName'];
@@ -524,7 +524,7 @@
                 return false;
             }
 
-            $sql = "UPDATE blog_post_tag (text) WHERE  id = ?";
+            $sql = "";//"UPDATE blog_post_tag (text) WHERE  id = ?";
 
             $result = $conn->prepare($sql);
             $result->execute([$text, $id]);

@@ -1,4 +1,46 @@
 <!DOCTYPE html>
+
+<?php
+
+if(!isset($_SESSION)) 
+{
+session_start();
+}
+
+require_once './Assets/Includes/Classes/User.php';
+
+if (isset($_SESSION['username']))
+{
+    header("Location:" . "adminDashboard.php");
+}
+else
+{
+    if (User::checkUserSessionLogin())
+    {
+        echo $_SESSION['username'];
+        //header("Location:" . "adminDashboard.php");
+    }
+}
+
+if (! empty($_POST["login"])) {
+    $isAuthenticated = false;
+    
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $remember = 0;//$_POST["remember"];
+
+    $user = new User();
+    if ($user->login($username, $password, $remember)) 
+    {
+        header("Location:" . "adminDashboard.php");
+    }
+    else
+    {
+        $message = "Invalid Login";
+    }
+}
+?>
+
 <html  lang="en">
     
     <head>
@@ -12,7 +54,7 @@
     <body class="centerItems">
         <section class="container centerItems">
             <form name="frmAdminLogin" method="post" action="">
-                <div class="message centerItems"><?php if($message!="") { echo $message; } ?></div>
+                <div class="message centerItems"><?php if(isset($message)) { echo $message; } ?></div>
 
                 <h1 id="login-form-title" class="centerItems">Login</h1>
 
@@ -26,7 +68,11 @@
                             class="full-width" required>
                     </div>
                     <div class="row centerItems">
-                        <input type="submit" name="submit" value="Submit"
+                        <input type="checkbox" name="remember" /> 
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <div class="row centerItems">
+                        <input type="submit" name="login" value="Login"
                             class="full-width ">
                     </div>
                 </div>

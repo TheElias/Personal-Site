@@ -1,17 +1,21 @@
 <?php
+
         require_once './Assets/Includes/Classes/Database.php';
         require_once './Assets/Includes/Classes/Interfaces/iUser.php';
+        require_once './Assets/Includes/Classes/UserLogin.php';
 
-    class User implements iUser 
+    class User extends UserLogin implements iUser 
     {
         protected $database;
         protected $conn;
         protected $id;
         protected $firstName;
         protected $lastName;
-        protected $username;
         protected $dateOfBirth;
         protected $dateJoined;
+
+        protected $username;
+        protected $password;
 
         function __construct()
         {   
@@ -38,9 +42,12 @@
             $this->id = $id;
             $this->firstName = $userInfo['first_name'];
             $this->lastName = $userInfo['last_name'];
-            $this->username = $userInfo['username'];
             $this->dateOfBirth = $userInfo['date_of_birth'];
             $this->dateJoined = $userInfo['date_joined'];
+
+            $this->username = $userInfo['username'];
+            $this->password = $userInfo['password'];
+            
 
             return true;
         }
@@ -62,11 +69,18 @@
             $this->id = $userInfo['id'];
             $this->firstName = $userInfo['first_name'];
             $this->lastName = $userInfo['last_name'];
-            $this->username = $username;
             $this->dateOfBirth = $userInfo['date_of_birth'];
             $this->dateJoined = $userInfo['date_joined'];
 
+            $this->username = $username;
+            $this->password = $userInfo['password'];
+
             return true;
+        }
+
+        private function loadUserBySession()
+        {
+
         }
 
         public function getID()
@@ -104,14 +118,6 @@
             }
             return $this->firstName . ' ' . $this->lastName; 
         }
-        public function getUsername()
-        {
-            if (empty($this->username))
-            {
-                return false;
-            }
-            return $this->username; 
-        }
 
         public function getDateOfBirth()
         {
@@ -131,38 +137,39 @@
             return $this->dateJoined; 
         }
 
+        
+        public function getUsername()
+        {
+            if (empty($this->username))
+            {
+                return false;
+            }
+            return $this->username; 
+        }
+
+        
+        public function getPassword()
+        {
+            if (empty($this->password))
+            {
+                return false;
+            }
+            return $this->password; 
+        }
+        
+
         public static function doesUserExistByID($id)
         {
             $myDB = new Database();
             $myDB->connect();
             $conn = $myDB->getConnection();
 
-            $sql = "SELECT *`
+            $sql = "SELECT * 
             FROM personal_website.user 
             WHERE id =  ?";
 
             $result = $conn->prepare($sql);
-            $result->execute($id);
-            $userInfo = $result -> fetch();  
-            
-            if (!$userInfo) {
-                return false;
-            }
-            return true;
-        }
-
-        public static function doesUserExistByUsername($username)
-        {
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-
-            $sql = "SELECT *`
-            FROM personal_website.user 
-            WHERE username =  ?";
-
-            $result = $conn->prepare($sql);
-            $result->execute([$username]);
+            $result->execute([$id]);
             $userInfo = $result -> fetch();  
             
             if (!$userInfo) {
@@ -198,17 +205,6 @@
         {
             return false;
         }
-
-        public static function createUser()
-        {
-            return false;
-        }
-
-        public static function updateUser()
-        {
-            return false;
-        }
-
 
     }
 ?>

@@ -6,4 +6,5 @@ composer
 composer.lock
 phpunit.phar
 /ignoredFiles/
+/TestingSuite/BackendTest.php
 .gitignore

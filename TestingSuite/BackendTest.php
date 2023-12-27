@@ -7,6 +7,7 @@ require_once './Assets/Includes/Classes/DatabaseConfiguration.php';
 require_once './Assets/Includes/Classes/BlogPostTag.php';
 require_once './Assets/Includes/Classes/BlogPost.php';
 require_once './Assets/Includes/Classes/Image.php';
+require_once './Assets/Includes/Classes/User.php';
 
 class BackendTest extends TestCase 
 {
@@ -64,7 +65,12 @@ class BackendTest extends TestCase
     {
         $this->assertFalse(BlogPostTag::fetchBlogPostsRelatedToTagByName("Yo Momma Is Ugly"));
     }
-
+/*
+    public function testAddingTag()
+    {
+        $this->assertTrue(BlogPostTag::saveNewTag("testTag"));
+    }
+*/
     public function testTagObjectLoad()
     {
         $myTag = new BlogPostTag;
@@ -163,6 +169,65 @@ class BackendTest extends TestCase
         $myblogPost->loadBlogByID(1);
         $this->assertIsArray($myblogPost->getAuthors());
     }
+
+    /*===========================
+    USER TESTING
+    ===========================*/
+    public function testLoadUserByID()
+    {
+        $myUser = new User;
+        
+        $this->assertTrue($myUser->loadUserByID(1));
+    }
+
+    public function testLoadUserByUsername()
+    {
+        $myUser = new User;
+        
+        $this->assertTrue($myUser->loadUserByUsername("myusername"));
+    }
+
+    public function testUserExistsByID()
+    {
+        
+        $this->assertTrue(USER::doesUserExistByID(1));
+    }
+
+    public function testDoesUserExistByUsername()
+    {
+        
+        $this->assertTrue(USER::doesUserExistByUsername("ebroniecki"));
+    }
+
+    public function testDoesUserExistByEmail()
+    {
+        
+        $this->assertTrue(USER::doesUserExistByEmail("test@test.com"));
+    }
+
+    public function testUserCreation()
+    {
+        $myUser = new User;
+        $myUser->createNewUser('ebroniecki',"Eliasm104!","Elias","Broniecki");
+        $this->assertIsArray($myUser);
+    }
+
+    public function testUserLogin()
+    {
+        $myUser = new User;
+        $myUser->login('ebroniecki','Eliasm104!');
+        $this->assertTrue($myUser->isLoggedIn());
+    }
+
+    public function testPasswordVerify()
+    {
+        $myUser = new User;
+        $myUser->loadUserByID(3);
+        
+        $this->assertTrue(password_verify("Eliasm104!", $myUser->getPassword()));
+
+    }
+
 }
 
 

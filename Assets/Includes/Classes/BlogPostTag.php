@@ -104,7 +104,7 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
 
-            $sql = "INSERT INTO personal_website.tag ('name') VALUES (?)";
+            $sql = "INSERT INTO personal_website.tag (name) VALUES (?)";
 
             $result = $conn->prepare($sql);
 
@@ -113,7 +113,7 @@
                 return false;
             }
 
-            $result->execute($name);
+            $result->execute([$name]);
 
             return true;
         }

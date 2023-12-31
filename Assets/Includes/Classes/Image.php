@@ -1,6 +1,7 @@
 <?php
     require_once './Assets/Includes/Classes/Database.php';
     require_once './Assets/Includes/Classes/Interfaces/iImage.php';
+    require_once './Assets/Includes/Classes/Interfaces/iFileEdit.php';
 
     class Image implements iImage 
     {
@@ -12,6 +13,8 @@
         protected $fileName;
         protected $imageTypeID;
         protected $imageTypeName;
+        private $allowedExtensions = array("jpeg","jpg","png");
+
 
         function __construct()
         {   
@@ -177,6 +180,18 @@
             return( $myImage->loadImageByID($id));
         }
 
+        public static function doesImageExistByName($name)
+        {
+            $myImage = New Image;
+            return( $myImage->loadImageByName($name));
+        }
+
+        public static function doesImageExistByFileName($filename)
+        {
+            $myImage = New Image;
+            return( $myImage->loadImageByFileName($filename));
+        }
+
         public static function verifyFileLocation($fullFilePath)
         {
             file_exists($fullFilePath);
@@ -228,9 +243,87 @@
             return( $myImage->loadImageByID($id));
         }
 
-        //check if file exists in the location and then save the database object
-        public static function saveNewImage($name, $url, $fileName)
+        public static function fetchAllImageTypes()
         {
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT id, name
+                    FROM personal_website.image_type AS IT
+                    WHERE is_disabled =  False
+                    ORDER BY name";
+
+            $result = $conn->prepare($sql);
+            $result->execute();
+            $imageTypeInfo = $result->fetchAll(PDO::FETCH_ASSOC); 
+            
+            if (!$imageTypeInfo) {
+                return false;
+            }
+            
+            return $imageTypeInfo;
+        }
+
+        public static function saveNewImageFromObject($image, $userFriendlyName, $imageType = "General", $destinationFileName, $destinationPath = '')
+        {
+            //check if image type exists
+            $imageType = Image::getImageTypeIDByName($imageType);
+
+            if ($imageType == false)
+            {
+                return false;
+            }
+
+            //check if image exists with that name already in DB
+            if (Image::doesImageExistByName($userFriendlyName))
+            {
+                return false;
+            }
+
+            //Check if the file exists already in the database
+            if (Image::doesImageExistByFileName($destinationFileName))
+            {
+                return false;
+            }
+
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+
+            $myImage = new FileEdit();
+            $myImage->setDestination();
+
+            $myImage->setFileSaveName($destinationFileName);
+            $myImage->setFileToUpload($image);
+
+            if ($myImage->uploadFileFromObject())
+            {
+                $sql = "INSERT INTO  personal_website.image (name, file_name, URL, image_type_id)
+                    VALUES (?,?,?,?)";
+
+                $result = $conn->prepare($sql);
+                $result->execute([$userFriendlyName,$ $destinationFileName, $imageType['default_save_location'],$imageType['id'] ]);
+                $imageInfo = $result -> fetch();  
+                
+                if (!$imageInfo)
+                {
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            return false;
+        }
+
+        public static function saveNewImageFromPath($destinationFileName,$userFriendlyName,  $imageType = "General", $url, $fileName, $destinationPath = '')
+        {
+            $myImage = new FileEdit();
+            $myImage->setDestination();
+
+            //$myImage->setSourceFileDirectory($name);
+
             return false;
         }
         

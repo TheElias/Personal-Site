@@ -78,11 +78,6 @@
             return true;
         }
 
-        private function loadUserBySession()
-        {
-
-        }
-
         public function getID()
         {
             if (empty($this->id))

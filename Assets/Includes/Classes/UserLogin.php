@@ -11,9 +11,6 @@
     const LEVEL_MODERATOR 	= 3; //Special case users with higher privileges
     const LEVEL_ADMIN 		= 4; //Administrators with all privileges
 
-
-
-
     class UserLogin extends TokenAuth implements iUserLogin 
     {
         protected $database;
@@ -112,14 +109,14 @@
                 } 
                 else 
                 {
-                    TokenAuth::clearCookies();
+                    UserLogin::clearUserCookies();
                 }
 
                 $this->userInfo = $userInfo; 
                 $_SESSION['username'] = $username;
                 $this->loggedIn = true;
                 return true;
-                
+  
             }
             else 
             {
@@ -171,14 +168,12 @@
                         TokenAuth::markTokenAsExpired($userToken[0]["id"]);
                     }
                     // clear cookies
-                    TokenAuth::clearCookies();
+                    UserLogin::clearUserCookies();
                 }
             }
 
         }
 
-
-        
         public function logout()
         {
             $this->loggedIn = false;
@@ -301,6 +296,19 @@
                 echo $this->errors[count($this->errors)-1];
             else
                 return $this->errors[count($this->errors)-1];
+        }
+
+        public static function clearUserCookies()
+        {
+            if (isset($_COOKIE["username"])) {
+                setcookie("username", "",time()-1000);
+            }
+            if (isset($_COOKIE["random_password"])) {
+                setcookie("random_password", "",time()-1000);
+            }
+            if (isset($_COOKIE["random_selector"])) {
+                setcookie("random_selector", "",time()-1000);
+            }
         }
 
     }

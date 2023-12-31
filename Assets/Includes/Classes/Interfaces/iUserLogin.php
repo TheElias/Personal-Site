@@ -20,6 +20,8 @@ interface iUserLogin {
    public static function doesUserExistByUsername($username);
    public static function doesUserExistByEmail($email);
 
+   public static function clearUserCookies();
+
 
 
 }

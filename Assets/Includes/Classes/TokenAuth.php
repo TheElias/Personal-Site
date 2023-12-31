@@ -75,19 +75,7 @@
             return $result->execute([$username, $random_password_hash, $random_selector_hash, $tokenExpirationDate]);
         }
 
-        public static function clearCookies()
-        {
-            echo "<br > DELETE COOKIES";
-            if (isset($_COOKIE["username"])) {
-                setcookie("username", "");
-            }
-            if (isset($_COOKIE["random_password"])) {
-                setcookie("random_password", "");
-            }
-            if (isset($_COOKIE["random_selector"])) {
-                setcookie("random_selector", "");
-            }
-        }
+
 
     }
 ?>

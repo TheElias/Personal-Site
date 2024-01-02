@@ -235,6 +235,84 @@ Login Page Classes
 }
 
 
+/*----------------------------------------
+Image Form Section Classes
+----------------------------------------*/
+
+.image-form-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--main-blue);
+  /*background-image: linear-gradient(62deg, #3a3d40 0%, #181719 100%);*/
+}
+
+.image-form-section p {
+    font-size: 2rem;
+}
+
+
+/*----------------------------------------
+Header Classes
+----------------------------------------*/
+
+.main-header {
+  display: flex;
+  height: 10vh;
+  width: 100% !important;
+}
+
+.headerLogoText {
+  max-height:100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-left:5vw;
+  width: 60vw;
+}
+
+.headerLogoText > a {
+  display: flex;
+  font-size: 3.2rem;
+  align-items: center;
+  text-align: center;
+  color: var(--main-white);
+}
+
+
+/*----------------------------------------
+Logout Classes 
+----------------------------------------*/
+
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  width: 40vw;
+  top: 0;
+  left: 0;
+
+}
+
+.logout ul{
+  display: flex;
+  align-items: center;
+  margin-right: 4rem;  
+}
+.logout ul a {
+  display: block;
+  font-size: 2rem;
+  text-align: center;
+  color: var(--main-white);
+}
+
+.logout ul li {
+  padding-right: 1rem;
+}
+
+
+
 /*
 ===============================================
 ID's  .
@@ -327,5 +405,58 @@ label {
     font-weight: bold;
 }
 
+/*----------------------------------------
+Header 
+----------------------------------------*/
+
+header {
+  position: fixed;
+  width: 100% !important;
+  height: 15vh;
+  background: var(--main-gray-dark);
+  box-shadow: 0 1vh 0 rgba(89, 103, 112, 0.4);
+  z-index: 10;
+}
 
 
+
+
+/*----------------------------------------
+Nav 
+----------------------------------------*/
+
+nav {
+  display: flex;
+  justify-content: flex-start;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  height: 5vh;
+  border-bottom: #ffffff;
+}
+
+nav ul{
+  display: flex;
+  align-items: center;
+  margin-right: 4rem;  
+  height: 100%;
+}
+nav ul a {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  text-align: center;
+  color: var(--main-white);
+}
+
+nav ul li {
+  display: flex;
+  padding: 0rem 1rem 0rem 1rem;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+nav ul li.active {
+  background-color: gray;
+}

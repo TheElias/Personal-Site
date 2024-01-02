@@ -12,6 +12,7 @@ interface iImage {
     public function getFileName();
     public function getURL();
     public function getFullFileLocation();
+    
     public function getImageTypeID();
     public function getImageTypeName();
 
@@ -19,6 +20,9 @@ interface iImage {
     public static function doesImageExistByName($name);
     public static function verifyFileLocation($fullFilePath);
     public static function fetchImageFileLocation($id);
+
+    public static function getImageTypeInfoByName($name);
+    public static function getImageTypeInfoByID($id);
 
     public static function getImageTypeIDByName($name);
     public static function getImageTypeNameByID($id);

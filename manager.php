@@ -2,6 +2,7 @@
 
 <?php
 
+
 if(!isset($_SESSION)) 
 {
 session_start();
@@ -9,6 +10,13 @@ session_start();
 
 require_once './Assets/Includes/Classes/User.php';
 
+include("Assets/Includes/loginCheck.php");
+if ($isLoggedIn == true)
+{
+    header("Location:" . "adminDashboard.php");
+}
+
+/*
 if (isset($_SESSION['username']))
 {
     header("Location:" . "adminDashboard.php");
@@ -21,18 +29,18 @@ else
         //header("Location:" . "adminDashboard.php");
     }
 }
-
+*/
 if (! empty($_POST["login"])) {
     $isAuthenticated = false;
     
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $remember = 0;//$_POST["remember"];
+    $remember = $_POST["remember"];
 
     $user = new User();
     if ($user->login($username, $password, $remember)) 
     {
-        header("Location:" . "adminDashboard.php");
+        header("Location:" . "admin");
     }
     else
     {
@@ -42,7 +50,7 @@ if (! empty($_POST["login"])) {
 ?>
 
 <html  lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,6 +60,7 @@ if (! empty($_POST["login"])) {
     </head>
 
     <body class="centerItems">
+    
         <section class="container centerItems">
             <form name="frmAdminLogin" method="post" action="">
                 <div class="message centerItems"><?php if(isset($message)) { echo $message; } ?></div>
@@ -68,7 +77,7 @@ if (! empty($_POST["login"])) {
                             class="full-width" required>
                     </div>
                     <div class="row centerItems">
-                        <input type="checkbox" name="remember" /> 
+                        <input type="checkbox" name="remember" checked="true"/> 
                         <label for="remember">Remember Me</label>
                     </div>
                     <div class="row centerItems">

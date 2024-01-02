@@ -1,8 +1,6 @@
 <?php
 
-require_once("./Assets/Includes/generalFunctions.php");
-
-
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/Assets/Includes/generalFunctions.php");
 
 class DatabaseConfiguration {
     protected $serverName;

@@ -2,15 +2,14 @@
 
 <?php
 
-require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/User.php';
-require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Image.php';
-require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/FileEdit.php';
+require_once './Assets/Includes/Classes/User.php';
+require_once './Assets/Includes/Classes/Image.php';
+require_once './Assets/Includes/Classes/FileEdit.php';
 
 include("Assets/Includes/loginCheck.php");
 
 include("Assets/Includes/adminHeader.php");
 
-echo var_dump(User::myTest());
 
 if(isset($_FILES['image']))
 {

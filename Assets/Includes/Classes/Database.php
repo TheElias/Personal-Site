@@ -1,5 +1,5 @@
 <?php 
-    require_once './Assets/Includes/Classes/DatabaseConfiguration.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/DatabaseConfiguration.php';
 
     class Database extends DatabaseConfiguration
     {

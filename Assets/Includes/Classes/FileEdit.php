@@ -5,21 +5,13 @@ require_once './Assets/Includes/Classes/Interfaces/iFileEdit.php';
 
 class FileEdit implements iFileEdit 
     {
-        protected $sourceLocation;
         protected $destinationLocation;
-        protected $sourceFileName;
         protected $fileSaveName = '';
-        protected $uploadFileName;
-        protected $fileToUpload;
+        protected $file;
 
         
         function __construct()
         {   
-        }
-
-        public function setSourceFileDirectory($sourceLocation)
-        {
-            $this->sourceLocation = $sourceLocation;
         }
         
         public function setDestination($destinationLocation = "/var/www/eliasbroniecki.com/html/images/")
@@ -27,25 +19,16 @@ class FileEdit implements iFileEdit
             $this->destinationLocation = $destinationLocation;
         }
 
-        public function setsourceFileName($fileName)
-        {
-            $this->sourceFileName = $fileName;
-        }
-
         public function setFileSaveName($fileName)
         {
             $this->fileSaveName = $fileName;
         }
 
-        public function setFileToUpload($fileToUpload)
+        public function setFileToUpload($file)
         {
-            $this->fileToUpload = $fileToUpload;
+            $this->file= $file;
         }
 
-        public function getSource()
-        {
-            return $this->sourceLocation;
-        }
         public function getDestination()
         {
             return $this->destinationLocation;
@@ -56,43 +39,17 @@ class FileEdit implements iFileEdit
             return $this->fileSaveName;
         }
 
-        public function uploadFileFromPath()
+
+        public function uploadFile()
         {
-            if (!FileEdit::doesDirectoryExist($this->destinationLocation) || !FileEdit::doesFileExist($this->sourceFileName,$this->sourceLocation)) 
+            if (!FileEdit::doesDirectoryExist($this->destinationLocation)) 
             {
                 return false;
             }
 
-            if (move_uploaded_file($this->fileToUpload, $this->destinationLocation))
+            //echo '<br /> upload - File temp name:  ' . $this->file['tmp_name'] . "  Destination: " .  $this->destinationLocation . (($this->fileSaveName == "")  ? $this->file['tmp_name'] : $this->fileSaveName) . '<br /> ';
+            if (move_uploaded_file($this->file['tmp_name'], $this->destinationLocation . (($this->fileSaveName == "")  ? $this->file['tmp_name'] : $this->fileSaveName) ))
             {
-                if ($this->sourceFileName != $this->fileSaveName)
-                {
-                    if (!FileEdit::updateFileName($this->fileSaveName, $this->sourceFileName,$this->destinationLocation ))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public function uploadFileFromObject()
-        {
-            if (!FileEdit::doesDirectoryExist($this->destinationLocation) || get_resource_type($this->fileToUpload ) != "file") 
-            {
-                return false;
-            }
-
-            if (move_uploaded_file($this->sourceFileName,$this->sourceLocation, $this->destinationLocation))
-            {
-                if ($this->sourceFileName != $this->fileSaveName)
-                {
-                    if (!FileEdit::updateFileName($this->fileSaveName, $this->sourceFileName,$this->destinationLocation ))
-                    {
-                        return false;
-                    }
-                }
                 return true;
             }
             return false;
@@ -145,7 +102,7 @@ class FileEdit implements iFileEdit
         }
         public static function updateFileName($newFileName, $fileName, $fileLocation = "/var/www/eliasbroniecki.com/html/images/")
         {
-
+            return rename($fileLocation . $fileName, $newFileName);
         }
     }
 

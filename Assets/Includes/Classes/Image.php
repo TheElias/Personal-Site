@@ -1,7 +1,9 @@
 <?php
-    require_once './Assets/Includes/Classes/Database.php';
-    require_once './Assets/Includes/Classes/Interfaces/iImage.php';
-    require_once './Assets/Includes/Classes/Interfaces/iFileEdit.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iFileEdit.php';
+
+define('allowedImageExtensions', ["jpeg","jpg","png"]);
 
     class Image implements iImage 
     {
@@ -13,7 +15,7 @@
         protected $fileName;
         protected $imageTypeID;
         protected $imageTypeName;
-        private $allowedExtensions = array("jpeg","jpg","png");
+        
 
 
         function __construct()
@@ -64,6 +66,7 @@
             $this->name = $name;
             $this->url = $imageInfo['URL'];
             $this->fileName = $imageInfo['file_name'];
+
             return true;
         }
 
@@ -216,6 +219,48 @@
             return $myImage->getFullFileLocation();
         }
 
+        public static function getImageTypeInfoByName($name)
+        {
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT *
+                    FROM personal_website.image_type AS IT
+                    WHERE IT.name =  ?";
+
+            $result = $conn->prepare($sql);
+            $result->execute([$name]);
+            $imageTypeInfo = $result -> fetch();  
+            
+            if (!$imageTypeInfo) {
+                return false;
+            }
+            
+            return $imageTypeInfo;
+        }
+
+        public static function getImageTypeInfoByID($id)
+        {
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+            
+            $sql = "SELECT *
+                    FROM personal_website.image_type AS IT
+                    WHERE IT.id =  ?";
+
+            $result = $conn->prepare($sql);
+            $result->execute([$id]);
+            $imageTypeInfo = $result -> fetch();  
+            
+            if (!$imageTypeInfo) {
+                return false;
+            }
+            
+            return $imageTypeInfo;
+        }
+
         public static function getImageTypeIDByName($name)
         {
             $myDB = new Database();
@@ -240,7 +285,8 @@
         public static function getImageTypeNameByID($id)
         {
             $myImage = New Image;
-            return( $myImage->loadImageByID($id));
+            $myImage->loadImageByID($id);
+            return $myImage->getImageTypeName();
         }
 
         public static function fetchAllImageTypes()
@@ -268,21 +314,27 @@
         public static function saveNewImageFromObject($image, $userFriendlyName, $imageType = "General", $destinationFileName, $destinationPath = '')
         {
             //check if image type exists
-            $imageType = Image::getImageTypeIDByName($imageType);
-
-            if ($imageType == false)
+            $myImageType = Image::getImageTypeInfoByName($imageType);
+            
+            if ($myImageType == false)
             {
                 return false;
             }
-
+            
             //check if image exists with that name already in DB
             if (Image::doesImageExistByName($userFriendlyName))
             {
                 return false;
             }
-
+           
             //Check if the file exists already in the database
             if (Image::doesImageExistByFileName($destinationFileName))
+            {
+                return false;
+            }
+
+
+            if (!in_array(pathinfo($image['name'],PATHINFO_EXTENSION),   allowedImageExtensions))
             {
                 return false;
             }
@@ -292,28 +344,35 @@
             $conn = $myDB->getConnection();
 
             $myImage = new FileEdit();
+            echo '<br /> setDestination <br /> ';
             $myImage->setDestination();
 
+            echo '<br /> setFileSaveName <br /> ';
             $myImage->setFileSaveName($destinationFileName);
-            $myImage->setFileToUpload($image);
 
-            if ($myImage->uploadFileFromObject())
+            echo '<br /> setFileToUpload <br /> ';
+            $myImage->setFileToUpload($image);
+            
+            if ($myImage->uploadFile())
             {
+                echo '<br /> Insert Into Database <br /> ';
                 $sql = "INSERT INTO  personal_website.image (name, file_name, URL, image_type_id)
                     VALUES (?,?,?,?)";
 
                 $result = $conn->prepare($sql);
-                $result->execute([$userFriendlyName,$ $destinationFileName, $imageType['default_save_location'],$imageType['id'] ]);
-                $imageInfo = $result -> fetch();  
+                echo "<br /> User Friendly Name: " . $userFriendlyName,"<br /> Destination Name: "  . $destinationFileName,"<br /> Default Save Location: " . $myImageType['default_save_location'],"<br /> Image Type ID: " . $myImageType['id'] . "<br />";
+
+                $result->execute([$userFriendlyName,$destinationFileName, $myImageType['default_save_location'],$myImageType['id'] ]);
                 
-                if (!$imageInfo)
+                   
+                if ($result->rowCount() == 0)
                 {
                     return false;
                 }
                 
                 return true;
             }
-            
+            echo '<br /> Fail Upload <br /> ';
             return false;
         }
 

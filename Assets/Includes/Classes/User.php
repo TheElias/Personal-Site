@@ -1,8 +1,8 @@
 <?php
 
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/Interfaces/iUser.php';
-        require_once './Assets/Includes/Classes/UserLogin.php';
+        require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
+        require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iUser.php';
+        require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/UserLogin.php';
 
     class User extends UserLogin implements iUser 
     {

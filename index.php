@@ -131,6 +131,8 @@ $route->add("/blog/{urlName}","blogPost.php");
 
 $route->add("/manager","manager.php");
 
+$route->add("/admin","adminDashboard.php");
+
 //example route with multiple params
 
 

@@ -1,6 +1,6 @@
 <?php
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/Interfaces/iTokenAuth.php';
+        require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
+        require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iTokenAuth.php';
 
     class TokenAuth implements iTokenAuth 
     {
@@ -55,24 +55,38 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
 
-            $sql = "UPDATE user_token SET is_expired = 1 WHERE id = ?";
+            $sql = "UPDATE personal_website.user_token SET is_expired = 1 WHERE id = ?";
 
             $result = $conn->prepare($sql);
+            echo "<br /> Token ID: " . $tokenID;
+            echo "<br /> UPDATE personal_website.user_token SET is_expired = 1 WHERE id = ?";
+            $result->execute([$tokenID]);
 
-            return $result->execute([$tokenID]);
+            if ($result->rowCount() >0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static function insertToken($username, $random_password_hash, $random_selector_hash, $tokenExpirationDate)
         {
+            echo $username, $random_password_hash,"<br>/" . $random_selector_hash, $tokenExpirationDate;
             $myDB = new Database();
             $myDB->connect();
             $conn = $myDB->getConnection();
 
-            $sql = "INSERT INTO user_token (username, password_hash, selector_hash, expiry_date) values (?, ?, ?, ?)";
+            $sql = "INSERT INTO  personal_website.user_token (username, password_hash, selector_hash, expiry_date) values (?, ?, ?, ?)";
 
             $result = $conn->prepare($sql);
 
-            return $result->execute([$username, $random_password_hash, $random_selector_hash, $tokenExpirationDate]);
+            $result->execute([$username, $random_password_hash, $random_selector_hash, $tokenExpirationDate]);
+
+            if ($result->rowCount() >0)
+            {
+                return true;
+            }
+            return false;
         }
 
 

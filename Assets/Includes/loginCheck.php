@@ -10,18 +10,20 @@ session_start();
 
 if (!isset($_SESSION['username']))
 {
-    echo "no session";
-    if (!User::checkUserSessionLogin())
+    if (User::checkUserSessionLogin())
     {
+        
+        $isLoggedIn = true;
+    }   
+    else
+    { 
+        echo "Failed Session check";
+        echo '<br />' . $_SERVER['REQUEST_URI'];
         //Redirect 
-        if (!$_SERVER['REQUEST_URI'] = '/manager' )
+        if ($_SERVER['REQUEST_URI'] != '/manager' )
         {
             header("Location:" . "manager");
         }
-    }
-    else
-    { 
-        $isLoggedIn = true;
     }
 }
 else 

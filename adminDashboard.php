@@ -10,7 +10,6 @@ include("Assets/Includes/loginCheck.php");
 
 include("Assets/Includes/adminHeader.php");
 
-echo var_dump(User::myTest());
 
 if(isset($_FILES['image']))
 {
@@ -31,44 +30,6 @@ if(isset($_FILES['image']))
 
 <html  lang="en">
     <body>
-
-        <section class="image-form-section">
-            <p>Hi
-                <?php 
-
-                $user = new User();
-
-                $user->loadUserByUsername($_SESSION['username']);
-
-                echo $user->getFullName();
-
-                ?>
-            </p>
-
-            <form action="" method="POST" enctype="multipart/form-data">
-
-                <div class="message centerItems"><?php if(isset($message)) { echo $message; } ?></div>
-
-                <label for="userFriendlyName">User Friendly File Name:</label>
-                <input type="text" name="userFriendlyName" class="full-width"  required>
-
-                <label for="destinationFileName">Destination File Name (Include file type):</label>
-                <input type="text" name="destinationFileName" class="full-width"  required>
-
-                <label for="imageType">Choose an Image Type:</label>
-                <select id="imageType" name="imageType" required>
-                    <?php 
-                        echo "<p>" . var_dump($imageTypes) . "</p>";
-
-                        foreach ($imageTypes as $row) 
-                        {
-                            echo "<option value = \"" . $row['name'] . "\">" . $row['name'] . "</option>";
-                        }
-                    ?>
-                </select>   
-                <input type="file" name="image" required/>
-                <input type="submit"/>
-            </form>
-        </section>
+        <?php header("Location:" . "imageAdmin.php"); ?>
     </body>
 </html>

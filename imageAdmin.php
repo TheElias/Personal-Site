@@ -2,14 +2,13 @@
 
 <?php
 
-require_once './Assets/Includes/Classes/User.php';
-require_once './Assets/Includes/Classes/Image.php';
-require_once './Assets/Includes/Classes/FileEdit.php';
+require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/User.php';
+require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Image.php';
+require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/FileEdit.php';
 
 include("Assets/Includes/loginCheck.php");
 
 include("Assets/Includes/adminHeader.php");
-
 
 if(isset($_FILES['image']))
 {
@@ -36,9 +35,7 @@ if(isset($_FILES['image']))
                 <?php 
 
                 $user = new User();
-
                 $user->loadUserByUsername($_SESSION['username']);
-
                 echo $user->getFullName();
 
                 ?>

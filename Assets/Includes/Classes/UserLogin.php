@@ -76,11 +76,8 @@
                 // Set Cookie expiration for 1 month
                 $loginCookieExpirationTime = $current_time + (30 * 24 * 60 * 60);  // for 1 month
 
-
-
                 // Set Auth Cookies if 'Remember Me' checked
                 if ($remember) {
-                    echo "<br /> Set Cookies";
                     setcookie("username", $username, $loginCookieExpirationTime,"/","eliasbroniecki.com");
 
                     $random_password = random_bytes(16);
@@ -94,12 +91,13 @@
                     
                     $expiry_date = date("Y-m-d H:i:s", $loginCookieExpirationTime);
                     
-                    echo "<br /> END Set Cookies";
+
                     // mark existing token as expired
                     $userToken = TokenAuth::getTokenByUsername($username,0);
-                    echo "<br /> Get Token By Username";
 
-                    if (! empty($userToken["id"])) {
+                    if (! empty($userToken["id"])) 
+                    {
+                        echo "<br /> Mark Token As Expired";
                         TokenAuth::markTokenAsExpired($userToken["id"]);
                     }
                     // Insert new token
@@ -125,18 +123,19 @@
 
         public static function checkUserSessionLogin()
         {
-            echo "<br /> Check Session Login";
+            echo "<br /> Check User Session Login";
             $current_time = time();
             $current_date = date("Y-m-d H:i:s", $current_time);
 
             if (! empty($_SESSION["username"])) {
-                echo "<br /> Session not empty Session Login";
+                echo "<br /> Session Username Not Empty";
                 return true;
             }
 
-            echo "<br /> Session was empty";
+            echo "<br /> Session username was empty";
 
-            if (! empty($_COOKIE["username"]) && ! empty($_COOKIE["random_password"]) && ! empty($_COOKIE["random_selector"])) {
+            if (! empty($_COOKIE["username"]) && ! empty($_COOKIE["random_password"]) && ! empty($_COOKIE["random_selector"])) 
+            {
                 echo "<br /> Coooookies were full";
                 // Initiate auth token verification diirective to false
                 $isPasswordVerified = false;
@@ -164,7 +163,9 @@
                 
                 // Redirect if all cookie based validation retuens true
                 // Else, mark the token as expired and clear cookies
-                if (!empty($userToken["id"]) && $isPasswordVerified && $isSelectorVerified && $isExpiryDateVerified) {
+                if (!empty($userToken["id"]) && $isPasswordVerified && $isSelectorVerified && $isExpiryDateVerified) 
+                {
+                    $_SESSION['username'] = $_COOKIE["username"];
                     return true;
                 } else {
                     if(!empty($userToken["id"])) {
@@ -174,7 +175,8 @@
                     UserLogin::clearUserCookies();
                 }
             }
-
+            echo "<br /> User Login Return False";
+            return false;
         }
 
         public function logout()
@@ -314,22 +316,6 @@
             if (isset($_COOKIE["random_selector"])) {
                 setcookie("random_selector", "",time()-1000,"/","eliasbroniecki.com");
             }
-        }
-
-        public static function myTest()
-        {
-            
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-
-            $sql = "Show Grants";
-
-            $result = $conn->prepare($sql);
-            $result->execute();
-            $userInfo = $result -> fetch();  
-
-            return $userInfo;
         }
 
     }

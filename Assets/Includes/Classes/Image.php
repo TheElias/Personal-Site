@@ -3,7 +3,7 @@
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iFileEdit.php';
 
-define('allowedImageExtensions', ["jpeg","jpg","png"]);
+define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
 
     class Image implements iImage 
     {
@@ -16,8 +16,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png"]);
         protected $imageTypeID;
         protected $imageTypeName;
         
-
-
         function __construct()
         {   
             $this->database = new Database();
@@ -219,6 +217,30 @@ define('allowedImageExtensions', ["jpeg","jpg","png"]);
             return $myImage->getFullFileLocation();
         }
 
+        public static function fetchImageList()
+        {
+            $myDB = new Database();
+            $myDB->connect();
+            $conn = $myDB->getConnection();
+
+            $sql = "SELECT image.id as ImageID, image.name as imageName, image.file_name as imageFileName, 
+                    image.URL, image_type.name as imageTypeName
+                    FROM personal_website.image 
+                    LEFT JOIN personal_website.image_type ON image.image_type_id = image_type.id";
+
+            $result = $conn->prepare($sql);
+            $result->execute();
+
+            $imageList= $result->fetchAll(PDO::FETCH_ASSOC); 
+            
+            if (!$imageList) {
+                return false;
+            }
+            
+            return $imageList;
+        }
+
+
         public static function getImageTypeInfoByName($name)
         {
             $myDB = new Database();
@@ -333,7 +355,7 @@ define('allowedImageExtensions', ["jpeg","jpg","png"]);
                 return false;
             }
 
-
+            echo pathinfo($image['name'],PATHINFO_EXTENSION);
             if (!in_array(pathinfo($image['name'],PATHINFO_EXTENSION),   allowedImageExtensions))
             {
                 return false;

@@ -1,8 +1,20 @@
 <header id="header">    
     <section class="main-header">
         <div class="headerLogoText">
-            <a href="../">Home Page</a>
+            <a href="../">
+
+            Hello
+                <?php 
+
+                $user = new User();
+                $user->loadUserByUsername($_SESSION['username']);
+                echo $user->getFullName();
+
+                ?>
+             </a>
         </div>
+
+        
 
         <div class = "logout">
             <ul>

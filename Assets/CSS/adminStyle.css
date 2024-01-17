@@ -39,6 +39,14 @@ Global Variables, Tidying, and Base Styles
     --main-red-light: #D75670;
     --main-orange-light: #F5AF94;
     --main-yellow-light: #FDF9D1;
+
+    /*Responsive Breakpoints*/
+    --bp-smallest: 15em; 
+    --bp-small: 30em;
+    --bp-regular: 48em;
+    --bp-large: 62em;
+    --bp-largest: 75em;
+    
   }
 
 /* Reset all padding */
@@ -51,6 +59,13 @@ Global Variables, Tidying, and Base Styles
 
 html {
   height:100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 /* The calculation is the following 
@@ -97,6 +112,7 @@ body {
     line-height: 1;
     height: 100%;
     overflow: scroll;
+
   }
   
   h1,
@@ -151,10 +167,22 @@ General Classes
     justify-content: center;
 }
 
+.page-body {
+  min-height: 90vh;
+  background-color: var(--main-white);
+}
+
+
 .container {
-    width: 60vw;
-    max-width: 80vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 80vw;
+    
+  @media (min-width: 75em) {
+    max-width: var(75em);
   }
+}
   
   .container a:link {
     color: blue;
@@ -222,6 +250,211 @@ General Classes
     justify-content: center;
     margin-bottom: 1rem;
   }
+
+  /* from https://codepen.io/pixelchar/pen/rNaKLM */
+.responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+  border-spacing: 0;
+  
+  @media (min-width: 48em) {
+    font-size: .9em; 
+  }
+  
+  @media (min-width: 62em) {
+    font-size: 1em; 
+  }
+  
+
+  thead {
+    /* Accessibly hide <thead> on narrow viewports */
+    position: absolute;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    padding: 0;
+    border: 0;
+    height: 1px; 
+    width: 1px; 
+    overflow: hidden;
+    
+    @media (min-width: 48em) {
+      /* Unhide <thead> on wide viewports */
+      position: relative;
+      clip: auto;
+      height: auto;
+      width: auto;
+      overflow: auto;
+    }
+    
+    th {
+      background-color: rgba(38,137,13,1);
+      border: 1px solid rgba(134,188,37,1);
+      font-weight: normal;
+      text-align: center;
+      color: white;
+      
+      &:first-of-type {
+        text-align: left; 
+      }
+    }
+  }
+
+  
+  
+  /* Set these items to display: block for narrow viewports */
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    padding: 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  
+  tr {   
+    @media (min-width: 48em) {
+      /* Undo display: block */
+      display: table-row; 
+    }
+  }
+  
+  th,
+  td {
+    padding: .5em;
+    vertical-align: middle;
+    
+    @media (min-width: 30em) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: 48em) {
+      /* Undo display: block */
+      display: table-cell;
+      padding: .5em;
+    }
+    
+    @media (min-width: 62em) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: 75em) {
+      padding: .75em; 
+    }
+  }
+  
+  caption {
+    margin-bottom: 1em;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    
+    @media (min-width: 48em) {
+      font-size: 1.5em;
+    }
+  }
+  
+  tfoot {
+    font-size: .8em;
+    font-style: italic;
+    
+    @media (min-width: 62em) {
+      font-size: .9em;
+    }
+  }
+  
+  tbody {
+    @media (min-width: 48em) {
+      /* Undo display: block */
+      display: table-row-group; 
+    }
+    
+    tr {
+      margin-bottom: 1em;
+      
+      @media (min-width: 48em) {
+        /* Undo display: block */
+        display: table-row;
+        border-width: 1px;
+      }
+      
+      &:last-of-type {
+        margin-bottom: 0; 
+      }
+      
+      &:nth-of-type(even) {
+        @media (min-width: 48em) {
+          background-color: rgba(0,0,0,.12);
+        }
+      }
+    }
+    
+    th[scope="row"] {
+      background-color: rgba(38,137,13,1);
+      color: white;
+      
+      @media (min-width: 30em) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+      }
+      
+      @media (min-width: 48em) {
+        background-color: transparent;
+        color: rgba(0,0,0.87);
+        text-align: left;
+      }
+    }
+    
+    td {
+      text-align: right;
+      
+      @media (min-width: 48em) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+        text-align: center; 
+      }
+      
+      &:last-of-type {
+        @media (min-width: 48em) {
+          border-right: 1px solid rgba(134,188,37,1);
+        } 
+      }
+    }
+    
+    td[data-type=currency] {
+      text-align: right; 
+    }
+    
+    td[data-title] 
+      {
+
+    
+      ::before
+      {
+        content: attr(data-title);
+        float: left;
+        font-size: .8em;
+        color: rgba(0,0,0,.54);
+        
+        @media (min-width: 62em) {
+          content: none; 
+        }
+      }
+    } 
+
+   
+      /* Don’t show data-title labels  */
+      /* td[data-title]:before 
+      {
+        
+      }
+      } */
+  }
+}
+
+    
+
+
 /*---------------------------------------
 Login Page Classes
 ---------------------------------------*/
@@ -232,6 +465,20 @@ Login Page Classes
 
 .row {
 	padding: 6px 0 6px 0;
+}
+
+/*---------------------------------------
+Image Admin  Classes
+---------------------------------------*/
+.image-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--main-blue);
+
 }
 
 
@@ -325,6 +572,8 @@ Login ID's
 #login-form-title {
     margin-bottom: 1.5rem;
 }
+
+
 
 
 

@@ -18,6 +18,9 @@ interface iBlogPost {
     public function getHeaderImage();   
     public function getHeaderImageFullPath();
 
+    public function getThumbnailImage();   
+    public function getThumbnailImageFullPath();
+
     
     public static function doesBlogPostExistByID($id);
     public static function doesBlogPostExistByName($name);

@@ -233,6 +233,37 @@
 
             return $myImage->getFullFileLocation();
         }
+
+        public function getThumbnailImage()
+        {
+            $myImage = new Image;
+
+            $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Thumbnail');
+
+            if (!$myImage) 
+            {
+                //Default to the header image if no thumbnail is available.
+                if (! $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Header'))
+                {
+                    return false;
+                }
+            }
+
+            return $myImage;
+        }
+
+        public function getThumbnailImageFullPath()
+        {
+            $myImage = $this->getThumbnailImage();
+
+            if (!$myImage) 
+            {
+                return false;
+            }
+
+            return $myImage->getFullFileLocation();
+        }
+    
     
         public static function doesBlogPostExistByID($blogID)
         {

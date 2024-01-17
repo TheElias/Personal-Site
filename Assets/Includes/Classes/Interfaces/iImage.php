@@ -28,6 +28,7 @@ interface iImage {
     public static function getImageTypeNameByID($id);
 
     public static function fetchAllImageTypes();
+    public static function fetchImageList();
     
     //check if file exists in the location and then save the database object
     public static function saveNewImageFromObject($image,$userFriendlyName, $imageType = "General", $destinationFileName, $destinationPath = '');

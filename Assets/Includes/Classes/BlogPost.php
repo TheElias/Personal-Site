@@ -16,6 +16,7 @@
         protected $title;
         protected $estimatedReadTime;
         protected $dateCreated;
+        protected $headerImageID;
         protected $tags = array();
 
         function __construct()
@@ -29,7 +30,7 @@
         public function loadBlogByID($id=1)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id , urlName 
+            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id as headerImageID, urlName 
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
@@ -51,6 +52,7 @@
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
+            $this->headerImageID = $blogPostInfo['headerImageID'];
             $this->tags = BlogPost::fetchTags($id);
 
             return true;
@@ -59,7 +61,7 @@
         public function loadBlogByURLName($urlName)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostName, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime,date_created,
-            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id , urlName
+            BP.text AS blogPostText, U.id as authorID, BP.date_created,header_image_id as headerImageID, urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.user AS U ON BPA.user_id = U.id
@@ -81,6 +83,7 @@
             $this->urlName = $blogPostInfo['urlName'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostInfo['blogPostName'];
+            $this->headerImageID = $blogPostInfo['headerImageID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
@@ -88,7 +91,7 @@
         public function loadBlogByTitle($blogPostTitle)
         {
             $sql = "SELECT BP.id AS blogPostID, BP.name AS blogPostTitle, CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, date_created,
-            BP.text AS blogPostText, U.username as authorUsername, BP.date_created,header_image_id, urlName
+            BP.text AS blogPostText, U.username as authorUsername, BP.date_created,header_image_id as headerImageID, urlName
             FROM personal_website.blog_post AS BP
             INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
             INNER JOIN personal_website.author AS U ON BPA.user_id = U.id
@@ -110,6 +113,7 @@
             $this->estimatedReadTime = $blogPostInfo['estimatedReadTime'];
             $this->dateCreated = $blogPostInfo['date_created'];
             $this->title = $blogPostTitle;
+            $this->headerImageID = $blogPostInfo['headerImageID'];
             $this->tags = BlogPost::fetchTags($blogPostInfo['blogPostID']);
 
             return true;
@@ -211,12 +215,11 @@
         {
             $myImage = new Image;
 
-            $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Header');
+            $myImage->loadImageByID($this->headerImageID);
 
             if (!$myImage) 
             {
-                echo 'fail';
-                return false;
+                $myImage->loadImageByID(1);
             }
 
             return $myImage;
@@ -228,42 +231,11 @@
 
             if (!$myImage) 
             {
-                return false;
+                $myImage->loadImageByID(1);
             }
 
             return $myImage->getFullFileLocation();
-        }
-
-        public function getThumbnailImage()
-        {
-            $myImage = new Image;
-
-            $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Thumbnail');
-
-            if (!$myImage) 
-            {
-                //Default to the header image if no thumbnail is available.
-                if (! $myImage->loadImageByBlogPostIDAndImageType($this->blogID,'Header'))
-                {
-                    return false;
-                }
-            }
-
-            return $myImage;
-        }
-
-        public function getThumbnailImageFullPath()
-        {
-            $myImage = $this->getThumbnailImage();
-
-            if (!$myImage) 
-            {
-                return false;
-            }
-
-            return $myImage->getFullFileLocation();
-        }
-    
+        }    
     
         public static function doesBlogPostExistByID($blogID)
         {

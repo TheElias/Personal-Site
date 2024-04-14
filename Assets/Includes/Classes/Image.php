@@ -1,9 +1,10 @@
 <?php
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iFileEdit.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/FileEdit.php';
 
 define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
+define('defaultImageSaveLocation', '../' . $this->url);
 
     class Image implements iImage 
     {
@@ -13,8 +14,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
         protected $url;
         protected $name;
         protected $fileName;
-        protected $imageTypeID;
-        protected $imageTypeName;
         
         function __construct()
         {   
@@ -88,30 +87,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
             $this->fileName = $fileName;
             return true;
         }
-
-        public function loadImageByBlogPostIDAndImageType($blogPostID,$typeName)
-        {
-            $sql = "SELECT I.id, I.name, I.URL, I.file_name
-                    FROM blog_post AS BP
-                    INNER JOIN blog_post_image AS BPI ON BP.id = BPI.blog_post_id 
-                    INNER JOIN image AS I ON BPI.image_id = I.id
-                    INNER JOIN image_type as IT ON IT.id = I.image_type_id
-                    WHERE BP.id = ? AND IT.name = ?";
-
-            $result = $this->conn->prepare($sql);
-            $result->execute([$blogPostID,$typeName]);
-            $imageInfo = $result -> fetch();  
-            
-            if (!$imageInfo) {
-                return false;
-            }
-            
-            $this->id = $imageInfo['id'];
-            $this->name = $imageInfo['name'];
-            $this->url = $imageInfo['URL'];
-            $this->fileName = $imageInfo['file_name'];
-            return true;
-        }
     
         public function getID()
         {
@@ -156,23 +131,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
                 return false;
             }
             return '../' . $this->url . $this->fileName; 
-        }
-
-        public function getImageTypeID()
-        {
-            if (empty($this->imageTypeID))
-            {
-                return false;
-            }
-            return $this->imageTypeID; 
-        }
-        public function getImageTypeName()
-        {
-            if (empty($this->imageTypeName))
-            {
-                return false;
-            }
-            return $this->imageTypeName; 
         }
     
         public static function doesImageExist($id)
@@ -240,109 +198,8 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
             return $imageList;
         }
 
-
-        public static function getImageTypeInfoByName($name)
-        {
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-            
-            $sql = "SELECT *
-                    FROM personal_website.image_type AS IT
-                    WHERE IT.name =  ?";
-
-            $result = $conn->prepare($sql);
-            $result->execute([$name]);
-            $imageTypeInfo = $result -> fetch();  
-            
-            if (!$imageTypeInfo) {
-                return false;
-            }
-            
-            return $imageTypeInfo;
-        }
-
-        public static function getImageTypeInfoByID($id)
-        {
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-            
-            $sql = "SELECT *
-                    FROM personal_website.image_type AS IT
-                    WHERE IT.id =  ?";
-
-            $result = $conn->prepare($sql);
-            $result->execute([$id]);
-            $imageTypeInfo = $result -> fetch();  
-            
-            if (!$imageTypeInfo) {
-                return false;
-            }
-            
-            return $imageTypeInfo;
-        }
-
-        public static function getImageTypeIDByName($name)
-        {
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-            
-            $sql = "SELECT id
-                    FROM personal_website.image_type AS IT
-                    WHERE IT.name =  ?";
-
-            $result = $conn->prepare($sql);
-            $result->execute([$name]);
-            $imageTypeInfo = $result -> fetch();  
-            
-            if (!$imageTypeInfo) {
-                return false;
-            }
-            
-            return $imageTypeInfo['id'];
-        }
-
-        public static function getImageTypeNameByID($id)
-        {
-            $myImage = New Image;
-            $myImage->loadImageByID($id);
-            return $myImage->getImageTypeName();
-        }
-
-        public static function fetchAllImageTypes()
-        {
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-            
-            $sql = "SELECT id, name
-                    FROM personal_website.image_type AS IT
-                    WHERE is_disabled =  False
-                    ORDER BY name";
-
-            $result = $conn->prepare($sql);
-            $result->execute();
-            $imageTypeInfo = $result->fetchAll(PDO::FETCH_ASSOC); 
-            
-            if (!$imageTypeInfo) {
-                return false;
-            }
-            
-            return $imageTypeInfo;
-        }
-
-        public static function saveNewImageFromObject($image, $userFriendlyName, $imageType = "General", $destinationFileName, $destinationPath = '')
-        {
-            //check if image type exists
-            $myImageType = Image::getImageTypeInfoByName($imageType);
-            
-            if ($myImageType == false)
-            {
-                return false;
-            }
-            
+        public static function saveNewImageFromObject($image, $userFriendlyName, $destinationFileName, $destinationPath = '')
+        {            
             //check if image exists with that name already in DB
             if (Image::doesImageExistByName($userFriendlyName))
             {
@@ -378,13 +235,13 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
             if ($myImage->uploadFile())
             {
                 echo '<br /> Insert Into Database <br /> ';
-                $sql = "INSERT INTO  personal_website.image (name, file_name, URL, image_type_id)
-                    VALUES (?,?,?,?)";
+                $sql = "INSERT INTO  personal_website.image (name, file_name, URL)
+                    VALUES (?,?,?)";
 
                 $result = $conn->prepare($sql);
-                echo "<br /> User Friendly Name: " . $userFriendlyName,"<br /> Destination Name: "  . $destinationFileName,"<br /> Default Save Location: " . $myImageType['default_save_location'],"<br /> Image Type ID: " . $myImageType['id'] . "<br />";
+                echo "<br /> User Friendly Name: " . $userFriendlyName,"<br /> Destination Name: "  . $destinationFileName,"<br />";
 
-                $result->execute([$userFriendlyName,$destinationFileName, $myImageType['default_save_location'],$myImageType['id'] ]);
+                $result->execute([$userFriendlyName,$destinationFileName, defaultImageSaveLocation]  );
                 
                    
                 if ($result->rowCount() == 0)
@@ -398,7 +255,7 @@ define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
             return false;
         }
 
-        public static function saveNewImageFromPath($destinationFileName,$userFriendlyName,  $imageType = "General", $url, $fileName, $destinationPath = '')
+        public static function saveNewImageFromPath($destinationFileName,$userFriendlyName, $url, $fileName, $destinationPath = '')
         {
             $myImage = new FileEdit();
             $myImage->setDestination();

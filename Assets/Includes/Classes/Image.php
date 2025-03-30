@@ -1,7 +1,7 @@
 <?php
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/FileEdit.php';
+    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/FileEdit.php';
 
 define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
 define('defaultImageSaveLocation', '../' . $this->url);

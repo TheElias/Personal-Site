@@ -460,8 +460,7 @@
             $myDB->connect();
             $conn = $myDB->getConnection();
             
-            $sql = "SELECT BP.id AS blogPostID, BP.urlName, BP.name AS blogPostName, U.username as authorUsername, fnStripTags(BP.text) as myBlogText,
-                    CEILING(((CHAR_LENGTH(BP.text)/4.7)/225)) AS estimatedReadTime, BP.date_created
+            $sql = "SELECT BP.id AS blogPostID
                     FROM personal_website.blog_post AS BP
                     INNER JOIN personal_website.blog_post_author AS BPA ON BP.id = BPA.blog_post_id
                     INNER JOIN personal_website.user AS U ON BPA.user_id = U.id

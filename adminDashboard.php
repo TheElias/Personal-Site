@@ -20,7 +20,7 @@ if(isset($_FILES['image']))
     }
 }
 
- $imageTypes = Image::fetchAllImageTypes();
+ //$imageTypes = Image::fetchAllImageTypes();
 ?>
     <head>
         <meta charset="UTF-8">

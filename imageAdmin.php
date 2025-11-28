@@ -43,7 +43,7 @@ if(isset($_FILES['imageEdited']))
     }
 }
 
- $imageTypes = Image::fetchAllImageTypes();
+// $imageTypes = Image::fetchAllImageTypes();
 ?>
 
 
@@ -60,7 +60,7 @@ if(isset($_FILES['imageEdited']))
                             <th scope="col">Image Name</th>
                             <th scope="col">Image File Name</th>
                             <th scope="col">URL</th>
-                            <th scope="col">Image Type</th>
+                            <th scope="col">Image</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,8 +73,12 @@ if(isset($_FILES['imageEdited']))
                                         <th scope=\"row\">" .  $row['ImageID'] . "</th>
                                         <td data-title=\"Image Name\">" .  $row['imageName'] . "</td>
                                         <td data-title=\"Image File Name\">" .  $row['imageFileName'] . "</td>
-                                        <td data-title=\"URL\">" .  $row['URL'] . "</td>
-                                        <td data-title=\"Image Type\">" .  $row['imageTypeName'] . "</td>
+                                        <td data-title=\"URL\">
+                                            <a href = 'HTTP://" . $_SERVER['HTTP_HOST']  . "/" .  $row['URL'] . $row['imageFileName'] ."'>
+                                                HTTP://" . $_SERVER['HTTP_HOST']  . "/" .  $row['URL'] . "
+                                            </a>
+                                        </td>
+                                        <td data-title=\"Image Type\"><img src='HTTP://" . $_SERVER['HTTP_HOST']  . "/" .  $row['URL'] . $row['imageFileName'] ."'></td>
                                     </tr>";
                             }
                         ?>
@@ -89,23 +93,13 @@ if(isset($_FILES['imageEdited']))
                 <div class="message centerItems"><?php  if(isset($message)) { echo $message; }  ?></div>
 
                 <div class="formTextInputs">
-                    <label for="userFriendlyName">User Friendly File Name:</label>
+                    <label for="userFriendlyName">User Friendly File Name(Maeby On Couch):</label>
                     <input type="text" name="userFriendlyName" class="full-width"  required>
 
-                    <label for="destinationFileName">Destination File Name (Include file type):</label>
+                    <label for="destinationFileName">Destination File Name (Include file type such as Maeby.png):</label>
                     <input type="text" name="destinationFileName" class="full-width"  required>
                 </div>
 
-                <label for="imageType">Choose an Image Type:</label>
-                <select id="imageType" name="imageType" required>
-                    <?php 
-                    
-                        foreach ($imageTypes as $row) 
-                        {
-                            echo "<option value = \"" . $row['name'] . "\">" . $row['name'] . "</option>";
-                        } 
-                    ?>
-                </select>   
                 <input type="file" name="imageEdited" accept="image/" onchange="previewImage(event)" required/>
                 <img id="preview" name="preview" alt="Preview Image">
                 <input type="submit"/>

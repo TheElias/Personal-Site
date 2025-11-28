@@ -18,6 +18,7 @@
         <!--Header-->
         <?php 
             include("Assets/Includes/header.php");
+            echo "test";
         ?>
         
         <section id="page-body">
@@ -29,37 +30,37 @@
                     </div>
                     <div class="blog-post-list-grid-section">
                         <?php 
-                        
+                        echo "test2";
                         $allPosts = BlogPost::fetchAllPosts();
-
+                        echo "test3";
                         foreach ($allPosts as $blogPost) 
                         {
-                            echo "<div class=\"blog-grid-item\">
-                                    <a  href=\"blog/" . $blogPost->getURLname() . "\">
-                                            <img class=\"blog-post-grid-header-image\" src=\"" . $blogPost->getHeaderImageFullPath() . "\" />
+                            echo ( "<div class=\"blog-grid-item\">
+                                    <a  href=\"blog/" . htmlspecialchars($blogPost->getURLname()) . "\">
+                                            <img class=\"blog-post-grid-header-image\" src=\"" . htmlspecialchars($blogPost->getHeaderImageFullPath()) . "\" />
                                     </a>
                                     
                                     <div class=\"blog-post-grid-item-details\">
                                         <div class=\"blog-post-grid-item-title-section\">
 
-                                            <p href=\"blog/" . $blogPost->getURLname() . "\" class=\"blog-post-grid-item-title\">" .
-                                            $blogPost->getTitle() . 
+                                            <p href=\"blog/" . htmlspecialchars($blogPost->getURLname()) . "\" class=\"blog-post-grid-item-title\">" .
+                                            htmlspecialchars($blogPost->getTitle()) . 
                                             "</p>
                                     
                                             <div class=\"blog-post-grid-time-to-read-section\">
                                                 <img src=\"../images/Clock.png\" class=\"blog-grid-estimated-time-clock\") />
-                                                <p class=\"blog-post-grid-time-to-read\">   " . $blogPost->getEstimatedReadTime() . " minute read" . 
+                                                <p class=\"blog-post-grid-time-to-read\">   " . htmlspecialchars($blogPost->getEstimatedReadTime()) . " minute read" . 
                                                 "</p>
                                             </div>
                                         </div>
                                            
                                         <div class=\"blog-post-grid-blog-text\"><p>" . 
-                                            date('F j, o', strtotime($blogPost->getDateCreated()) ) . "
+                                            date('F j, o', strtotime(htmlspecialchars(($blogPost->getDateCreated()))) ) . "
                                             </p>
                                         </div>
                                      
                                     </div>
-                                </div>";
+                                </div>");
                         }?>
                     </div>
                 </div>

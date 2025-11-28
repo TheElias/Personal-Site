@@ -26,6 +26,8 @@
     <?php   
 
 include("Assets/Includes/adminNavigation.php");
+
+require __DIR__ . '/Assets/Includes/init.php';
 ?>
     
 </header>       

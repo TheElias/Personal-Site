@@ -3,8 +3,8 @@
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
     require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/FileEdit.php';
 
-define('allowedImageExtensions', ["jpeg","jpg","png, svg"]);
-define('defaultImageSaveLocation', '../' . $this->url);
+define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
+//define('defaultImageSaveLocation', '../' . $this->url);
 
     class Image implements iImage 
     {
@@ -182,9 +182,8 @@ define('defaultImageSaveLocation', '../' . $this->url);
             $conn = $myDB->getConnection();
 
             $sql = "SELECT image.id as ImageID, image.name as imageName, image.file_name as imageFileName, 
-                    image.URL, image_type.name as imageTypeName
-                    FROM personal_website.image 
-                    LEFT JOIN personal_website.image_type ON image.image_type_id = image_type.id";
+                    image.URL
+                    FROM personal_website.image ";
 
             $result = $conn->prepare($sql);
             $result->execute();
@@ -213,7 +212,7 @@ define('defaultImageSaveLocation', '../' . $this->url);
             }
 
             echo pathinfo($image['name'],PATHINFO_EXTENSION);
-            if (!in_array(pathinfo($image['name'],PATHINFO_EXTENSION),   allowedImageExtensions))
+            if (!in_array(pathinfo(strtolower($image['name']),PATHINFO_EXTENSION),   allowedImageExtensions,true))
             {
                 return false;
             }
@@ -241,7 +240,7 @@ define('defaultImageSaveLocation', '../' . $this->url);
                 $result = $conn->prepare($sql);
                 echo "<br /> User Friendly Name: " . $userFriendlyName,"<br /> Destination Name: "  . $destinationFileName,"<br />";
 
-                $result->execute([$userFriendlyName,$destinationFileName, defaultImageSaveLocation]  );
+                $result->execute([$userFriendlyName,$destinationFileName, $_SERVER['REQUEST_URI']]  );//defaultImageSaveLocation]  );
                 
                    
                 if ($result->rowCount() == 0)
@@ -269,5 +268,38 @@ define('defaultImageSaveLocation', '../' . $this->url);
         {
             return false;
         }
+
+        function createThumbnail($srcPath, $destPath, $thumbWidth = 300) {
+            $info = getimagesize($srcPath);
+            if (!$info) return false;
+        
+            $mime = $info['mime'];
+            list($width, $height) = $info;
+        
+            switch ($mime) {
+                case 'image/jpeg': $srcImage = imagecreatefromjpeg($srcPath); break;
+                case 'image/png':  $srcImage = imagecreatefrompng($srcPath); break;
+                case 'image/gif':  $srcImage = imagecreatefromgif($srcPath); break;
+                default: return false;
+            }
+        
+            $thumbHeight = floor($height * ($thumbWidth / $width));
+            $thumbImage = imagecreatetruecolor($thumbWidth, $thumbHeight);
+        
+            imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $width, $height);
+        
+            switch ($mime) {
+                case 'image/jpeg': imagejpeg($thumbImage, $destPath, 85); break;
+                case 'image/png':  imagepng($thumbImage, $destPath); break;
+                case 'image/gif':  imagegif($thumbImage, $destPath); break;
+            }
+        
+            imagedestroy($srcImage);
+            imagedestroy($thumbImage);
+            return true;
+        }
     }
+
+
+
 ?>

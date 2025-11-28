@@ -77,37 +77,38 @@
                         <div id="blog-post-recommended-grid">
                             <?php 
 
-                            $recommendedPosts = BlogPost::fetchRecommendedPosts($myBlogPost->getID(),'3');
+                            // $recommendedPosts = BlogPost::fetchRecommendedPosts($myBlogPost->getID(),'3');
 
-                            foreach ($recommendedPosts as $row) 
-                            {
-                                echo "<div class=\"recommended-blog-post-grid-item\">
-                                        <a  href=\"../blog/" . $row->getURLName() . "\">
-                                                <img class=\"recommended-blog-post-grid-header-image\" src=\"" . '/' . $row->getHeaderImage()->getFullFileLocation() . "\" />
-                                        </a>
-                                        <div class=\"recommended-blog-post-grid-item-details\">
-                                            <div class=\"recommended-blog-post-grid-item-title-section\">
+                            // foreach ($recommendedPosts as $row) 
+                            // {
+                            //     echo "fart";
+                            //     echo "<div class=\"recommended-blog-post-grid-item\">
+                            //             <a  href=\"../blog/" . $row->getURLName() . "\">
+                            //                     <img class=\"recommended-blog-post-grid-header-image\" src=\"" . '/' . $row->getHeaderImage()->getFullFileLocation() . "\" />
+                            //             </a>
+                            //             <div class=\"recommended-blog-post-grid-item-details\">
+                            //                 <div class=\"recommended-blog-post-grid-item-title-section\">
 
-                                                <p href=\"blog/" . $row->getURLName() . "\" class=\"recommended-blog-post-grid-item-title\">" .
-                                                $row->getTitle() . 
-                                                "</p>
+                            //                     <p href=\"blog/" . $row->getURLName() . "\" class=\"recommended-blog-post-grid-item-title\">" .
+                            //                     $row->getTitle() . 
+                            //                     "</p>
                                         
-                                                <div class=\"recommended-blog-post-time-to-read-section\">
-                                                    <img src=\"../images/Clock.png\" class=\"recommended-blog-post-estimated-time-clock\") />
-                                                    <p class=\"recommended-blog-post-time-to-read\">   " . $row->getEstimatedReadTime() . " minute read" . 
-                                                    "</p>
-                                                </div>
-                                            </div>
+                            //                     <div class=\"recommended-blog-post-time-to-read-section\">
+                            //                         <img src=\"../images/Clock.png\" class=\"recommended-blog-post-estimated-time-clock\") />
+                            //                         <p class=\"recommended-blog-post-time-to-read\">   " . $row->getEstimatedReadTime() . " minute read" . 
+                            //                         "</p>
+                            //                     </div>
+                            //                 </div>
                                             
-                                            <div class=\"recommended-blog-post-grid-blog-text\"><p>" . 
-                                                $row->getBlogTextSnippet(250) . "
-                                                </p>
-                                            </div>
+                            //                 <div class=\"recommended-blog-post-grid-blog-text\"><p>" . 
+                            //                     $row->getBlogTextSnippet(250) . "
+                            //                     </p>
+                            //                 </div>
                                         
-                                        </div>
-                                    </div>";
+                            //             </div>
+                            //         </div>";
                                     
-                            }?>
+                            // }?>
                         </div>    
                     </section>  
                 </div>         

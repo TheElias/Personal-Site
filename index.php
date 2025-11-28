@@ -2,6 +2,8 @@
 
 //echo $_SERVER["REQUEST_URI"];
 
+require __DIR__ . '/Assets/Includes/init.php';
+
 class Route {
 
     private function simpleRoute($file, $route){

@@ -18,7 +18,7 @@
             $this->database = new Database();
             $this->database->connect();
 
-            $this->conn->getConnection();
+            $this->conn = $this->database->getConnection();
         }
 
         

@@ -413,6 +413,7 @@
 
         public static function fetchRecommendedPosts($blogID, $count)
         {
+            
             if (!BlogPost::doesBlogPostExistByID($blogID))
             {
                 return false;
@@ -445,6 +446,7 @@
 
             foreach ($recommendedPosts as $row) 
             {
+                
                 $testBlogPost = new BlogPost();
                 $testBlogPost->loadBlogByID($row["blogPostID"]);
 

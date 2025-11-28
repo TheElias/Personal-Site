@@ -1,6 +1,6 @@
 <?php
 
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/Assets/Includes/generalFunctions.php");
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/Assets/Includes/Config.php");
 
 class DatabaseConfiguration {
     protected $serverName;
@@ -8,26 +8,32 @@ class DatabaseConfiguration {
     protected $password;
     protected $databaseName;    
 
-    function __construct()
-    {
-        if(file_exists("X:\Projects\PersonalSite\EliasBroniecki.com\Code\ignoredFiles\config.env"))
-        {
-            $myFile = file_get_contents("X:\Projects\PersonalSite\EliasBroniecki.com\Code\ignoredFiles\config.env");
-            $myArray = parse_env_file_contents_to_array($myFile);
-            //echo  "TEST dbname: " . $myArray["dbname"] . "  Server Name: " . $myArray["servername"] . " Username: " . $myArray["username"] . " password" . $myArray["dbpassword"];
-        }
-        else
-        {
-            $myFile = file_get_contents('/var/www/config/config.env');
-
-            $myArray = parse_env_file_contents_to_array($myFile);
-        }
-
-            $this -> databaseName = $myArray["dbname"];
-            $this -> serverName = $myArray["dbservername"];
-            $this -> userName =   $myArray["dbusername"];
-            $this -> password = $myArray["dbpassword"];
+    function __construct(array $overrides = []) {
+        $this->serverName   = $overrides['dbservername']   ?? Config::get('dbservername', '127.0.0.1');
+        $this->databaseName = $overrides['personal_website']   ?? Config::get('personal_website', '');
+        $this->userName     = $overrides['dbusername']   ?? Config::get('dbusername', '');
+        $this->password     = $overrides['dbpassword']   ?? Config::get('dbpassword', '');
 
     }
+
+    public function getDsn(): string {
+        return sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', $this->serverName, $this->databaseName);
+    }
+
+    public function getUsername(): string {
+        return $this->userName;
+    }
+
+    public function getPassword(): string {
+        return $this->password;
+    }
+
+    // Keep these for backwards compatibility with existing code
+    public function getServerName(): string {
+        return $this->serverName;
+    }
+
+    public function getDatabaseName(): string {
+        return $this->databaseName;
+    }
 }
-?>

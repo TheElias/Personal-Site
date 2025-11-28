@@ -17,7 +17,7 @@
 
         <section class="welcome-section">
             <h2>Elias Broniecki</h2>
-            <p>Creating Whatever</p>
+            <p>Creating Whateverz</p>
         </section>
 
         <section class="about-me-section">

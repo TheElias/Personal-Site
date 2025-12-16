@@ -1,6 +1,6 @@
 <?php
 
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/Assets/Includes/Config.php");
+    namespace Site;
 
 class DatabaseConfiguration {
     protected $serverName;

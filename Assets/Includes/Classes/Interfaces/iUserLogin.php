@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iUserLogin {
 
    public function login($username = '', $password = '', $remember = 0);

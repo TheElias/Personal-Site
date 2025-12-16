@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iAuthor {
 
     public function loadAuthorByID($ID);

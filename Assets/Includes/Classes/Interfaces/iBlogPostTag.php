@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iBlogPostTag {
 
     public function loadTagByID($ID);

@@ -1,7 +1,10 @@
 <?php
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iImage.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/FileEdit.php';
+
+    namespace Site;
+   
+    use PDO;
+
+    use Site\Interfaces\iImage;
 
 define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
 //define('defaultImageSaveLocation', '../' . $this->url);
@@ -211,7 +214,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
                 return false;
             }
 
-            echo pathinfo($image['name'],PATHINFO_EXTENSION);
             if (!in_array(pathinfo(strtolower($image['name']),PATHINFO_EXTENSION),   allowedImageExtensions,true))
             {
                 return false;
@@ -222,27 +224,21 @@ define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
             $conn = $myDB->getConnection();
 
             $myImage = new FileEdit();
-            echo '<br /> setDestination <br /> ';
             $myImage->setDestination();
 
-            echo '<br /> setFileSaveName <br /> ';
             $myImage->setFileSaveName($destinationFileName);
 
-            echo '<br /> setFileToUpload <br /> ';
             $myImage->setFileToUpload($image);
             
             if ($myImage->uploadFile())
             {
-                echo '<br /> Insert Into Database <br /> ';
                 $sql = "INSERT INTO  personal_website.image (name, file_name, URL)
                     VALUES (?,?,?)";
 
                 $result = $conn->prepare($sql);
-                echo "<br /> User Friendly Name: " . $userFriendlyName,"<br /> Destination Name: "  . $destinationFileName,"<br />";
 
                 $result->execute([$userFriendlyName,$destinationFileName, $_SERVER['REQUEST_URI']]  );//defaultImageSaveLocation]  );
                 
-                   
                 if ($result->rowCount() == 0)
                 {
                     return false;
@@ -250,7 +246,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
                 
                 return true;
             }
-            echo '<br /> Fail Upload <br /> ';
             return false;
         }
 
@@ -258,9 +253,6 @@ define('allowedImageExtensions', ["jpeg","jpg","png", "svg"]);
         {
             $myImage = new FileEdit();
             $myImage->setDestination();
-
-            //$myImage->setSourceFileDirectory($name);
-
             return false;
         }
         

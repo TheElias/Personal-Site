@@ -1,7 +1,5 @@
 <?php
 
-//echo $_SERVER["REQUEST_URI"];
-
 require __DIR__ . '/Assets/Includes/init.php';
 
 class Route {
@@ -12,8 +10,6 @@ class Route {
         //$_SERVER["REQUEST_URI"] will be empty if req uri is /
 
         if ( !empty($_SERVER["REQUEST_URI"]))
-
-
         {
             $route = preg_replace("/(^\/)|(\/$)/","",$route);
             $reqUri =  preg_replace("/(^\/)|(\/$)/","",$_SERVER["REQUEST_URI"]);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iFileEdit {
     
     public function setDestination($destinationLocation = "/var/www/eliasbroniecki.com/html/images/");

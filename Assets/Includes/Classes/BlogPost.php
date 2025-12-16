@@ -1,9 +1,9 @@
 <?php
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/Interfaces/iBlogPost.php';
-        require_once './Assets/Includes/Classes/BlogPostTag.php';
-        require_once './Assets/Includes/Classes/Image.php';
-        require_once './Assets/Includes/Classes/User.php';
+
+    namespace Site;
+
+    use PDO;
+    use Site\Interfaces\iBlogPost;
 
     class BlogPost implements iBlogPost
     {

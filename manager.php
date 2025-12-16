@@ -1,19 +1,20 @@
-<!DOCTYPE html>
-
 <?php
 
+use Site\UserLogin;
+use Site\User;
+require __DIR__ . '/Assets/Includes/init.php';
 
-if(!isset($_SESSION)) 
-{
-session_start();
+
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-require_once './Assets/Includes/Classes/User.php';
+// Decide login state via code, not a global
+$isLoggedIn = UserLogin::checkUserSessionLogin();
 
-include("Assets/Includes/loginCheck.php");
-if ($isLoggedIn == true)
-{
-    header("Location:" . "adminDashboard.php");
+if ($isLoggedIn) {
+    header("Location: adminDashboard.php");
+    exit;
 }
 
 /*
@@ -48,7 +49,7 @@ if (! empty($_POST["login"])) {
     }
 }
 ?>
-
+<!DOCTYPE html>
 <html  lang="en">
 
     <head>

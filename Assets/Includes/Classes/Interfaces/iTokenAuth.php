@@ -1,5 +1,7 @@
 <?php
 
+    namespace Site\Interfaces;
+    
 interface iTokenAuth {
 
     public static function getUserByUsername($username);

@@ -1,6 +1,9 @@
 <?php
 
-    require_once './Assets/Includes/Classes/BlogPost.php';
+    namespace Site;
+    
+    require __DIR__ . '/Assets/Includes/init.php';
+
     ?> 
 
 <!DOCTYPE html>

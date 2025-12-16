@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iUser {
 
     public function loadUserByUsername($username);

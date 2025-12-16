@@ -12,6 +12,6 @@
     <?php   
 
         include("Assets/Includes/navigation.php");
-        require __DIR__ . '/init.php';
+
     ?>
 </header>       

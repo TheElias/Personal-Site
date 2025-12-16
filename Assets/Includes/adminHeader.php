@@ -1,14 +1,16 @@
+<?php 
+                
+    $currentUsername = $_SESSION['username'] ?? 'Unknown';
+  ?>
+
+
+
 <header id="header">    
     <section class="main-header">
         <div class="headerLogoText">
             <a href="../">
-
-            Hello
-                <?php 
-
-                $user = new User();
-                $user->loadUserByUsername($_SESSION['username']);
-                echo $user->getFullName();
+fart          <?php
+              echo $currentUsername;
 
                 ?>
              </a>
@@ -27,7 +29,6 @@
 
 include("Assets/Includes/adminNavigation.php");
 
-require __DIR__ . '/Assets/Includes/init.php';
 ?>
     
 </header>       

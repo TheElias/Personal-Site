@@ -1,5 +1,10 @@
 <?php 
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/DatabaseConfiguration.php';
+
+    namespace Site;
+
+    use PDO;
+    use PDOException;
+    use Exception;
 
     class Database extends DatabaseConfiguration
     {

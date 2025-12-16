@@ -1,6 +1,8 @@
 
 <?php
 
+use Site\User;
+
 $isLoggedIn = false;
 
 if (!isset($_SESSION['username']))

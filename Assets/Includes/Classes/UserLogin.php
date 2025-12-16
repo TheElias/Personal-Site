@@ -1,9 +1,8 @@
 <?php
 
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Database.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/Interfaces/iUserLogin.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Classes/TokenAuth.php';
-    require_once realpath($_SERVER["DOCUMENT_ROOT"]) . '/Assets/Includes/Config.php';
+    namespace Site;
+
+    use Site\Interfaces\iUserLogin;
 
     //The various user levels
     const LEVEL_PENDING 	= 0; //User is still pending email confirmation

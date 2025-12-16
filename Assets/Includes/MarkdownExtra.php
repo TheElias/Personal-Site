@@ -8,6 +8,8 @@
  * @copyright (Original Markdown) 2004-2006 John Gruber <https://daringfireball.net/projects/markdown/>
  */
 
+use Michelf\MarkdownExtra;
+
 namespace Michelf;
 
 /**

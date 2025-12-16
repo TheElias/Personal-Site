@@ -1,7 +1,9 @@
 
 <?php
 
-require_once './Assets/Includes/Classes/Interfaces/iFileEdit.php';
+    namespace Site;
+   
+    use Site\Interfaces\iFileEdit;
 
 class FileEdit implements iFileEdit 
     {

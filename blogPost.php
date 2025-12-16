@@ -1,13 +1,10 @@
 <?php
-        //include('Assets/Includes/db_connection.php');
-        //include('Assets/Includes/blogPostFunctions.php');
-        //include('Assets/Includes/generalFunctions.php');
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/BlogPost.php';
-        require_once './Assets/Includes/Classes/Image.php';
+        use Site\BlogPost;
+
+        require __DIR__ . '/Assets/Includes/init.php';
 
         $myBlogPost = New BlogPost();
-        
+
         if (!$myBlogPost->loadBlogByURLName($params['urlName']))
         {
             Redirect("http://www.eliasbroniecki.com/404.php");

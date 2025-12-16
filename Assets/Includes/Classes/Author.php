@@ -1,7 +1,9 @@
 <?php
-        require_once './Assets/Includes/Classes/Database.php';
-        require_once './Assets/Includes/Classes/Interfaces/iAuthor.php';
 
+    namespace Site;
+
+    use Site\Interfaces\iAuthor;
+    
     class Author implements iAuthor 
     {
         protected $database;

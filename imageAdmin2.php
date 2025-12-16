@@ -49,7 +49,27 @@ if(isset($_FILES['imageEdited']))
     <body >
     <?php include("Assets/Includes/adminHeader.php"); ?>
         <section class="page-body centerItems">
+            <section class="image-form-section">
+            <form action="" name="myForm" method="POST" enctype="multipart/form-data">
+
+                <div class="message centerItems"><?php  if(isset($message)) { echo $message; }  ?></div>
+
+                <div class="formTextInputs">
+                    <label for="userFriendlyName">User Friendly File Name(Maeby On Couch):</label>
+                    <input type="text" name="userFriendlyName" class="full-width"  required>
+
+                    <label for="destinationFileName">Destination File Name (Include file type such as Maeby.png):</label>
+                    <input type="text" name="destinationFileName" class="full-width"  required>
+                </div>
+
+                <input type="file" name="imageEdited" accept="image/" onchange="previewImage(event)" required/>
+                <img id="preview" name="preview" alt="Preview Image">
+                <input type="submit"/>
+            </form>
+           
+
             
+        </section>
             <section class="container">
                 <table class="responsive-table">
                     <thead>
@@ -83,27 +103,6 @@ if(isset($_FILES['imageEdited']))
                     </tbody>
                 </table>
             </section>
-        </section>
-        <section class="image-form-section">
-            <form action="" name="myForm" method="POST" enctype="multipart/form-data">
-
-                <div class="message centerItems"><?php  if(isset($message)) { echo $message; }  ?></div>
-
-                <div class="formTextInputs">
-                    <label for="userFriendlyName">User Friendly File Name(Maeby On Couch):</label>
-                    <input type="text" name="userFriendlyName" class="full-width"  required>
-
-                    <label for="destinationFileName">Destination File Name (Include file type such as Maeby.png):</label>
-                    <input type="text" name="destinationFileName" class="full-width"  required>
-                </div>
-
-                <input type="file" name="imageEdited" accept="image/" onchange="previewImage(event)" required/>
-                <img id="preview" name="preview" alt="Preview Image">
-                <input type="submit"/>
-            </form>
-           
-
-            
         </section>
        
         

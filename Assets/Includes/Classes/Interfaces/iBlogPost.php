@@ -1,5 +1,7 @@
 <?php
 
+namespace Site\Interfaces;
+
 interface iBlogPost {
 
     public function loadBlogByID($id=1);

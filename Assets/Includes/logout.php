@@ -1,5 +1,7 @@
 <?php
 
+use Site\User;
+
 echo var_dump(array_diff(scandir("./Classes"), array('.', '..')));
 echo "<br /> " . realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once './Classes/User.php';

@@ -1,13 +1,15 @@
 <?php
 
-require_once __DIR__ . '/generalFunctions.php';
-require_once __DIR__ . '/Config.php';
+use Site\Config;
 
 // Load configuration from .env
 $envPath = realpath(__DIR__ . '/../../ignoredFiles/.env');
+require __DIR__ . '/../../vendor/autoload.php'; 
+
 if (!$envPath) {
-    $envPath = '/var/www/config/config.env';
+    $envPath = realpath(__DIR__ . '/../../../../config/config.env');
 }
+
 Config::load($envPath);
 
 // Start session once

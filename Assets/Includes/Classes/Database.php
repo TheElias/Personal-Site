@@ -6,46 +6,42 @@
     use PDOException;
     use Exception;
 
-    class Database extends DatabaseConfiguration
+    class Database
     {
-        public $connection;
-        public $recordset;
-        private $sqlQuery;
+        private ?PDO $connection = null;
+        private DatabaseConfiguration $config;
 
-        protected $serverName;
-        protected $userName;
-        protected $password;
-        protected $databaseName;
-
-        function __construct()
+        function __construct(?DatabaseConfiguration $config = null)
         {
-            $databaseParameters = new DatabaseConfiguration();
-            $this->databaseName = $databaseParameters->databaseName;
-            $this->serverName = $databaseParameters->serverName;
-            $this->userName = $databaseParameters->userName;
-            $this->password = $databaseParameters->password;
-        }
-
-        function setCredentials($myDatabaseName,$myServerName, $myUsername, $myPassword) 
-        {
-            $this->databaseName = $myDatabaseName;
-            $this->serverName = $myServerName;
-            $this->userName = $myUsername;
-            $this->password = $myPassword;
+            $this->config = $config ?? new DatabaseConfiguration();
         }
 
         public function connect()
         {
             try 
             {    
-                $this->connection = new PDO('mysql:host='  . $this->serverName . ';dbname='.$this->databaseName, $this->userName, $this->password);
+                $dsn = sprintf(
+                    'mysql:host=%s;dbname=%s;charset=utf8mb4',
+                    $this->config->getServerName(),
+                    $this->config->getDatabaseName()
+                );
+
+                $this->connection = new PDO(
+                    $dsn,
+                    $this->config->getUsername(), 
+                    $this->config->getPassword(),
+                    [
+                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES   => false,
+                    ]);
+
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 //echo 'Database->Connect: mysql:host='  . $this -> serverName . ';dbname='. $this -> databaseName . " " . $this -> userName . " " .  $this -> password;
             }
             catch(PDOException $e)
             {
-                throw new Exception("Database Connection Failed. " . $e->getMessage() . ". " . ' mysql:host='  . 
-                        $this -> serverName . ';dbname='. $this -> databaseName . " " . $this -> userName . " " .  $this -> password);
+                throw new Exception("Database Connection Failed. " . $e->getMessage());
                 return false; 
             }
 
@@ -56,34 +52,9 @@
         {
            return $this->connection;
         }
-        
-        public function selectAll($tableName)  
-        {
-            $sql = 'SELECT * FROM '. $this->databaseName.'.'.$tableName;
-            $result = $this->connection->prepare($sql);
-            $result->execute();
-            return $result -> fetchAll(PDO::FETCH_ASSOC);
-        }
-
-        function fetch($query)
-        {
-            
-            $result = $this->connection->prepare($query);
-            $result->execute();
-           
-             $result -> fetchAll(PDO::FETCH_ASSOC);
-             
-             return $result;
-        }
     
         public function disconnect() {
             $this -> connection = NULL;
-            $this -> sqlQuery = NULL;
-            $this -> recordset = NULL;
-            $this -> databaseName = NULL;
-            $this -> serverName = NULL;
-            $this -> userName = NULL;
-            $this -> password = NULL;
         }
     }
 ?>

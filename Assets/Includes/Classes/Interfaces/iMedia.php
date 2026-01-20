@@ -1,5 +1,4 @@
 <?php
-
 namespace Site\Interfaces;
 
 interface iMedia {

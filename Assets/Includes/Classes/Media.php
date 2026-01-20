@@ -1,15 +1,16 @@
-    <?php 
-        namespace Site;
-   
-        use Site\Interfaces\iMedia;
+<?php
+namespace Site;
 
- final class Media implements iMedia
+use Site\Interfaces\iMedia;
+
+final class Media implements iMedia
 {
     private ?int $id;
     private string $type;
     private string $mimeType;
     private string $originalName;
     private string $storedName;
+     private string $storageKey; 
     private int $sizeBytes;
 
     private ?int $width;

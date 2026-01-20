@@ -3,18 +3,16 @@
     namespace Site;
 
     use Site\Interfaces\iMediaDAO;
+    use PDO;
 
 final class MediaDAO implements iMediaDAO
 {
     protected $database;
     protected $conn;
 
-    function __construct()
-    {   
-        $this->database = new Database();
-        $this->database->connect();
-
-        $this->conn = $this->database->getConnection();
+    public function __construct(PDO $conn)
+    {
+        $this->conn = $conn;
     }
 
     public function getByID(int $id): ?Media
@@ -137,6 +135,8 @@ final class MediaDAO implements iMediaDAO
 
         return $mediaList;
     }
+
+
 }
 
 ?>

@@ -1,27 +1,33 @@
 <?php
-
-    namespace Site;
+namespace Site;
 
 class DatabaseConfiguration {
-    protected $serverName;
-    protected $userName;
-    protected $password;
-    protected $databaseName;    
 
-    function __construct(array $overrides = []) {
-        $this->serverName   = $overrides['dbservername']   ?? Config::get('dbservername', '127.0.0.1');
-        $this->databaseName = $overrides['personal_website']   ?? Config::get('personal_website', '');
-        $this->userName     = $overrides['dbusername']   ?? Config::get('dbusername', '');
-        $this->password     = $overrides['dbpassword']   ?? Config::get('dbpassword', '');
+    private string $serverName;
+    private string $databaseName;
+    private string $username;
+    private string $password;
+    private int $port;
 
+    public function __construct(array $overrides = [])
+    {
+        $this->serverName = getenv('DB_HOST') ?: '127.0.0.1';
+        $this->databaseName = getenv('DB_NAME') ?: '';
+        $this->username = getenv('DB_USER') ?: '';
+        $this->password = getenv('DB_PASS') ?: '';
+        $this->port = (int)(getenv('DB_PORT') ?: 3306);
     }
-
+        
     public function getDsn(): string {
-        return sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', $this->serverName, $this->databaseName);
+        return sprintf(
+                       'mysql:host=%s;dbname=%s;charset=utf8mb4', 
+                       $this->serverName, 
+                       $this->databaseName,
+                      );
     }
 
     public function getUsername(): string {
-        return $this->userName;
+        return $this->username;
     }
 
     public function getPassword(): string {
@@ -35,5 +41,9 @@ class DatabaseConfiguration {
 
     public function getDatabaseName(): string {
         return $this->databaseName;
+    }
+
+    public function getPort(): int {
+        return $this->port;
     }
 }

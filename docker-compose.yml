@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: app_test
+      MARIADB_USER: app
+      MARIADB_PASSWORD: app
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      APP_ENV: testing
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: app_test
+      DB_USER: app
+      DB_PASS: app
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dbdata:

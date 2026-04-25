@@ -15,9 +15,10 @@
             include("Assets/Includes/header.php");
         ?>
 
+
         <section class="welcome-section">
-            <h2>Elias Broniecki</h2>
-            <p>Creating Whateverz</p>
+            <h2>Fart</h2>
+            <a href = "https://eliasbroniecki.com/imageAdmin.php">Go to my blog</a>
         </section>
 
         <section class="about-me-section">

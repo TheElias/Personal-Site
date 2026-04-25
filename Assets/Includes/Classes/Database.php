@@ -20,7 +20,7 @@ namespace Site;
         public static function fromEnvironment(array $overrides = []): Database
         {
             $config = new DatabaseConfiguration($overrides);
-            var_dump($config->getDsn(), $config->getUsername(), $config->getPassword(),$config->getPort());
+
             return new Database($config);
         }
 

@@ -5,10 +5,10 @@
 >
     <testsuites>
         <testsuite name="unit">
-            <directory>TestingSuite/</directory>
+            <directory>integrationTest/</directory>
         </testsuite>
         <testsuite name="integration">
-            <directory>TestingSuite/</directory>
+            <directory>UnitTest/</directory>
         </testsuite>
     </testsuites>
 

@@ -3,27 +3,20 @@
         namespace Site;
 
         use Site\Interfaces\iTokenAuth;
+        use PDO;
 
     class TokenAuth implements iTokenAuth 
     {
         protected $database;
         protected $conn;
 
-        function __construct()
-        {   
-            $this->database = new Database();
-            $this->database->connect();
-
-            $this->conn = $this->database->getConnection();
+        public function __construct(PDO $conn)
+    {
+            $this->conn = $conn;
         }
 
-        public static function getUserByUsername($username)
+        public static function getUserByUsername(PDO $conn, $username)
         {  
-
-            $myDB = new Database();
-            $myDB->connect();
-            $conn = $myDB->getConnection();
-
             $sql = "SELECT *
             FROM personal_website.User AS U
             WHERE U.username =  ?";

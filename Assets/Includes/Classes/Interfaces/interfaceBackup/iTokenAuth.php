@@ -1,10 +1,11 @@
 <?php
 
     namespace Site\Interfaces;
+    use PDO;
     
 interface iTokenAuth {
 
-    public static function getUserByUsername($username);
+    public static function getUserByUsername(PDO $conn, $username);
     public static function getTokenByUsername($username,$expired=0);
 
     public static function markTokenAsExpired($tokenID);

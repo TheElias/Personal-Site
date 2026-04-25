@@ -33,13 +33,14 @@ final class MediaDAO implements iMediaDAO
                 $mediaInfo['id'],
                 $mediaInfo['type'],
                 $mediaInfo['mime_type'],
-                $mediaInfo['original_name'],
-                $mediaInfo['stored_name'],
+                $mediaInfo['original_filename'],
+                $mediaInfo['stored_filename'],
+                $mediaInfo['extension'],
                 (int)$mediaInfo['size_bytes'],
                 isset($mediaInfo['width']) ? (int)$mediaInfo['width'] : null,
                 isset($mediaInfo['height']) ? (int)$mediaInfo['height'] : null,
                 isset($mediaInfo['duration_seconds']) ? (float)$mediaInfo['duration_seconds'] : null,
-                new \DateTimeImmutable($mediaInfo['created_at'])
+                new \DateTimeImmutable($mediaInfo['created_at']->format('Y-m-d H:i:s'))
             );
         }
     }
@@ -47,8 +48,8 @@ final class MediaDAO implements iMediaDAO
     public function insert(Media $media): Media
     {
         $sql = "INSERT INTO personal_website.media 
-                (type, mime_type, original_name, stored_name, size_bytes, width, height, duration_seconds) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                (type, mime_type, original_filename, stored_filename, extension, size_bytes, width, height, duration_seconds) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             $result = $this->conn->prepare($sql);
 
@@ -57,6 +58,7 @@ final class MediaDAO implements iMediaDAO
                 $media->getMimeType(),
                 $media->getOriginalName(),
                 $media->getStoredName(),
+                $media->getExtension(),
                 $media->getSizeBytes(),
                 $media->getWidth(),
                 $media->getHeight(),
@@ -74,7 +76,7 @@ final class MediaDAO implements iMediaDAO
     public function update(Media $media): void
     {
         $sql = "UPDATE personal_website.media 
-                SET type = ?, mime_type = ?, original_name = ?, stored_name = ?, size_bytes = ?, width = ?, height = ?, duration_seconds = ?
+                SET type = ?, mime_type = ?, original_filename = ?, stored_filename = ?, extension = ?, size_bytes = ?, width = ?, height = ?, duration_seconds = ?
                 WHERE id = ?";
 
         try {
@@ -85,6 +87,7 @@ final class MediaDAO implements iMediaDAO
                 $media->getMimeType(),
                 $media->getOriginalName(),
                 $media->getStoredName(),
+                $media->getExtension(),
                 $media->getSizeBytes(),
                 $media->getWidth(),
                 $media->getHeight(),
@@ -123,8 +126,8 @@ final class MediaDAO implements iMediaDAO
                 $mediaInfo['id'],
                 $mediaInfo['type'],
                 $mediaInfo['mime_type'],
-                $mediaInfo['original_name'],
-                $mediaInfo['stored_name'],
+                $mediaInfo['original_filename'],
+                $mediaInfo['stored_filename'],
                 (int)$mediaInfo['size_bytes'],
                 isset($mediaInfo['width']) ? (int)$mediaInfo['width'] : null,
                 isset($mediaInfo['height']) ? (int)$mediaInfo['height'] : null,

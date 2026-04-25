@@ -23,35 +23,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // This should be a real directory that your web server can write to.
         // Example: /var/www/site/public/uploads  (linux)
         // For your local Windows dev, point it somewhere writable.
-        $uploadRoot = __DIR__ . '/../uploads'; // e.g. public/admin/uploads (test-only)
-        if (!is_dir($uploadRoot)) {
-            mkdir($uploadRoot, 0755, true);
-        }
+        $siteRoot = dirname($_SERVER['DOCUMENT_ROOT']); // /var/www/eliasbroniecki.com
+    $uploadRoot = $siteRoot . '/uploads';
 
-        $storage = new MediaStorage($uploadRoot);
+    if (!is_dir($uploadRoot) && !mkdir($uploadRoot, 0755, true)) {
+        throw new RuntimeException("Failed to create upload root: $uploadRoot");
+    }
+    if (!is_writable($uploadRoot)) {
+        throw new RuntimeException("Upload root not writable: $uploadRoot");
+    }
 
-        // 3) Uploader (workflow)
-        $uploader = new MediaService($mediaDao, $storage);
+    $storage = new MediaStorage($uploadRoot);
 
-        // 4) Upload
-        if (!isset($_FILES['file'])) {
-            throw new RuntimeException('No file uploaded.');
-        }
+    // 3) Uploader (workflow)
+    $uploader = new MediaService($mediaDao, $storage);
 
-        $media = $uploader->upload($_FILES['file']); // returns Media with ID assigned
+    // 4) Upload
+    if (!isset($_FILES['file'])) {
+        throw new RuntimeException('No file uploaded.');
+    }
 
-        $result = [
-            'id'            => $media->getId(),
-            'type'          => $media->getType(),
-            'mime_type'     => $media->getMimeType(),
-            'original_name' => $media->getOriginalName(),
-            'stored_name'   => $media->getStoredName(), // this is your storage key
-            'size_bytes'    => $media->getSizeBytes(),
-            'width'         => $media->getWidth(),
-            'height'        => $media->getHeight(),
-            'created_at'    => $media->getCreatedAt()->format('Y-m-d H:i:s'),
-            'saved_path'    => $storage->pathFor($media->getStoredName()),
-        ];
+    $media = $uploader->upload($_FILES['file']); // returns Media with ID assigned
+
+    $result = [
+        'id'            => $media->getId(),
+        'type'          => $media->getType(),
+        'mime_type'     => $media->getMimeType(),
+        'original_name' => $media->getOriginalName(),
+        'stored_name'   => $media->getStoredName(), // this is your storage key
+        'size_bytes'    => $media->getSizeBytes(),
+        'width'         => $media->getWidth(),
+        'height'        => $media->getHeight(),
+        'created_at'    => $media->getCreatedAt()->format('Y-m-d H:i:s'),
+        'saved_path'    => $storage->pathFor($media->getStoredName()),
+    ];
 
     } catch (Throwable $e) {
         $error = $e->getMessage();

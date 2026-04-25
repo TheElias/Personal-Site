@@ -34,7 +34,6 @@ final class MediaService implements iMediaService
         // 2) Generate storage key BEFORE DB insert
         $storageKey = $this->generateStorageKey($originalName);
 
-        var_dump("Storage Key: " . $storageKey . " Original Name: " . $originalName);
         // 3) Save bytes to disk
         $this->storage->saveUploadedFile($file, $storageKey);
 

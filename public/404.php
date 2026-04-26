@@ -10,7 +10,7 @@
     <body>
         <!--Header-->
         <?php 
-            include("Assets/Includes/header.php");
+           include(__DIR__  . "/../templates/partials/header.php");
         ?>
         <section id="page-body">
             <section class="page-not-found-section">
@@ -22,7 +22,7 @@
         </section>
         <!--Footer-->
         <?php 
-            include("Assets/Includes/footer.php");
+            include(__DIR__  . "/../templates/partials/footer.php");
         ?>
     </body>
 </html>

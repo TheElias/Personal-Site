@@ -1,7 +1,7 @@
 <footer>
     <!--Navigation-->
     <?php 
-        include("Assets/Includes/socialMedias.php");
+        include(__DIR__  . "/socialMedias.php");
         if (isset($conn) )
         {
             mysqli_close($conn);

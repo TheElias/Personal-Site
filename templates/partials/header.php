@@ -11,7 +11,7 @@
     
     <?php   
 
-        include("Assets/Includes/navigation.php");
+        include(__DIR__  . "/navigation.php");
 
     ?>
 </header>       

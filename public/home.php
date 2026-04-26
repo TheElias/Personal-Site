@@ -3,16 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <title>Elias Broniecki's Personal Site</title>
-        <link rel="stylesheet" type="text/css" href="Assets/CSS/mainStyle.css">
+        <link rel="stylesheet" type="text/css" href="./CSS/mainStyle.css">
     </head>
-    
+<?php 
+
+use Site\View\View;
+
+?>
 
     <body>
 
 
         <!--Header-->
         <?php 
-            include("Assets/Includes/header.php");
+            include(__DIR__  . "/../templates/partials/header.php");
         ?>
 
 
@@ -33,7 +37,7 @@
 
         <!--Footer-->
         <?php 
-            include("Assets/Includes/footer.php");
+            include(__DIR__  . "/../templates/partials/footer.php");
         ?>
     </body>
 </html>

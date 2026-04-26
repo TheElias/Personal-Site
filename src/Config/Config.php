@@ -1,6 +1,6 @@
 <?php
 
-namespace Site;
+namespace Site\Config;
 
 class Config {
     private static array $values = [];

@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/Assets/Includes/init.php';
+require __DIR__ . '/../init.php';
 
 class Route {
 
@@ -127,15 +127,9 @@ $route->add("/blog","blog.php");
 
 $route->add("/blog/{urlName}","blogPost.php");
 
-$route->add("/manager","manager.php");
+$route->add("admin/manager","admin/manager.php");
 
-$route->add("/admin","adminDashboard.php");
-
-//example route with multiple params
-
-
-
-//$route->add("/blog/{urlName}","blogPost.php");
+$route->add("/admin","admin/adminDashboard.php");
 
 $route->notFound("404.php");
 

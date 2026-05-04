@@ -142,4 +142,10 @@ final class MediaService implements iMediaService
 
         return [(int)$info[0], (int)$info[1]];
     }
+
+    public function getById(int $id): ?Media
+    {
+        return $this->mediaDao->getById($id);
+    }
+    
 }

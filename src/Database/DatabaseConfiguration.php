@@ -1,5 +1,5 @@
 <?php
-namespace Site;
+namespace Site\Database;
 
 class DatabaseConfiguration {
 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Elias Broniecki's Personal Site</title>
-        <link rel="stylesheet" type="text/css" href="./CSS/mainStyle.css">
+        <link rel="stylesheet" type="text/css" href="/assets/CSS/mainStyle.css">
     </head>
 <?php 
 

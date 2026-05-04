@@ -1,0 +1,57 @@
+<?php
+
+Namespace Site\Auth;
+
+// Enforces Rules. Check if user is logged in, Check if user has required level, Redirect to login page if not, etc.
+
+    //The various user levels
+    const LEVEL_PENDING 	= 0; //User is still pending email confirmation
+    const LEVEL_USER 		= 1; //Standard user with normal privileges
+    const LEVEL_AUTHOR 		= 2; //Standard user with author privileges
+    const LEVEL_MODERATOR 	= 3; //Special case users with higher privileges
+    const LEVEL_ADMIN 		= 4; //Administrators with all privileges
+
+Class AuthGuard {
+    public static function requireLogin(string $redirectTo = '/manager'): void
+    {
+        if (self::isLoggedIn()) {
+            return;
+        }
+
+        header('Location: ' . $redirectTo);
+        exit;
+    }
+
+    public static function requireLevel(int $minimumLevel, string $redirectTo = '/manager'): void
+    {
+        self::requireLogin($redirectTo);
+
+        $userLevel = $_SESSION['user_level'] ?? 0;
+
+        if ($userLevel < $minimumLevel) {
+            http_response_code(403);
+            echo 'Forbidden';
+            exit;
+        }
+    }
+
+    public static function isLoggedIn(): bool
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!empty($_SESSION['username'])) {
+            return true;
+        }
+
+        // Later: call RememberMeService here
+        // if ($rememberMeService->loginFromRememberMeCookie()) {
+        //     return true;
+        // }
+
+        return false;
+    }
+}
+
+?>

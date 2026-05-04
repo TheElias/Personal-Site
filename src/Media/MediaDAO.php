@@ -35,7 +35,6 @@ final class MediaDAO implements iMediaDAO
                 $mediaInfo['mime_type'],
                 $mediaInfo['original_filename'],
                 $mediaInfo['stored_filename'],
-                $mediaInfo['extension'],
                 (int)$mediaInfo['size_bytes'],
                 isset($mediaInfo['width']) ? (int)$mediaInfo['width'] : null,
                 isset($mediaInfo['height']) ? (int)$mediaInfo['height'] : null,

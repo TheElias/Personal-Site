@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Site;
+namespace Site\Database;
 
     use PDO;
     use PDOException;

@@ -68,6 +68,26 @@ Class UserDAO {
             return $hashInfo['password_hash'];
         }
     }
+
+    public function createUser(User $user): int
+    {
+        $sql = "INSERT INTO personal_website.user (username, first_name, last_name, password_hash, email, date_of_birth, user_level) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $result = $this->conn->prepare($sql);
+        if ($result->execute([
+            $user->getUsername(),
+            $user->getFirstName(),
+            $user->getLastName(),
+            $user->getPasswordHash(),
+            $user->getEmail(),
+            $user->getDOB()->format('Y-m-d'),
+            $user->getUserLevel()
+        ])) {
+            throw new \RuntimeException('Failed to create user');
+        }
+        return (int) $this->conn->lastInsertId();
+    }
+
+
     // function doesUserExistByUsername($username = '')
     // function doesUserExistByEmail($email = '')
     // function createUser($username, $email, $password)

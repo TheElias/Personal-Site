@@ -2,9 +2,6 @@
 
 <?php
 
-include("Assets/Includes/adminHeader.php");
-
-require __DIR__ . '/Assets/Includes/init.php';
 
 
 if(isset($_FILES['image']))
@@ -21,8 +18,12 @@ if(isset($_FILES['image']))
     <head>
         <meta charset="UTF-8">
         <title>Elias Broniecki's Personal Site</title>
-        <link rel="stylesheet" type="text/css" href="Assets/CSS/adminStyle.css">
+        <link rel="stylesheet" type="text/css" href="../CSS/adminStyle.css">
     </head>        
+        <!--Header-->
+        <?php 
+            include __DIR__ . "/../../templates/admin/adminHeader.php";
+        ?>
 
 <html  lang="en">
     <body>

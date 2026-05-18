@@ -15,18 +15,18 @@ class UserTokenDAO {
         $this->conn = $conn;
     }
 
-    public function createToken(int $userId, string $token, string $selector, DateTime $expiresAt): void
+    public function createToken(int $userId, string $selector, string $validator, DateTime $expiresAt): void
     {
-        $sql = "INSERT INTO personal_website.user_tokens (user_id, token, selector, expires_at) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO personal_website.user_token (user_id, selector, validator, expires_at) VALUES (?, ?, ?, ?)";
         $result = $this->conn->prepare($sql);
-        $result->execute([$userId, $token, $selector, $expiresAt->format('Y-m-d H:i:s')]);
+        $result->execute([$userId, $selector, $validator, $expiresAt->format('Y-m-d H:i:s')]);
     }
 
-    public function getUserIdByToken(string $token): ?int
+    public function getUserIdBySelector(string $selector): ?int
     {
-        $sql = "SELECT user_id FROM personal_website.user_tokens WHERE token = ? AND expires_at > NOW()";
+        $sql = "SELECT user_id FROM personal_website.user_token WHERE selector = ? AND expires_at > NOW()";
         $result = $this->conn->prepare($sql);
-        $result->execute([$token]);
+        $result->execute([$selector]);
         $info = $result->fetch();
 
         if (!$info) {
@@ -49,16 +49,26 @@ class UserTokenDAO {
         return $tokenInfo;
     }    
 
+    public function getTokenBySelector(string $selectorHash): ?array
+    {
+        $sql = "SELECT * FROM personal_website.user_token WHERE selector_hash = ? AND expires_at > NOW() LIMIT 1";
+        $result = $this->conn->prepare($sql);
+        $result->execute([$selectorHash]);
+        $tokenInfo = $result->fetch();
+
+        return $tokenInfo ?: null;
+    }
+
     public function deleteToken(string $token): void
     {
-        $sql = "DELETE FROM personal_website.user_tokens WHERE token = ?";
+        $sql = "DELETE FROM personal_website.user_token WHERE token = ?";
         $result = $this->conn->prepare($sql);
         $result->execute([$token]);
     }
 
     public function deleteTokensByUserId(int $userId): void
     {
-        $sql = "DELETE FROM personal_website.user_tokens WHERE user_id = ?";
+        $sql = "DELETE FROM personal_website.user_token WHERE user_id = ?";
         $result = $this->conn->prepare($sql);
         $result->execute([$userId]);
     }

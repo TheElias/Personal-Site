@@ -17,38 +17,42 @@ Class RememberMeService {
 
     public function loginFromRememberMeCookie(): bool
     {
-        if (isset($_COOKIE['remember_me_token'])) {
-            $token = $_COOKIE['remember_me_token'];
-
-            // Here you would normally check the token against a database
-            // For demonstration purposes, we'll just check against a hardcoded value
-
-            if (empty($_COOKIE['user_id']) || empty($_COOKIE['user_level'])) {
-                return false;
-            }   
-
-            $token = $this->userTokenDAO->getTokenByUserid($_COOKIE['user_id']);
-
-            
-
-
-            if ($token === 'valid_token') {
-                if (session_status() !== PHP_SESSION_ACTIVE) {
-                    session_start();
-                }
-                $_SESSION['user_id'] = $_COOKIE['user_id'];
-                $_SESSION['user_level'] = $_COOKIE['user_level']; // Example user level
-
-                return true;
-            }
+        if(!empty($_SESSION['user_id'])) {
+            return true;
         }
 
-        return false;
+        if(empty($_COOKIE['remember_me_token'])) {
+            return false;
+        }
+
+        $cookieParts = explode(':', $_COOKIE['remember_me_token'], 2);
+
+        if (count($cookieParts) !== 2) {
+            return false;
+        }
+
+        [$selector, $validator] = $cookieParts;
+
+        $selectorHash = hash('sha256', $selector);
+
+        $tokenInfo = $this->userTokenDAO->getTokenBySelector($selectorHash);
+
+        if (!$tokenInfo) {
+            $this->clearCookie();
+            return false;
+        }
+
+        if (!password_verify($validator, $tokenInfo['token'])) {
+            $this->clearCookie();
+            return false;
+        }
+
+        return true;
     }
 
     public function setRememberMeToken(int $userId): void
     {
-        $selector = bin2hex(random_bytes(32));
+        $selector = bin2hex(random_bytes(16));
         $validator = bin2hex(random_bytes(32));
 
         $selectorHash = hash('sha256', $selector);
@@ -56,7 +60,7 @@ Class RememberMeService {
 
         $expiresAt = new \DateTime('+30 days');
 
-        $this->userTokenDAO->createToken($userId, $validatorHash, $selectorHash, $expiresAt);
+        $this->userTokenDAO->createToken($userId, $selectorHash, $validatorHash, $expiresAt);
 
         setcookie(
             'remember_me_token',
@@ -64,6 +68,7 @@ Class RememberMeService {
             $this->getCookieOptions($expiresAt->getTimestamp())
         );
     }
+
 
     public function clearByUserId(int $userId): void
     {
@@ -75,6 +80,15 @@ Class RememberMeService {
 
         $this->userTokenDAO->deleteTokensByUserId($userId);
     }
+
+    private function clearCookie(): void
+{
+    setcookie(
+        'remember_me_token',
+        '',
+        $this->getCookieOptions(time() - 3600)
+    );
+}
 
     private function getCookieOptions(int $expires): array
     {

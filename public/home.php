@@ -7,8 +7,6 @@
     </head>
 <?php 
 
-use Site\View\View;
-
 ?>
 
     <body>

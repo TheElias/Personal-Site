@@ -43,11 +43,11 @@ Class AuthService {
             session_start();
         }
 
-        // Clear session data
-        $_SESSION = [];
-
         // Clear remember me cookie
         $this->rememberMeService->clearByUserId($_SESSION['user_id']);
+
+        // Clear session data
+        $_SESSION = [];
 
         session_destroy();
     }
@@ -62,6 +62,7 @@ Class AuthService {
 
         $_SESSION['user_id'] = $userId;
         $_SESSION['user_level'] = $userLevel;
+        $_SESSION['username'] = $username;
     }
 
     public function isAuthenticated(): bool
@@ -73,6 +74,22 @@ Class AuthService {
         return isset($_SESSION['user_id']);
     }
 
+    public function isLoggedIn(): bool
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!empty($_SESSION['username'])) {
+            return true;
+        }
+
+        if ($this->rememberMeService->loginFromRememberMeCookie()) {
+            return true;
+        }
+
+        return false;
+    }
 
     // Other authentication-related functions
 

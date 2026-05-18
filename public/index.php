@@ -114,9 +114,30 @@ class Route {
     }
 
     function notFound($file){
+        http_response_code(404);
         include($file);
         exit();
     }
+
+    function redirect($route){
+        header("Location: " . $route);
+        exit();
+    }
+    function refresh(){
+        header("Location: " . $_SERVER["REQUEST_URI"]);
+        exit();
+    }
+
+    private function render(string $file, array $params = []): void
+    {
+        global $authService, $rememberMeService, $pdo;
+
+        include TEMPLATE_PATH . '/' . $file;
+
+        exit;
+    }
+    
+
 }
 
 $route = new Route();
@@ -127,9 +148,9 @@ $route->add("/blog","blog.php");
 
 $route->add("/blog/{urlName}","blogPost.php");
 
-$route->add("admin/manager","admin/manager.php");
+$route->add("/admin/manager","admin/manager.php");
 
-$route->add("/admin","admin/adminDashboard.php");
+$route->add("/admin","admin/manager.php");
 
 $route->notFound("404.php");
 

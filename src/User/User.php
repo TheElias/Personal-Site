@@ -15,7 +15,7 @@ class User {
     private DateTime $joinDate;
     private int $userLevel;
 
-    public function __construct(int $id, string $username, string $firstName, string $lastName, string $passwordHash, string $email, DateTime $DOB, DateTime $joinDate, int $userLevel)
+    public function __construct(int $id, string $username, string $firstName, string $lastName, string $passwordHash, ?string $email, ?DateTime $DOB, DateTime $joinDate, int $userLevel)
     {
         $this->id = $id;
         $this->username = $username;

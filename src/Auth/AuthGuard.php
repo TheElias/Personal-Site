@@ -2,6 +2,8 @@
 
 Namespace Site\Auth;
 
+use Site\Auth\AuthService;
+
 // Enforces Rules. Check if user is logged in, Check if user has required level, Redirect to login page if not, etc.
 
     //The various user levels
@@ -12,9 +14,15 @@ Namespace Site\Auth;
     const LEVEL_ADMIN 		= 4; //Administrators with all privileges
 
 Class AuthGuard {
-    public static function requireLogin(string $redirectTo = '/manager'): void
+    private AuthService $authService;
+
+    public function __construct(AuthService $authService) {
+        $this->authService = $authService;
+    }
+
+    public function requireLogin(string $redirectTo = '/manager'): void
     {
-        if (self::isLoggedIn()) {
+        if ($this->authService->isLoggedIn()) {
             return;
         }
 
@@ -22,9 +30,9 @@ Class AuthGuard {
         exit;
     }
 
-    public static function requireLevel(int $minimumLevel, string $redirectTo = '/manager'): void
+    public function requireLevel(int $minimumLevel, string $redirectTo = '/manager'): void
     {
-        self::requireLogin($redirectTo);
+        $this->requireLogin($redirectTo);
 
         $userLevel = $_SESSION['user_level'] ?? 0;
 
@@ -35,23 +43,7 @@ Class AuthGuard {
         }
     }
 
-    public static function isLoggedIn(): bool
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
 
-        if (!empty($_SESSION['username'])) {
-            return true;
-        }
-
-        // Later: call RememberMeService here
-        // if ($rememberMeService->loginFromRememberMeCookie()) {
-        //     return true;
-        // }
-
-        return false;
-    }
 }
 
 ?>

@@ -27,7 +27,7 @@ fart          <?php
 
     <?php   
 
-include("Assets/Includes/adminNavigation.php");
+include(__DIR__ . "/adminNavigation.php");
 
 ?>
     

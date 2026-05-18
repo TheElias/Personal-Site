@@ -1,53 +1,27 @@
 <?php
 
-use Site\UserLogin;
-use Site\User;
-require __DIR__ . '/Assets/Includes/init.php';
+    $isLoggedIn = $rememberMeService->loginFromRememberMeCookie();
 
-
-if(session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Decide login state via code, not a global
-$isLoggedIn = UserLogin::checkUserSessionLogin();
-
-if ($isLoggedIn) {
-    header("Location: adminDashboard.php");
-    exit;
-}
-
-/*
-if (isset($_SESSION['username']))
-{
-    header("Location:" . "adminDashboard.php");
-}
-else
-{
-    if (User::checkUserSessionLogin())
-    {
-        echo $_SESSION['username'];
-        //header("Location:" . "adminDashboard.php");
-    }
-}
-*/
-if (! empty($_POST["login"])) {
-    $isAuthenticated = false;
+    if (! empty($_POST["login"])) {
     
     $username = $_POST["username"];
     $password = $_POST["password"];
     $remember = $_POST["remember"];
 
-    $user = new User();
-    if ($user->login($username, $password, $remember)) 
-    {
-        header("Location:" . "admin");
-    }
-    else
-    {
+    if ($authService->login($username, $password, $remember)) {
+        $isLoggedIn = true;
+    } else {
+        $isLoggedIn = false;
         $message = "Invalid Login";
     }
-}
+
+    }
+
+    if ($isLoggedIn) {
+        header('Location: admin/adminDashboard.php');
+        exit;
+    }
+
 ?>
 <!DOCTYPE html>
 <html  lang="en">
@@ -57,7 +31,7 @@ if (! empty($_POST["login"])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Elias Broniecki Manager Admin Interface For Website Stuff. This is a long title just to make you look.</title>
-        <link rel="stylesheet" type="text/css" href="Assets/CSS/adminStyle.css">
+        <link rel="stylesheet" type="text/css" href="CSS/adminStyle.css">
     </head>
 
     <body class="centerItems">

@@ -1,0 +1,10 @@
+.vscode/sftp.json
+.viscode/launch.json
+.vscode/
+/images/
+vendor
+composer
+phpunit.phar
+/ignoredFiles/
+/TestingSuite/
+/Assets/Includes/

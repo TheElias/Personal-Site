@@ -18,7 +18,7 @@
     }
 
     if ($isLoggedIn) {
-        header('Location: admin/adminDashboard.php');
+        header('Location: /admin/dashboard');
         exit;
     }
 

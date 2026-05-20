@@ -4,15 +4,6 @@ Namespace Site\Auth;
 
 use Site\Auth\AuthService;
 
-// Enforces Rules. Check if user is logged in, Check if user has required level, Redirect to login page if not, etc.
-
-    //The various user levels
-    const LEVEL_PENDING 	= 0; //User is still pending email confirmation
-    const LEVEL_USER 		= 1; //Standard user with normal privileges
-    const LEVEL_AUTHOR 		= 2; //Standard user with author privileges
-    const LEVEL_MODERATOR 	= 3; //Special case users with higher privileges
-    const LEVEL_ADMIN 		= 4; //Administrators with all privileges
-
 Class AuthGuard {
     private AuthService $authService;
 
@@ -25,6 +16,8 @@ Class AuthGuard {
         if ($this->authService->isLoggedIn()) {
             return;
         }
+
+        $_SESSION['intended_url'] = $_SERVER['REQUEST_URI'];
 
         header('Location: ' . $redirectTo);
         exit;

@@ -31,7 +31,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Elias Broniecki Manager Admin Interface For Website Stuff. This is a long title just to make you look.</title>
-        <link rel="stylesheet" type="text/css" href="CSS/adminStyle.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo ADMIN_CSS_PATH; ?>">
     </head>
 
     <body class="centerItems">

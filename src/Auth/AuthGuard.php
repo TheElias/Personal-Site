@@ -11,7 +11,7 @@ Class AuthGuard {
         $this->authService = $authService;
     }
 
-    public function requireLogin(string $redirectTo = '/manager'): void
+    public function requireLogin(string $redirectTo = '/login'): void
     {
         if ($this->authService->isLoggedIn()) {
             return;
@@ -23,7 +23,7 @@ Class AuthGuard {
         exit;
     }
 
-    public function requireLevel(int $minimumLevel, string $redirectTo = '/manager'): void
+    public function requireLevel(int $minimumLevel, string $redirectTo = '/login'): void
     {
         $this->requireLogin($redirectTo);
 

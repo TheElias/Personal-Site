@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Elias Broniecki's Personal Site</title>
-        <link rel="stylesheet" type="text/css" href="/assets/CSS/mainStyle.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo MAIN_CSS_PATH; ?>">
     </head>
 <?php 
 
@@ -14,7 +14,7 @@
 
         <!--Header-->
         <?php 
-            include(__DIR__  . "/../templates/partials/header.php");
+            include(MAIN_HEADER_PATH);
         ?>
 
 
@@ -35,7 +35,7 @@
 
         <!--Footer-->
         <?php 
-            include(__DIR__  . "/../templates/partials/footer.php");
+            include(MAIN_FOOTER_PATH);
         ?>
     </body>
 </html>

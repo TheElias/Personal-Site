@@ -3,8 +3,23 @@ declare(strict_types=1);
 
 // Setup environment globals that are used often
 define('PROJECT_ROOT', __DIR__);
+
 define('TEMPLATE_PATH', PROJECT_ROOT . '/templates');
 define('VIEW_PATH', PROJECT_ROOT . '/views');
+define('PUBLIC_PATH', PROJECT_ROOT . '/public');
+define('CONFIG_PATH', PROJECT_ROOT . '/src/config');
+
+define('ASSETS_PATH', PUBLIC_PATH . '/assets');
+define('ASSETS_URL', '/assets');
+define('MAIN_CSS_PATH', '/CSS/mainStyle.css');
+define('ADMIN_CSS_PATH', '/CSS/adminStyle.css');
+define('MAIN_JS_PATH', '/JS/mainScript.js');
+
+define('MAIN_HEADER_PATH', TEMPLATE_PATH . '/partials/header.php');
+define('MAIN_FOOTER_PATH', TEMPLATE_PATH . '/partials/footer.php');
+
+define('MAIN_ADMIN_HEADER_PATH', TEMPLATE_PATH . '/partials/adminHeader.php');
+define('MAIN_ADMIN_FOOTER_PATH', TEMPLATE_PATH . '/partials/adminFooter.php');
 
 const LEVEL_PENDING 	= 0; //User is still pending email confirmation
 const LEVEL_USER 		= 1; //Standard user with normal privileges

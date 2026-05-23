@@ -8,7 +8,7 @@ use Site\Controllers\AdminController;
 use Site\Controllers\HomeController;
 
 $adminController = new AdminController($authGuard);
-$homecontroller = new HomeController();
+$homeController = new HomeController();
 
 $route = new Router();
 
@@ -23,8 +23,11 @@ $route->get("/",[$homeController, "index"]);
 $route->get("/admin", [$adminController, "dashboard"]);
 $route->post("/admin", [$adminController, 'update']);
 
-$route->get("/admin/manager", [$adminController, 'manager']);
-$route->post("/admin/manager", [$adminController, 'updateManager']);
+
+$route->get("/login", [$adminController, 'login']);
+$route->get("/admin/login", [$adminController, 'login']);
+$route->post("/admin/login", [$adminController, 'login']);
+
     
 $route->get("/admin/dashboard", [$adminController, 'dashboard']);
 

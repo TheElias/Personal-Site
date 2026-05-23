@@ -14,7 +14,7 @@ class AdminController
     {
         $this->authGuard->requireLogin();
 
-        require VIEW_PATH . '/admin/dashboard.php';
+        require VIEW_PATH . '/admin/adminDashboard.php';
     }
 
     public function images(): void
@@ -43,5 +43,10 @@ class AdminController
         $this->authGuard->requireLevel(LEVEL_ADMIN);
 
         require VIEW_PATH . '/admin/settings.php';
+    }
+
+    public function login(): void
+    {
+        require VIEW_PATH . '/admin/login.php';
     }
 }

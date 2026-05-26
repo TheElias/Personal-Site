@@ -6,8 +6,8 @@
         <li class="" ><a  href="../admin/admin">Admin Dashboard</a></li>
         <li class=""><a href="../blogPostAdmin">Blog Post</a></li>
         <li class=""><a href="../blogPostTag">Blog Post Tag </a></li>
-        <li class=""><a href="../imageAdmin.php">Image </a></li>
-        <li class=""><a href="../imageTypeAdmin">Image Type </a></li>
-        <li class=""><a href="../userAdmin">User </a></li>
+        <li class=""><a href="../admin/media">Media </a></li>
+        <li class=""><a href="../admin/imageTypeAdmin.php">Image Type </a></li>
+        <li class=""><a href="../admin/userAdmin.php">User </a></li>
     </ul>
 </nav>

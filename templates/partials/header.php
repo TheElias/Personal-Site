@@ -11,7 +11,6 @@
     
     <?php   
 
-        include(__DIR__  . "/navigation.php");
-
+        include MAIN_NAVIGATION_PATH;
     ?>
 </header>       

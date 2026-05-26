@@ -1,10 +1,7 @@
 <?php
+    namespace Site\Media;
 
-    namespace Site;
-
-    use Site\Interfaces\iMediaStorage;
-
-final class MediaStorage implements iMediaStorage
+final class MediaStorage 
 {
     public function __construct(private string $rootDir) {}
 

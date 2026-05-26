@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Site;
+namespace Site\Media;
 
-use Site\Interfaces\iMediaService;
-
-final class MediaService implements iMediaService
+final class MediaService 
 {
     public function __construct(
         private MediaDAO $mediaDao,
@@ -18,7 +16,7 @@ final class MediaService implements iMediaService
      * @param array $file A single entry from $_FILES['whatever']
      * @param string $typeHint Optional hint: 'image','audio','video','document','auto'
      */
-    public function upload(array $file, string $typeHint = 'auto'): Media
+    public function upload(array $file, string $typeHint = 'auto'): Media 
     {
         // 1) Basic upload checks (don’t trust user input)
         if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
@@ -147,5 +145,42 @@ final class MediaService implements iMediaService
     {
         return $this->mediaDao->getById($id);
     }
+
+    public function delete(Media $media): void
+    {
+        // 1) Delete DB record (fails if ID is missing/invalid)
+        $this->mediaDao->deleteByID($media->getId());
+
+        // 2) Delete file from storage (best effort, log if fails but don’t throw)
+        try {
+            $this->storage->delete($media->getStoredName());
+        } catch (\Throwable $e) {
+            error_log('Failed to delete media file from storage: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteById(int $id): void
+    {
+        $media = $this->getById($id);
+        if ($media === null) {
+            throw new \InvalidArgumentException('Media not found for ID: ' . $id);
+        }
+        $this->delete($media);
+    }
+
+    public function listAll(): array
+    {
+        return $this->mediaDao->fetchAll();
+    }
+
+    public function update(Media $media): void
+    {
+        if ($media->getId() === null) {
+            throw new \InvalidArgumentException('Media ID is required for update.');
+        }
+
+        $this->mediaDao->update($media);
+    }
+
     
 }

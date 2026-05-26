@@ -1,9 +1,7 @@
 <?php
-namespace Site;
+namespace Site\Media;
 
-use Site\Interfaces\iMedia;
-
-final class Media implements iMedia
+final class Media 
 {
     private ?int $id;
     private string $type;

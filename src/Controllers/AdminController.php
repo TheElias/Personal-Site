@@ -3,11 +3,13 @@
 namespace Site\Controllers;
 
 use Site\Auth\AuthGuard;
+use Site\Auth\AuthService;
 
 class AdminController
 {
     public function __construct(
-        private AuthGuard $authGuard
+        private AuthGuard $authGuard,
+        private AuthService $authService
     ) {}
 
     public function dashboard(): void
@@ -47,6 +49,31 @@ class AdminController
 
     public function login(): void
     {
+        if ($this->authService->isLoggedIn()) {
+            header('Location: /admin/dashboard');
+            exit;
+        }
+
         require VIEW_PATH . '/admin/login.php';
+    }
+
+    public function processLogin(): void
+    {
+        // Handle login form submission and authentication logic here
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $remember = !empty($_POST['remember']);
+
+        if ($this->authService->login($username, $password, $remember)) {
+            $redirect = $_SESSION['intended_url'] ?? '/admin/dashboard';
+            unset($_SESSION['intended_url']);
+
+            header('Location: ' . $redirect);
+            exit;
+        }
+
+        $message = 'Invalid Login';
+
+        require VIEW_PATH . '/admin/login.php'; 
     }
 }

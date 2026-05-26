@@ -1,28 +1,3 @@
-<?php
-
-    $isLoggedIn = $rememberMeService->loginFromRememberMeCookie();
-
-    if (! empty($_POST["login"])) {
-    
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $remember = $_POST["remember"];
-
-    if ($authService->login($username, $password, $remember)) {
-        $isLoggedIn = true;
-    } else {
-        $isLoggedIn = false;
-        $message = "Invalid Login";
-    }
-
-    }
-
-    if ($isLoggedIn) {
-        header('Location: /admin/dashboard');
-        exit;
-    }
-
-?>
 <!DOCTYPE html>
 <html  lang="en">
 

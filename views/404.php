@@ -18,7 +18,7 @@
             <section class="page-not-found-section">
                 <section class="container">
                     
-                    <h2>You Are Lost...</h2>
+                    <h2>Homie, You Are Lost...</h2>
                     <p>Sorry, the page you are looking for cannot be found.</p>
                     <a href="/">Return Home</a>
                     <?php 

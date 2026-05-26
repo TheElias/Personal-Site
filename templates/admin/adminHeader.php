@@ -9,7 +9,7 @@
     <section class="main-header">
         <div class="headerLogoText">
             <a href="../">
-fart          <?php
+          <?php
               echo $currentUsername;
 
                 ?>
@@ -27,8 +27,7 @@ fart          <?php
 
     <?php   
 
-include(__DIR__ . "/adminNavigation.php");
-
+include MAIN_ADMIN_NAVIGATION_PATH;
 ?>
     
 </header>       

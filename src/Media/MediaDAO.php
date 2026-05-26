@@ -1,11 +1,10 @@
 <?php
 
-    namespace Site;
-
-    use Site\Interfaces\iMediaDAO;
+    namespace Site\Media;
+    
     use PDO;
 
-final class MediaDAO implements iMediaDAO
+final class MediaDAO
 {
     protected $database;
     protected $conn;

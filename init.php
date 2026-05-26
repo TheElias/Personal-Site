@@ -9,6 +9,9 @@ define('VIEW_PATH', PROJECT_ROOT . '/views');
 define('PUBLIC_PATH', PROJECT_ROOT . '/public');
 define('CONFIG_PATH', PROJECT_ROOT . '/src/config');
 
+// This is where uploaded files will be saved. Must be writable by web server.
+define('MEDIA_STORAGE_PATH', PROJECT_ROOT . '/media_storage'); 
+
 define('ASSETS_PATH', PUBLIC_PATH . '/assets');
 define('ASSETS_URL', '/assets');
 define('MAIN_CSS_PATH', '/CSS/mainStyle.css');
@@ -16,10 +19,12 @@ define('ADMIN_CSS_PATH', '/CSS/adminStyle.css');
 define('MAIN_JS_PATH', '/JS/mainScript.js');
 
 define('MAIN_HEADER_PATH', TEMPLATE_PATH . '/partials/header.php');
+define('MAIN_NAVIGATION_PATH', TEMPLATE_PATH . '/partials/navigation.php');
 define('MAIN_FOOTER_PATH', TEMPLATE_PATH . '/partials/footer.php');
 
-define('MAIN_ADMIN_HEADER_PATH', TEMPLATE_PATH . '/partials/adminHeader.php');
-define('MAIN_ADMIN_FOOTER_PATH', TEMPLATE_PATH . '/partials/adminFooter.php');
+define('MAIN_ADMIN_HEADER_PATH', TEMPLATE_PATH . '/admin/adminHeader.php');
+define('MAIN_ADMIN_NAVIGATION_PATH', TEMPLATE_PATH . '/admin/adminNavigation.php');
+define('MAIN_ADMIN_FOOTER_PATH', TEMPLATE_PATH . '/admin/adminFooter.php');
 
 const LEVEL_PENDING 	= 0; //User is still pending email confirmation
 const LEVEL_USER 		= 1; //Standard user with normal privileges
@@ -36,7 +41,12 @@ use Site\Auth\AuthGuard;
 use Site\Auth\RememberMeService;
 use Site\User\UserDAO;
 use Site\User\UserTokenDAO;
+use Site\Media\MediaService;
+use Site\Media\MediaDAO;
+use Site\Media\MediaStorage;
+
 use Site\Controllers\AdminController;
+use Site\Controllers\MediaAdminController;
 
 // Load configuration from .env
 $envPath = realpath(PROJECT_ROOT . '/../../ignoredFiles/.env');
@@ -59,6 +69,11 @@ $rememberMeService = new RememberMeService($userTokenDAO);
 $userDAO = new UserDAO($pdo);
 $authService = new AuthService($userDAO, $rememberMeService);
 $authGuard = new AuthGuard($authService);
+
+$mediaDAO = new MediaDAO($pdo);
+$mediaStorage = new MediaStorage(MEDIA_STORAGE_PATH);
+$mediaService = new MediaService($mediaDAO, $mediaStorage);
+
 
 
 // Start session once

@@ -1,0 +1,188 @@
+/* public/CSS/components/forms.css */
+
+/* Shared form controls, buttons, alerts, and validation states. */
+
+.form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.form__row {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form__row--split {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48rem) {
+  .form__row--split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.form__fieldset {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.form__legend {
+  padding-inline: var(--space-2);
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+.form__field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form__label {
+  font-weight: 600;
+  color: var(--color-text-strong);
+}
+
+.form__hint {
+  font-size: var(--font-size-050);
+  color: var(--color-text-muted);
+}
+
+.form__control {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.75rem 0.875rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.form__control::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.form__control:hover {
+  border-color: var(--color-brand);
+}
+
+.form__control:focus {
+  border-color: var(--color-focus);
+}
+
+.form__control[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.form__control[type="file"] {
+  padding: 0.625rem;
+  background-color: var(--color-surface-muted);
+  border-style: dashed;
+}
+
+.form__control[type="file"]::file-selector-button {
+  margin-right: var(--space-3);
+  padding: 0.625rem 0.875rem;
+  background-color: var(--color-surface);
+  color: var(--color-text-strong);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.form__control--code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.form__error {
+  color: var(--color-danger);
+  font-size: var(--font-size-050);
+}
+
+.form__help {
+  color: var(--color-text-muted);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--color-button-text);
+  background-color: var(--color-brand);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.button:hover {
+  background-color: var(--color-brand-hover);
+  color: var(--color-button-text);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--secondary {
+  color: var(--color-text-strong);
+  background-color: var(--color-surface);
+  border-color: var(--color-border-strong);
+}
+
+.button--secondary:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+}
+
+.button--danger {
+  color: #ffffff;
+  background-color: var(--color-danger);
+}
+
+.button--danger:hover {
+  filter: brightness(0.94);
+}
+
+.alert {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.alert--success {
+  background-color: var(--color-success-bg);
+  border-color: currentColor;
+  color: var(--color-success);
+}
+
+.alert--error {
+  background-color: var(--color-danger-bg);
+  border-color: currentColor;
+  color: var(--color-danger);
+}
+
+.alert--warning {
+  background-color: var(--color-warning-bg);
+  border-color: currentColor;
+  color: var(--color-warning);
+}

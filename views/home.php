@@ -1,42 +1,70 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Elias Broniecki's Personal Site</title>
-        <link rel="stylesheet" type="text/css" href="<?php echo MAIN_CSS_PATH; ?>">
-    </head>
-<?php 
+<?php
+
+$pageTitle = 'Home';
+
+$pageStyles = [
+];
 
 ?>
 
-    <body>
+<!DOCTYPE html>
 
+<html lang="en">
 
-        <!--Header-->
-        <?php 
-            include(MAIN_HEADER_PATH);
-        ?>
+<head>
 
+    <?php include HEAD_PARTIAL_PATH; ?>
 
-        <section class="welcome-section">
-            <h2>Fart</h2>
-            <a href = "https://eliasbroniecki.com/imageAdmin.php">Go to my blog</a>
-        </section>
+</head>
 
-        <section class="about-me-section">
-            <h2>About Me</h2>
-            <p>Creating Whatever</p>
-        </section>
+<body>
 
-        <section class="projects-section">
-            <h2>Projects</h2>
-            <p>MahProjects</p>
-        </section>
+<?php include MAIN_HEADER_PATH; ?>
 
-        <!--Footer-->
-        <?php 
-            include(MAIN_FOOTER_PATH);
-        ?>
-    </body>
+<main class="home-page">
+
+    <section class="hero-section">
+
+        <div class="hero-content">
+
+            <h1 class="hero-title">
+                Elias Broniecki
+            </h1>
+
+            <p class="hero-subtitle">
+                Developer • Writer • IT Professional
+            </p>
+
+            <p class="hero-description">
+                Building software, writing horror, and creating things that matter.
+            </p>
+
+            <div class="hero-actions">
+
+                <a class="primary-button"
+                   href="/blog">
+
+                    Read the Blog
+
+                </a>
+
+                <a class="secondary-button"
+                   href="/admin/media">
+
+                    Media Admin
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<?php include MAIN_FOOTER_PATH; ?>
+
+</body>
+
 </html>
- 

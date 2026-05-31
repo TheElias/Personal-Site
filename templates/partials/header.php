@@ -1,16 +1,19 @@
-<header id="header">    
-    <!--Top Thingy-->
-    <!--<div class="square-image-container">
-       <img id="headerLogo" src="..\\images\logo.png"/>
-    </div>-->
-    <div class="headerLogoText">
-        <a href="../">Elias</a>
-        <p> fart</p>
-    </div>
-    <!--Navigation-->
-    
-    <?php   
+<header class="site-header">
 
-        include MAIN_NAVIGATION_PATH;
-    ?>
-</header>       
+    <div class="header-container">
+
+        <div class="site-branding">
+            <a class="site-logo" href="/">
+                Elias Broniecki
+            </a>
+
+            <p class="site-tagline">
+                Developer • Writer • Creator
+            </p>
+        </div>
+
+        <?php include MAIN_NAVIGATION_PATH; ?>
+
+    </div>
+
+</header>

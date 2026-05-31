@@ -1,34 +1,23 @@
-<?php 
-                
-    $currentUsername = $_SESSION['username'] ?? 'Unknown';
-  ?>
+<?php
 
+$currentUsername = $_SESSION['username'] ?? 'Unknown';
 
-
-<header id="header">    
-    <section class="main-header">
-        <div class="headerLogoText">
-            <a href="../">
-          <?php
-              echo $currentUsername;
-
-                ?>
-             </a>
-        </div>
-
-        
-
-        <div class = "logout">
-            <ul>
-                <li><a href="../Assets/Includes/logout.php">Logout</a></li>
-            </ul>
-        </div>
-    </section>
-
-    <?php   
-
-include MAIN_ADMIN_NAVIGATION_PATH;
 ?>
-    
-</header>       
-<!--Navigation-->
+
+<header class="admin-header">
+
+    <div class="admin-header-container">
+
+        <a class="admin-brand" href="/admin/dashboard">
+            <?= htmlspecialchars($currentUsername) ?>
+        </a>
+
+        <?php include MAIN_ADMIN_NAVIGATION_PATH; ?>
+
+        <a class="admin-logout" href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 // Setup environment globals that are used often
 define('PROJECT_ROOT', __DIR__);
+define('SITE_URL', 'http://localhost:8000'); // Change this to your actual site URL in production
 
 define('TEMPLATE_PATH', PROJECT_ROOT . '/templates');
 define('VIEW_PATH', PROJECT_ROOT . '/views');
@@ -14,14 +15,17 @@ define('MEDIA_STORAGE_PATH', PROJECT_ROOT . '/media_storage');
 
 define('ASSETS_PATH', PUBLIC_PATH . '/assets');
 define('ASSETS_URL', '/assets');
-define('MAIN_CSS_PATH', '/CSS/mainStyle.css');
-define('ADMIN_CSS_PATH', '/CSS/adminStyle.css');
+define('CSS_PATH',  '/CSS');
+define('JS_PATH', '/JS');
+define('ADMIN_CSS_PATH',CSS_PATH . '/admin.css');
 define('MAIN_JS_PATH', '/JS/mainScript.js');
 
 define('MAIN_HEADER_PATH', TEMPLATE_PATH . '/partials/header.php');
+
 define('MAIN_NAVIGATION_PATH', TEMPLATE_PATH . '/partials/navigation.php');
 define('MAIN_FOOTER_PATH', TEMPLATE_PATH . '/partials/footer.php');
 
+define('HEAD_PARTIAL_PATH', TEMPLATE_PATH . '/partials/head.php');
 define('MAIN_ADMIN_HEADER_PATH', TEMPLATE_PATH . '/admin/adminHeader.php');
 define('MAIN_ADMIN_NAVIGATION_PATH', TEMPLATE_PATH . '/admin/adminNavigation.php');
 define('MAIN_ADMIN_FOOTER_PATH', TEMPLATE_PATH . '/admin/adminFooter.php');

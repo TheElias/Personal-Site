@@ -1,0 +1,233 @@
+/* public/CSS/admin.css */
+
+.admin-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, color-mix(in srgb, var(--color-brand) 14%, transparent), transparent 34rem),
+        linear-gradient(180deg, var(--color-bg), var(--color-bg-alt));
+}
+
+.admin-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* Header */
+
+.admin-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background-color: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+}
+
+.admin-header-container {
+    width: min(100% - 2rem, var(--size-content));
+    min-height: var(--nav-height);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+}
+
+.admin-brand {
+    font-size: var(--font-size-300);
+    font-weight: 800;
+    color: var(--color-text-strong);
+    text-decoration: none;
+}
+
+.admin-nav {
+    margin-left: auto;
+}
+
+.admin-nav-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-nav-list a,
+.admin-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.admin-nav-list a:hover,
+.admin-logout:hover {
+    background-color: var(--color-brand-soft);
+    color: var(--color-text-strong);
+}
+
+.admin-logout {
+    border: 1px solid var(--color-border);
+}
+
+/* Main layout */
+
+.admin-main {
+    padding-block: clamp(5rem, 10vw, 8rem);
+}
+
+.admin-container {
+    width: min(100% - 2rem, var(--size-content));
+    margin-inline: auto;
+}
+
+/* Dashboard */
+
+.admin-dashboard-card,
+.admin-dashboard-hero {
+    max-width: 52rem;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.admin-kicker {
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-050);
+    font-weight: 800;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-title,
+.admin-dashboard-card h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.08em;
+}
+
+.admin-subtitle,
+.admin-dashboard-card p {
+    margin-top: var(--space-4);
+    max-width: 42rem;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-200);
+}
+
+.admin-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+}
+
+.admin-card {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.admin-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-md);
+}
+
+.admin-card h2 {
+    font-size: var(--font-size-400);
+}
+
+.admin-card p {
+    color: var(--color-text-muted);
+}
+
+/* Panels / Tables */
+
+.admin-panel {
+    padding: var(--space-6);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-layout {
+    display: grid;
+    gap: var(--space-6);
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+}
+
+.table {
+    min-width: 40rem;
+}
+
+.table th,
+.table td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.table thead th {
+    background-color: var(--color-surface-muted);
+    color: var(--color-text-strong);
+}
+
+/* Mobile */
+
+@media (max-width: 48rem) {
+    .admin-header-container {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-nav {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .admin-nav-list {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-nav-list a,
+    .admin-logout {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .admin-panel {
+        padding: var(--space-5);
+    }
+}

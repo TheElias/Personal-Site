@@ -1,13 +1,31 @@
+<nav class="admin-nav">
 
+    <ul class="admin-nav-list">
 
-<nav class = "myHeader">
-    <ul >
-        <li class="" ><a  href="../">Home</a></li>
-        <li class="" ><a  href="../admin/admin">Admin Dashboard</a></li>
-        <li class=""><a href="../blogPostAdmin">Blog Post</a></li>
-        <li class=""><a href="../blogPostTag">Blog Post Tag </a></li>
-        <li class=""><a href="../admin/media">Media </a></li>
-        <li class=""><a href="../admin/imageTypeAdmin.php">Image Type </a></li>
-        <li class=""><a href="../admin/userAdmin.php">User </a></li>
+        <li>
+            <a href="/admin/dashboard">
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/media">
+                Media
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/blog">
+                Blog Posts
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/users">
+                Users
+            </a>
+        </li>
+
     </ul>
+
 </nav>

@@ -3,78 +3,71 @@
 namespace Site\Routing;
 
 use RuntimeException;
-
 class Router
 {
-    public function get(string $route, callable|array|string $handler): void
+    private array $routes = [];
+
+    private $notFoundHandler = null;
+
+    public function get(string $uri, callable|array|string $handler): void
     {
-        $this->match('GET', $route, $handler);
+        $this->add('GET', $uri, $handler);
     }
 
-    public function post(string $route, callable|array|string $handler): void
+    public function post(string $uri, callable|array|string $handler): void
     {
-        $this->match('POST', $route, $handler);
+        $this->add('POST', $uri, $handler);
     }
 
-    private function match(string $method, string $route, callable|array|string $handler): void
+    private function add(string $method, string $uri, callable|array|string $handler): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== $method) {
+        $uri = $this->normalizeUri($uri);
+
+        $this->routes[$method][$uri] = $handler;
+    }
+
+    public function notFound(callable|array|string $handler): void
+    {
+        $this->notFoundHandler = $handler;
+    }
+
+    public function dispatch(string $method, string $uri): void
+    {
+        $method = strtoupper($method);
+        $uri = $this->normalizeUri($uri);
+
+        $handler = $this->routes[$method][$uri] ?? null;
+
+        if ($handler === null) {
+            $this->runNotFound();
             return;
         }
 
-        $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
-
-        $requestPath = '/' . trim($requestPath, '/');
-        $route = '/' . trim($route, '/');
-
-        if ($requestPath === '//') {
-            $requestPath = '/';
-        }
-
-        if ($route === '//') {
-            $route = '/';
-        }
-
-        $paramNames = [];
-
-        $pattern = preg_replace_callback(
-            '/\{([a-zA-Z_][a-zA-Z0-9_]*)\}/',
-            function (array $matches) use (&$paramNames): string {
-                $paramNames[] = $matches[1];
-
-                return '([^/]+)';
-            },
-            $route
-        );
-
-        $pattern = '#^' . $pattern . '$#';
-
-        if (!preg_match($pattern, $requestPath, $matches)) {
-            return;
-        }
-
-        array_shift($matches);
-
-        $params = [];
-
-        foreach ($paramNames as $index => $name) {
-            $params[$name] = $matches[$index] ?? null;
-        }
-
-        $this->dispatch($handler, $params);
+        $this->runHandler($handler);
     }
 
-    private function dispatch(callable|array|string $handler, array $params = []): void
+    private function normalizeUri(string $uri): string
+    {
+        $uri = parse_url($uri, PHP_URL_PATH) ?: '/';
+
+        if ($uri !== '/') {
+            $uri = rtrim($uri, '/');
+        }
+
+        return $uri;
+    }
+
+    private function runHandler(callable|array|string $handler, array $params = []): void
     {
         if (is_array($handler)) {
             [$controller, $method] = $handler;
 
-            $controller->$method($params);
+            $controller->$method(...$params);
             exit;
         }
 
         if (is_callable($handler)) {
-            $handler($params);
+            $handler(...$params);
             exit;
         }
 
@@ -92,22 +85,16 @@ class Router
         throw new RuntimeException('Invalid route handler.');
     }
 
-    public function notFound(string $view): void
+    private function runNotFound(): void
     {
         http_response_code(404);
 
-        $this->dispatch($view);
-    }
+        if ($this->notFoundHandler !== null) {
+            $this->runHandler($this->notFoundHandler);
+            return;
+        }
 
-    public function redirect(string $route): void
-    {
-        header('Location: ' . $route);
-        exit;
-    }
-
-    public function refresh(): void
-    {
-        header('Location: ' . ($_SERVER['REQUEST_URI'] ?? '/'));
+        echo '404 Not Found';
         exit;
     }
 }

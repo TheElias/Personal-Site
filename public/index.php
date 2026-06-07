@@ -36,9 +36,15 @@ $route->get("/admin/dashboard", [$adminController, 'dashboard']);
 
 $route->get("/admin/media", [$mediaAdminController, 'mediaAdmin']);
 $route->get("/admin/mediaAdmin", [$mediaAdminController, 'mediaAdmin']);
-$route->get("/admin/Media/upload", [$mediaAdminController, 'mediaUpload']);
-$route->post("/admin/Media/upload", [$mediaAdminController, 'mediaUploadPost']);
+$route->post("/admin/Media/upload", [$mediaAdminController, 'mediaUpload']);
 
 $route->notFound("404.php"); 
 
-?>
+$uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+if ($uri !== '/') {
+    $uri = rtrim($uri, '/');
+}
+
+$route->dispatch($_SERVER['REQUEST_METHOD'], $uri);
+?> 

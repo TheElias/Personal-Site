@@ -9,8 +9,6 @@ $pageStyles = [
 $currentUsername = $_SESSION['username'] ?? 'Unknown';
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 

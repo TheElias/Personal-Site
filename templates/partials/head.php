@@ -11,7 +11,9 @@
 <link rel="stylesheet" href="<?= CSS_PATH ?>/reset.css">
 <link rel="stylesheet" href="<?= CSS_PATH ?>/global.css">
 <link rel="stylesheet" href="<?= CSS_PATH ?>/forms.css">
+<link rel="stylesheet" href="<?= CSS_PATH ?>/components.css">
 <link rel="stylesheet" href="<?= CSS_PATH ?>/site.css">
+
 
 <?php foreach ($pageStyles as $style): ?>
 

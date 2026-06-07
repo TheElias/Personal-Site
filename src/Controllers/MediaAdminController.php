@@ -39,7 +39,4 @@ class MediaAdminController
 
         require VIEW_PATH . '/admin/Media/mediaAdmin.php';
     }
-
-
-
 }

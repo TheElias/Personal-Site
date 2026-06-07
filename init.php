@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 // Setup environment globals that are used often
 define('PROJECT_ROOT', __DIR__);
-define('SITE_URL', 'http://localhost:8000'); // Change this to your actual site URL in production
+define('SITE_URL', 'http://EliasBroniecki.com'); // Change this to your actual site URL in production
+
+
+
 
 define('TEMPLATE_PATH', PROJECT_ROOT . '/templates');
 define('VIEW_PATH', PROJECT_ROOT . '/views');

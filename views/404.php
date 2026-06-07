@@ -1,38 +1,69 @@
+<?php
+
+http_response_code(404);
+
+$pageTitle = '404: Page Not Found';
+
+$pageStyles = [
+];
+
+$requestedPath = $_SERVER['REQUEST_URI'] ?? '/';
+
+?>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>404 - YOU LOST HOMIE</title>
-        <link rel="stylesheet" type="text/css" href="<?php echo MAIN_CSS_PATH; ?>">
-    </head>
-    
+<html lang="en">
 
-    <body>
-        <!--Header-->
-        <?php 
-            include(MAIN_HEADER_PATH);
+<head>
+    <?php include HEAD_PARTIAL_PATH; ?>
+</head>
 
+<body class="site-page">
 
-        ?>
-        <section id="page-body">
-            <section class="page-not-found-section">
-                <section class="container">
-                    
-                    <h2>Homie, You Are Lost...</h2>
-                    <p>Sorry, the page you are looking for cannot be found.</p>
-                    <a href="/">Return Home</a>
-                    <?php 
-                        php_ini_loaded_file();
-                        echo $_SERVER['REQUEST_URI'];
-                    ?>
-                </section>
+    <div class="site-shell">
+
+        <?php include MAIN_HEADER_PATH; ?>
+
+        <main class="not-found-page">
+
+            <section class="not-found-card">
+
+                <p class="not-found-kicker">
+                    404
+                </p>
+
+                <h1 class="not-found-title">
+                    Page Not Found
+                </h1>
+
+                <p class="not-found-message">
+                    Sorry, the page you are looking for does not exist or may have been moved. Or I didn't make it. Or the URL is wrong. Or it has a bug. Or something went wrong. But either way, I can't find it.
+                </p>
+
+                <p class="not-found-path">
+                    Requested page:
+                    <code><?= htmlspecialchars($requestedPath, ENT_QUOTES, 'UTF-8') ?></code>
+                </p>
+
+                <div class="not-found-actions">
+
+                    <a class="primary-button" href="/">
+                        Return Home
+                    </a>
+
+                    <a class="secondary-button" href="/blog">
+                        Visit Blog
+                    </a>
+
+                </div>
+
             </section>
-        </section>
-        <!--Footer-->
-        <?php 
-            include(MAIN_FOOTER_PATH);
 
-        ?>
-    </body>
+        </main>
+
+        <?php include MAIN_FOOTER_PATH; ?>
+
+    </div>
+
+</body>
 </html>
- 

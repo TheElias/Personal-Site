@@ -76,6 +76,11 @@ final class MediaService
         }
     }
 
+    public function getAllMedia(): array
+    {
+        return $this->mediaDao->fetchAll();
+    }
+
     // -------------------------
     // Helper methods (private)
     // -------------------------

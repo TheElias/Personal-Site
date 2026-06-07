@@ -6,6 +6,9 @@ $pageStyles = [
     ADMIN_CSS_PATH
 ];
 
+$error = null;
+$result = null;
+
 ?>
 
 <!DOCTYPE html>
@@ -112,6 +115,99 @@ $pageStyles = [
             </div>
 
         </main>
+
+        <section class="admin-panel u-mt-6">
+
+    <div class="admin-panel__header">
+
+        <p class="admin-kicker">
+            Library
+        </p>
+
+        <h2>
+            Uploaded Media
+        </h2>
+
+        <p class="admin-subtitle">
+            View, edit, and delete uploaded media files.
+        </p>
+
+    </div>
+
+    <?php 
+    
+    $mediaItems = $mediaService->getAllMedia();                
+
+    if (empty($mediaItems)): ?>
+
+        <div class="admin-empty-state">
+            No media has been uploaded yet.
+        </div>
+
+    <?php else: ?>
+
+        <div class="media-grid">
+
+            <?php foreach ($mediaItems as $media): ?>
+
+                <article class="media-card">
+
+                    <div class="media-card__preview">
+
+                        <img
+                            src="<?= htmlspecialchars($media['thumb_path'] ?? $media['stored_path']) ?>"
+                            alt="<?= htmlspecialchars($media['alt_text'] ?? '') ?>"
+                        >
+
+                    </div>
+
+                    <div class="media-card__body">
+
+                        <h3 class="media-card__title">
+                            <?= htmlspecialchars($media['title'] ?: $media['original_filename']) ?>
+                        </h3>
+
+                        <p class="media-card__meta">
+                            <?= htmlspecialchars($media['mime_type']) ?>
+                            ·
+                            <?= number_format($media['size_bytes'] / 1024, 1) ?> KB
+                        </p>
+
+                        <div class="media-card__actions">
+
+                            <a class="button button--secondary"
+                               href="/admin/media/edit?id=<?= (int) $media['id'] ?>">
+                                Edit
+                            </a>
+
+                            <form method="post"
+                                  action="/admin/media/delete"
+                                  onsubmit="return confirm('Delete this media item?');">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="<?= (int) $media['id'] ?>">
+
+                                <button class="button button--danger"
+                                        type="submit">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</section>
 
         <?php include MAIN_ADMIN_FOOTER_PATH; ?>
 

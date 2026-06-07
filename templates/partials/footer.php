@@ -1,4 +1,4 @@
-<footer>
+<footer class="site-footer">
     <!--Navigation-->
     <?php 
         include(__DIR__  . "/socialMedias.php");

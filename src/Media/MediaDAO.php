@@ -133,7 +133,7 @@ final class MediaDAO
                 new \DateTimeImmutable($mediaInfo['created_at'])
             );
         }
-
+        var_dump($mediaList);
         return $mediaList;
     }
 

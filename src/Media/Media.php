@@ -135,6 +135,39 @@ final class Media
 
     public function hasDimensions(): bool { return $this->width !== null && $this->height !== null; }
     public function hasDuration(): bool { return $this->durationSeconds !== null; }
+    public function getThumbPath(): ?string
+    {
+        if (!$this->isImage()) {
+            return null;
+        }
+
+        $thumbPath = MEDIA_STORAGE_PATH . '/thumbs/' . $this->stored_filename;
+
+        if (file_exists($thumbPath)) {
+            return $thumbPath;
+        }
+
+        return null;
+    }
+
+    public function getStoredPath(): string
+    {
+        return MEDIA_STORAGE_PATH . '/' . $this->stored_filename;
+    }
+
+    public function getTitle(): ?string
+    {
+        $nameWithoutExt = pathinfo($this->original_filename, PATHINFO_FILENAME);
+        return $nameWithoutExt ?: null;
+    }
+
+    public function getAltText(): ?string
+    {
+        if ($this->isImage()) {
+            return $this->getTitle();
+        }
+        return null;
+    }
 
     public function assignID(int $id): void
     {

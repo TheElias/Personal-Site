@@ -16,6 +16,8 @@ class MediaAdminController
     {
         $this->authGuard->requireLogin();
 
+        $mediaItems = $this->mediaService->getAllMedia();
+
         require VIEW_PATH . '/admin/Media/mediaAdmin.php';
     }
 
@@ -38,5 +40,10 @@ class MediaAdminController
         }
 
         require VIEW_PATH . '/admin/Media/mediaAdmin.php';
+    }
+
+    public function getAllMedia(): array
+    {
+        return $this->mediaService->getAllMedia();
     }
 }

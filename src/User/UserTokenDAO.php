@@ -51,7 +51,7 @@ class UserTokenDAO {
 
     public function getTokenBySelector(string $selectorHash): ?array
     {
-        $sql = "SELECT * FROM personal_website.user_token WHERE selector_hash = ? AND expires_at > NOW() LIMIT 1";
+        $sql = "SELECT * FROM personal_website.user_token WHERE selector = ? AND expires_at > NOW() LIMIT 1";
         $result = $this->conn->prepare($sql);
         $result->execute([$selectorHash]);
         $tokenInfo = $result->fetch();
@@ -75,7 +75,7 @@ class UserTokenDAO {
     
     public function insertToken(string $userId , string $random_password_hash, string $random_selector_hash, string $tokenExpirationDate): bool
     {
-        $sql = "INSERT INTO  personal_website.user_token (user_id, password_hash, selector_hash, expiry_date) values (?, ?, ?, ?)";
+        $sql = "INSERT INTO  personal_website.user_token (user_id, password_hash, selector, expiry_date) values (?, ?, ?, ?)";
 
         $result = $this->conn->prepare($sql);
 
@@ -105,7 +105,7 @@ class UserTokenDAO {
     
     public function getTokenbBySelector(string $selectorHash): ?array
     {
-        $sql = "SELECT * FROM personal_website.user_token WHERE selector_hash = ? AND expires_at > NOW() LIMIT 1";
+        $sql = "SELECT * FROM personal_website.user_token WHERE selector = ? AND expires_at > NOW() LIMIT 1";
         $result = $this->conn->prepare($sql);
         $result->execute([$selectorHash]);
         $tokenInfo = $result->fetch();

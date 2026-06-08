@@ -48,3 +48,51 @@
 .media-card__actions form {
     margin: 0;
 }
+
+.media-preview-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+}
+
+.media-preview-button img {
+    display: block;
+    width: 100%;
+}
+
+.media-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.media-lightbox.is-open {
+    display: flex;
+}
+
+.media-lightbox__image {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.media-lightbox__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+}

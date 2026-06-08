@@ -3,19 +3,15 @@ declare(strict_types=1);
 
 // Setup environment globals that are used often
 define('PROJECT_ROOT', __DIR__);
-define('SITE_URL', 'http://EliasBroniecki.com'); // Change this to your actual site URL in production
-
-
-
+define('SITE_URL', 'https://EliasBroniecki.com'); // Change this to your actual site URL in production
 
 define('TEMPLATE_PATH', PROJECT_ROOT . '/templates');
 define('VIEW_PATH', PROJECT_ROOT . '/views');
-define('PUBLIC_PATH', PROJECT_ROOT . '/public');
+define('PUBLIC_PATH', SITE_URL . '/public');
 define('CONFIG_PATH', PROJECT_ROOT . '/src/config');
 
 // This is where uploaded files will be saved. Must be writable by web server.
-define('MEDIA_STORAGE_PATH', PROJECT_ROOT . '/media_storage'); 
-
+define('MEDIA_STORAGE_PATH', SITE_URL . '/media'); 
 define('ASSETS_PATH', PUBLIC_PATH . '/assets');
 define('ASSETS_URL', '/assets');
 define('CSS_PATH',  '/CSS');
@@ -80,7 +76,6 @@ $authGuard = new AuthGuard($authService);
 $mediaDAO = new MediaDAO($pdo);
 $mediaStorage = new MediaStorage(MEDIA_STORAGE_PATH);
 $mediaService = new MediaService($mediaDAO, $mediaStorage);
-
 
 
 // Start session once

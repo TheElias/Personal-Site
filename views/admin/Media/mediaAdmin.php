@@ -134,9 +134,7 @@ $result = null;
 
     </div>
 
-    <?php 
-    
-    $mediaItems = $mediaService->getAllMedia();                
+    <?php              
 
     if (empty($mediaItems)): ?>
 
@@ -154,29 +152,36 @@ $result = null;
 
                     <div class="media-card__preview">
 
+                    <button
+                        class="media-preview-button"
+                        type="button"
+                        data-full-src="<?= htmlspecialchars($media->getStoredPath(), ENT_QUOTES, 'UTF-8') ?>"
+                        data-alt="<?= htmlspecialchars($media->getAltText() ?? $media->getOriginalFilename(), ENT_QUOTES, 'UTF-8') ?>"
+                    >
                         <img
-                            src="<?= htmlspecialchars($media['thumb_path'] ?? $media['stored_path']) ?>"
-                            alt="<?= htmlspecialchars($media['alt_text'] ?? '') ?>"
+                            src="<?= htmlspecialchars($media->getThumbPath() ?? $media->getStoredPath(), ENT_QUOTES, 'UTF-8') ?>"
+                            alt="<?= htmlspecialchars($media->getAltText() ?? '', ENT_QUOTES, 'UTF-8') ?>"
                         >
+                    </button>
 
-                    </div>
+                </div>
 
                     <div class="media-card__body">
 
                         <h3 class="media-card__title">
-                            <?= htmlspecialchars($media['title'] ?: $media['original_filename']) ?>
+                            <?= htmlspecialchars($media->getTitle() ?? $media->getOriginalFilename()) ?>
                         </h3>
 
                         <p class="media-card__meta">
-                            <?= htmlspecialchars($media['mime_type']) ?>
+                            <?= htmlspecialchars($media->getMimeType()) ?>
                             ·
-                            <?= number_format($media['size_bytes'] / 1024, 1) ?> KB
+                            <?= number_format($media->getSizeBytes() / 1024, 1) ?> KB
                         </p>
 
                         <div class="media-card__actions">
 
                             <a class="button button--secondary"
-                               href="/admin/media/edit?id=<?= (int) $media['id'] ?>">
+                               href="/admin/media/edit?id=<?= (int) $media->getId() ?>">
                                 Edit
                             </a>
 
@@ -186,7 +191,7 @@ $result = null;
 
                                 <input type="hidden"
                                        name="id"
-                                       value="<?= (int) $media['id'] ?>">
+                                       value="<?= (int) $media->getId() ?>">
 
                                 <button class="button button--danger"
                                         type="submit">
@@ -212,6 +217,49 @@ $result = null;
         <?php include MAIN_ADMIN_FOOTER_PATH; ?>
 
     </div>
+<div class="media-lightbox" id="media-lightbox" aria-hidden="true">
+    <button class="media-lightbox__close" type="button" aria-label="Close image preview">
+        &times;
+    </button>
 
+    <img class="media-lightbox__image" src="" alt="">
+</div>
+
+<script>
+    const lightbox = document.getElementById('media-lightbox');
+    const lightboxImage = lightbox.querySelector('.media-lightbox__image');
+    const closeButton = lightbox.querySelector('.media-lightbox__close');
+
+    document.querySelectorAll('.media-preview-button').forEach((button) => {
+        button.addEventListener('click', () => {
+            lightboxImage.src = button.dataset.fullSrc;
+            lightboxImage.alt = button.dataset.alt || '';
+
+            lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
+        });
+    });
+
+    function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+    }
+
+    closeButton.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+            closeLightbox();
+        }
+    });
+</script>
 </body>
 </html>
